@@ -1,22 +1,23 @@
+package com.Expedition67.main;
 
-import view.GameView;
-import view.GameWindow;
+import com.Expedition67.core.GameManager;
+import com.Expedition67.core.GameWindow;
 
 public class Game implements Runnable {
 
     private final GameWindow gameWindow;
-    private final GameView gameView;
+    private final GameManager gameManager;
     private Thread gameLoopThread;
     private final int FPS = 30;
 
     public Game() {
-        gameView = new GameView();
-        gameWindow = new GameWindow(gameView);
-        gameView.requestFocus();
+        gameManager = new GameManager();
+        gameWindow = new GameWindow(gameManager);
+        gameWindow.requestFocus();
         start();
     }
 
-    private void start(){
+    private void start() {
         gameLoopThread = new Thread(this);
         gameLoopThread.start();
     }
@@ -27,7 +28,7 @@ public class Game implements Runnable {
         long lastFrame = System.nanoTime();
         double delta = 0;
 
-        while (true) {
+        while (gameLoopThread.isAlive()) {
             long now = System.nanoTime();
             delta += (now - lastFrame) / interval;
             lastFrame = now;
@@ -46,9 +47,19 @@ public class Game implements Runnable {
         }
     }
 
+    public void stop() {
+        try {
+            gameLoopThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void update() {
+        gameManager.update();
     }
 
     private void render() {
+        gameWindow.repaint();
     }
 }
