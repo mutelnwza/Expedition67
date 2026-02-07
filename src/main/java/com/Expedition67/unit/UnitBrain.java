@@ -12,7 +12,7 @@ public abstract class UnitBrain {
     public void update(){
 
     }
-    
+
     public abstract void takeDamage(Unit src, float amount);
     public abstract void startTurn();
     public abstract void endTurn();
@@ -42,6 +42,6 @@ public abstract class UnitBrain {
     }
 
     private void onTurnEnded(){
-
+        
     }
 }

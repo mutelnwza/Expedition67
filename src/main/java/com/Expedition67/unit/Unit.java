@@ -11,7 +11,7 @@ public class Unit {
     private Animator animator;
 
     //each unit will be create once in a warehouse
-    public Unit (String name, UnitStats unitStats, UnitBrain unitBrain, Animator animator, int x, int y, int w, int h){
+    public Unit (String name, UnitStats unitStats, UnitBrain unitBrain, int x, int y, int w, int h){
         this.name = name;
         this.unitBrain = unitBrain;
         this.unitStats = unitStats;
@@ -29,6 +29,12 @@ public class Unit {
         animator.update();
     }
 
+    public UnitBrain getBrain(){return  this.unitBrain;}
+    
+    public void takeDamage(Unit src, float amount){
+        unitBrain.takeDamage(src, amount);
+    }
+    
     public Animator getAnimator() {
         return animator;
     }
