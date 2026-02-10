@@ -1,18 +1,23 @@
 package com.Expedition67.inputs;
 
+import com.Expedition67.core.GameManager;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import com.Expedition67.core.GameManager;
-
 public class MouseInput implements MouseListener, MouseMotionListener {
+
     private final GameManager gameManager;
 
+    /**
+     * Constructor: Connects this input handler to the main Game Manager.
+     */
     public MouseInput(GameManager gameManager) {
         this.gameManager = gameManager;
     }
 
+    // --- MouseListener Methods ---
     @Override
     public void mouseClicked(MouseEvent e) {
         gameManager.mouseClicked(e);
@@ -34,6 +39,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
     public void mouseExited(MouseEvent e) {
     }
 
+    // --- MouseMotionListener Methods ---
     @Override
     public void mouseDragged(MouseEvent e) {
     }
