@@ -1,5 +1,6 @@
 package com.Expedition67.storage;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.util.HashMap;
@@ -12,20 +13,23 @@ public class AssetManager {
 
     private static AssetManager instance;
     private HashMap<String, BufferedImage[][]> spriteDatabase = new HashMap<>();
+    private Font gameFont;
 
     // make it private to prevent other class from creating this
-    private AssetManager(){
+    private AssetManager() {
         loadSprite();
+        gameFont = loadFont("/fonts/Jersey10-Regular.ttf");
     }
 
-    public static AssetManager Instance(){
+    public static AssetManager Instance() {
         //  create an instance if its not created yet
-        if(instance==null){
+        if (instance == null) {
             instance = new AssetManager();
-        }return instance;
+        }
+        return instance;
     }
 
-    private void loadSprite(){
+    private void loadSprite() {
         // hard code เอานะจ๊ะ
         // register all sprites with load method
         // use this -> spriteDatabase.put("name", load(path,w,h))
@@ -50,7 +54,23 @@ public class AssetManager {
         }
     }
 
-    public BufferedImage getSprite(String key, int row, int index){
+    public BufferedImage getSprite(String key, int row, int index) {
         return spriteDatabase.get(key)[row][index];
+    }
+
+    public Font loadFont(String path) {
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream(path));
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(font);
+            return font;
+        } catch (Exception e) {
+            System.err.println("Could not load font, using Arial.");
+            return new Font("Arial", Font.PLAIN, 12);
+        }
+    }
+
+    public Font getGameFont() {
+        return gameFont;
     }
 }

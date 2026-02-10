@@ -4,6 +4,7 @@ public abstract class UnitBrain {
     //use to manage the logic of unit, both player and enemies
     
     protected Unit owner;
+    public UnitBrain(){};
 
     public final void setOwner(Unit owner) {
         this.owner = owner;
@@ -16,6 +17,7 @@ public abstract class UnitBrain {
     public abstract void takeDamage(Unit src, float amount);
     public abstract void startTurn();
     public abstract void endTurn();
+    public abstract UnitBrain copy();
 
     public void heal(float amount){
 
@@ -26,7 +28,7 @@ public abstract class UnitBrain {
     }
 
     public void addAgi(float amount, int forTurn){
-
+        
     }
 
     public void addCritRate(float amount, int forTurn){

@@ -5,40 +5,78 @@ import com.Expedition67.core.GameWindow;
 
 public class Game implements Runnable {
 
+    // --- Config ---
+    private static final int FPS = 30;
+    private static final double UPDATE_INTERVAL = 1000000000.0 / FPS; // 10^9 nano secs (1 sec) per frame
+
+    // --- Core Components ---
     private final GameWindow gameWindow;
     private final GameManager gameManager;
-    private Thread gameLoopThread;
-    private final int FPS = 30;
 
+    // --- Loop Control ---
+    private Thread gameThread;
+    private boolean isRunning;
+
+    /**
+     * Constructor: Initializes core subsystems and starts the game loop.
+     */
     public Game() {
+        // Initialize main game logic handler
         gameManager = new GameManager();
+
+        // Initialize visual window
         gameWindow = new GameWindow(gameManager);
         gameWindow.requestFocus();
+
+        // Begin the game loop
         start();
     }
 
+    /**
+     * Starts the separate thread for the game loop.
+     */
     private void start() {
-        gameLoopThread = new Thread(this);
-        gameLoopThread.start();
+        isRunning = true;
+        gameThread = new Thread(this);
+        gameThread.start();
     }
 
+    /**
+     * Stops the game loop safely.
+     */
+    public void stop() {
+        isRunning = false;
+        try {
+            gameThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * The core Game Loop.
+     * Uses a "Delta Time" approach to runs the game at 30 FPS.
+     */
     @Override
     public void run() {
-        double interval = 1000000000.0 / FPS; //10^9 nano sec = 1 sec
-        long lastFrame = System.nanoTime();
+        long lastFrameTime = System.nanoTime();
         double delta = 0;
 
-        while (gameLoopThread.isAlive()) {
-            long now = System.nanoTime();
-            delta += (now - lastFrame) / interval;
-            lastFrame = now;
+        while (isRunning) {
+            long currentTime = System.nanoTime();
 
+            // Calculate how much time has passed
+            delta += (currentTime - lastFrameTime) / UPDATE_INTERVAL;
+            lastFrameTime = currentTime;
+
+            // If enough time has passed for a frame, update and render
             if (delta >= 1) {
-                update(); //logics
-                render(); //visuals
+                update();
+                render();
                 delta--;
             }
 
+            // Small sleep to reduce CPU usage
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
@@ -47,18 +85,16 @@ public class Game implements Runnable {
         }
     }
 
-    public void stop() {
-        try {
-            gameLoopThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Updates game logic.
+     */
     private void update() {
         gameManager.update();
     }
 
+    /**
+     * Triggers the window to redraw.
+     */
     private void render() {
         gameWindow.repaint();
     }
