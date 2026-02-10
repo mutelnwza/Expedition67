@@ -68,4 +68,9 @@ public class Unit {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'useAp'");
     }
+
+    public void addShield(int shield) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addShield'");
+    }
 }
