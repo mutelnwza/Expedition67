@@ -3,12 +3,12 @@ package com.Expedition67.unit;
 import com.Expedition67.model.Animator;
 
 public class Unit {
-    private String name;
-    private int x,y; //position in canvas
-    private int width, height; // size
-    private UnitStats unitStats;
-    private UnitBrain unitBrain;
-    private Animator animator;
+    private final String name;
+    private final int width,height; //position in canvas and size
+    private int x,y;
+    private final UnitStats unitStats;
+    private final UnitBrain unitBrain;
+    private final Animator animator;
 
     //each unit will be create once in a warehouse
     public Unit (String name, UnitStats unitStats, UnitBrain unitBrain, int x, int y, int w, int h){
@@ -27,6 +27,15 @@ public class Unit {
     public void update(){
         unitBrain.update();
         animator.update();
+    }
+
+    //use when clone a unit
+    public Unit copy(int x, int y){
+        UnitStats stats = this.unitStats.copy();
+        UnitBrain brain = this.unitBrain.copy();
+        Unit clone = new Unit(this.name, stats, brain, x, y, this.width, this.height);
+        clone.getAnimator().copy(this.animator);
+        return clone;
     }
 
     public UnitBrain getBrain(){return  this.unitBrain;}
