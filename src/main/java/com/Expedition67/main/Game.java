@@ -22,10 +22,10 @@ public class Game implements Runnable {
      */
     public Game() {
         // Initialize main game logic handler
-        gameManager = new GameManager();
+        gameManager = GameManager.Instance();
 
         // Initialize visual window
-        gameWindow = new GameWindow(gameManager);
+        gameWindow = new GameWindow();
         gameWindow.requestFocus();
 
         // Begin the game loop

@@ -32,8 +32,8 @@ public class GameView extends JPanel {
     /**
      * Constructor: Sets up the panel, input listeners, and dimensions.
      */
-    public GameView(GameManager gameManager) {
-        this.gameManager = gameManager;
+    public GameView() {
+        this.gameManager = GameManager.Instance();
 
         // Initialize Input
         mouseInput = new MouseInput(gameManager);

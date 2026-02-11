@@ -16,8 +16,8 @@ public abstract class GameState {
     /**
      * Constructor: Initializes the list and loads initial UI components.
      */
-    public GameState(GameManager gameManager) {
-        this.gameManager = gameManager;
+    public GameState() {
+        this.gameManager = GameManager.Instance();
         this.gameComponents = new ArrayList<>();
         loadComponents();
     }

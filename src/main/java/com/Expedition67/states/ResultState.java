@@ -17,8 +17,8 @@ public class ResultState extends GameState {
     private GameText roomsClearedText;
     private GameText finalTimeText;
 
-    public ResultState(GameManager gameManager) {
-        super(gameManager);
+    public ResultState() {
+        super();
     }
 
     @Override

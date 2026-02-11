@@ -17,8 +17,8 @@ public class CardDropState extends GameState {
     private GameText roomTimeText;
     private GameText messageText;
 
-    public CardDropState(GameManager gameManager) {
-        super(gameManager);
+    public CardDropState() {
+        super();
     }
 
     @Override

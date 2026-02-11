@@ -9,8 +9,8 @@ import java.awt.Graphics;
 
 public class MenuState extends GameState {
 
-    public MenuState(GameManager gameManager) {
-        super(gameManager);
+    public MenuState() {
+        super();
     }
 
     @Override

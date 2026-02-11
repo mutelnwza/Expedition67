@@ -52,11 +52,11 @@ public class GameManager {
      */
     private void loadGameStates() {
         gameStates = new ArrayList<>();
-        gameStates.add(new MenuState(this));
-        gameStates.add(new CombatState(this));
-        gameStates.add(new CardDropState(this));
-        gameStates.add(new ResultState(this));
-        gameStates.add(new CreditsState(this));
+        gameStates.add(new MenuState());
+        gameStates.add(new CombatState());
+        gameStates.add(new CardDropState());
+        gameStates.add(new ResultState());
+        gameStates.add(new CreditsState());
     }
 
     /**

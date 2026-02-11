@@ -18,8 +18,8 @@ public class CombatState extends GameState {
     private GameText enemyTypeText; // Temp
     private GameButton winButton; // Temp
 
-    public CombatState(GameManager gameManager) {
-        super(gameManager);
+    public CombatState() {
+        super();
     }
 
     @Override

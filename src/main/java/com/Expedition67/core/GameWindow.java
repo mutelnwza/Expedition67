@@ -11,9 +11,9 @@ public class GameWindow {
     /**
      * Constructor: Creates the main application window and embeds the GameView.
      */
-    public GameWindow(GameManager gameManager) {
+    public GameWindow() {
         // Create the content panel
-        gameView = new GameView(gameManager);
+        gameView = new GameView();
 
         // Configure the Window Frame
         jFrame = new JFrame();

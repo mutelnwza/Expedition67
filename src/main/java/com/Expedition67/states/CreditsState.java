@@ -9,8 +9,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class CreditsState extends GameState {
-    public CreditsState(GameManager gameManager) {
-        super(gameManager);
+    public CreditsState() {
+        super();
     }
 
     @Override
