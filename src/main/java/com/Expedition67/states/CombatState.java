@@ -34,7 +34,7 @@ public class CombatState extends GameState {
 
         // Lose Button (Temp)
         gameComponents.add(new GameButton("Lose", 24f, 800, 820, 100, 100, () -> {
-            gameManager.setCurrentState(GameManager.RESULT_STATE, ResultState.LOSE);
+            GameManager.Instance().setCurrentState(GameManager.RESULT_STATE, ResultState.LOSE);
         }));
 
         // Enemy Type (Temp)
@@ -45,7 +45,7 @@ public class CombatState extends GameState {
     @Override
     public void enter(int id) {
         // Increment room count
-        gameManager.setRoom(gameManager.getRoom() + 1);
+        GameManager.Instance().setRoom(GameManager.Instance().getRoom() + 1);
 
         // Configure components based on the room type
         switch (id) {
@@ -54,7 +54,7 @@ public class CombatState extends GameState {
                 enemyTypeText.setText("Monster");
                 enemyTypeText.setX(270);
                 winButton.setOnClick(() -> {
-                    gameManager.setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.MONSTER_DROP);
+                    GameManager.Instance().setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.MONSTER_DROP);
                 });
                 break;
 
@@ -63,7 +63,7 @@ public class CombatState extends GameState {
                 enemyTypeText.setText("Final Boss");
                 enemyTypeText.setX(230);
                 winButton.setOnClick(() -> {
-                    gameManager.setCurrentState(GameManager.RESULT_STATE, ResultState.WIN);
+                    GameManager.Instance().setCurrentState(GameManager.RESULT_STATE, ResultState.WIN);
                 });
                 break;
         }
@@ -76,7 +76,7 @@ public class CombatState extends GameState {
     @Override
     public void update() {
         // Update the HUD with current room and time
-        roomTimeText.setText(String.format("Room: %d  Time: %s", gameManager.getRoom(), gameManager.getTimeString()));
+        roomTimeText.setText(String.format("Room: %d  Time: %s", GameManager.Instance().getRoom(), GameManager.Instance().getTimeString()));
         super.update();
     }
 

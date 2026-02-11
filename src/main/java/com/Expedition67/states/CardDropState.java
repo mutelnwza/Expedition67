@@ -35,15 +35,15 @@ public class CardDropState extends GameState {
         gameComponents.add(new GameButton("Go into the next room", 24f, 113, 715, 350, 50, () -> {
             // 15% chance to find a Treasure Room
             if (Math.random() > 0.15) {
-                gameManager.setCurrentState(GameManager.COMBAT_STATE, CombatState.MONSTER_ROOM);
+                GameManager.Instance().setCurrentState(GameManager.COMBAT_STATE, CombatState.MONSTER_ROOM);
             } else {
-                gameManager.setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.TREASURE_ROOM);
+                GameManager.Instance().setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.TREASURE_ROOM);
             }
         }));
 
         // Challenge Boss Button
         gameComponents.add(new GameButton("Challenge the BOSS", 24f, 497, 715, 350, 50, () -> {
-            gameManager.setCurrentState(GameManager.COMBAT_STATE, CombatState.FINAL_BOSS_ROOM);
+            GameManager.Instance().setCurrentState(GameManager.COMBAT_STATE, CombatState.FINAL_BOSS_ROOM);
         }));
     }
 
@@ -56,7 +56,7 @@ public class CardDropState extends GameState {
                 break;
             case TREASURE_ROOM:
                 // Enter a treasure room counts as a new room visit
-                gameManager.setRoom(gameManager.getRoom() + 1);
+                GameManager.Instance().setRoom(GameManager.Instance().getRoom() + 1);
                 messageText.setText("Lucky! You found the Treasure Room. You got...");
                 messageText.setX(300);
                 break;
@@ -70,7 +70,7 @@ public class CardDropState extends GameState {
     @Override
     public void update() {
         // Update the HUD with current room and time
-        roomTimeText.setText(String.format("Room: %d  Time: %s", gameManager.getRoom(), gameManager.getTimeString()));
+        roomTimeText.setText(String.format("Room: %d  Time: %s", GameManager.Instance().getRoom(), GameManager.Instance().getTimeString()));
         super.update();
     }
 

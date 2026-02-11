@@ -26,17 +26,14 @@ public class GameView extends JPanel {
     public static final Font MAIN_FONT = AssetManager.Instance().getGameFont();
 
     // --- Fields ---
-    private final GameManager gameManager;
     private final MouseInput mouseInput;
 
     /**
      * Constructor: Sets up the panel, input listeners, and dimensions.
      */
     public GameView() {
-        this.gameManager = GameManager.Instance();
-
         // Initialize Input
-        mouseInput = new MouseInput(gameManager);
+        mouseInput = new MouseInput();
         addMouseListener(mouseInput);
         addMouseMotionListener(mouseInput);
 
@@ -60,6 +57,6 @@ public class GameView extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        gameManager.render(g);
+        GameManager.Instance().render(g);
     }
 }

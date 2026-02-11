@@ -10,14 +10,12 @@ import java.util.List;
 
 public abstract class GameState {
 
-    protected final GameManager gameManager;
     protected List<GameComponent> gameComponents;
 
     /**
      * Constructor: Initializes the list and loads initial UI components.
      */
     public GameState() {
-        this.gameManager = GameManager.Instance();
         this.gameComponents = new ArrayList<>();
         loadComponents();
     }

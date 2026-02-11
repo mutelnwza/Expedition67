@@ -36,14 +36,14 @@ public class ResultState extends GameState {
 
         // Back Button
         gameComponents.add(new GameButton("Back to Main Menu", 24f, 380, 600, 250, 50, () -> {
-            gameManager.setCurrentState(GameManager.MENU_STATE, 0);
+            GameManager.Instance().setCurrentState(GameManager.MENU_STATE, 0);
         }));
     }
 
     @Override
     public void enter(int id) {
         // Stop the timer
-        gameManager.setTimeCounter(false);
+        GameManager.Instance().setTimeCounter(false);
 
         // Set Header Text
         if (id == WIN) {
@@ -53,8 +53,8 @@ public class ResultState extends GameState {
         }
 
         // Set Stats
-        roomsClearedText.setText(String.format("Room Cleared: %d", gameManager.getRoom()));
-        finalTimeText.setText(String.format("Time: %s", gameManager.getTimeString()));
+        roomsClearedText.setText(String.format("Room Cleared: %d", GameManager.Instance().getRoom()));
+        finalTimeText.setText(String.format("Time: %s", GameManager.Instance().getTimeString()));
     }
 
     @Override

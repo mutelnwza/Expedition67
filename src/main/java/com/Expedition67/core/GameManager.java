@@ -12,8 +12,6 @@ import java.util.List;
 public class GameManager {
 
     // --- Constants for Game States ---
-    private static GameManager instance;
-
     public static final int MENU_STATE = 0;
     public static final int COMBAT_STATE = 1;
     public static final int CARD_DROP_STATE = 2;
@@ -21,6 +19,8 @@ public class GameManager {
     public static final int CREDITS_STATE = 4;
 
     // --- Fields ---
+    private static GameManager instance;
+
     private GameState currentState;
     private List<GameState> gameStates;
 
@@ -37,7 +37,7 @@ public class GameManager {
     private GameManager() {
         loadGameStates();
         // Start the game with the Menu State
-        setCurrentState(MENU_STATE, 0);
+        currentState = gameStates.get(MENU_STATE);
     }
 
     public static GameManager Instance(){

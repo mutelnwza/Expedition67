@@ -11,7 +11,6 @@ public class Game implements Runnable {
 
     // --- Core Components ---
     private final GameWindow gameWindow;
-    private final GameManager gameManager;
 
     // --- Loop Control ---
     private Thread gameThread;
@@ -22,7 +21,7 @@ public class Game implements Runnable {
      */
     public Game() {
         // Initialize main game logic handler
-        gameManager = GameManager.Instance();
+        GameManager.Instance();
 
         // Initialize visual window
         gameWindow = new GameWindow();
@@ -89,7 +88,7 @@ public class Game implements Runnable {
      * Updates game logic.
      */
     private void update() {
-        gameManager.update();
+        GameManager.Instance().update();
     }
 
     /**
