@@ -1,11 +1,13 @@
 package com.Expedition67.storage;
 
+import com.Expedition67.card.Card;
+import com.Expedition67.unit.Unit;
 import java.util.ArrayList;
 
 public class CardInventory {
 
     private static CardInventory instance;
-    private ArrayList<Integer> cards;
+    private ArrayList<Card> cards;
     private CardInventory() {
         cards = new ArrayList<>();
     };
@@ -17,21 +19,21 @@ public class CardInventory {
         return instance;
     }
     
-    public void addCard(int c, int amount){
+    public void addCard(Card c, int amount,Unit target){
         for(int i=0;i<amount;i--) cards.add(c);
     }
 
-    public void removeCard(int c){
-        cards.remove((Integer)c);
+    public void removeCard(Card c){
+        cards.remove(c);
     }
 
     public void removeCard(String c){
-        for(int i : cards){
-            if(i==Integer.parseInt(c)) removeCard(i);
+        for(Card card : cards){
+            if(c.equals(card.getName())) removeCard(c);
         }
     }
 
-    public ArrayList<Integer> getCardInventory(){
+    public ArrayList<Card> getCardInventory(){
         return cards;
     }
 

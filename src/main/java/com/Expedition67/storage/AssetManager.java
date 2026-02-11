@@ -2,8 +2,8 @@ package com.Expedition67.storage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 import java.util.HashMap;
+import javax.imageio.ImageIO;
 
 public class AssetManager {
 
@@ -13,11 +13,13 @@ public class AssetManager {
 
     private static AssetManager instance;
     private HashMap<String, BufferedImage[][]> spriteDatabase = new HashMap<>();
+    private HashMap<String, BufferedImage> cardDatabase = new HashMap<>();
     private Font gameFont;
 
     // make it private to prevent other class from creating this
     private AssetManager() {
         loadSprite();
+        loadCard();
         gameFont = loadFont("/fonts/Jersey10-Regular.ttf");
     }
 
@@ -33,6 +35,22 @@ public class AssetManager {
         // hard code เอานะจ๊ะ
         // register all sprites with load method
         // use this -> spriteDatabase.put("name", load(path,w,h))
+        spriteDatabase.put("test",load("/img/test.png",500,500));
+    }
+
+    private void loadCard(){
+        cardDatabase.put("RemnantHit", load("/img/RennantHit.png"));
+    }
+
+    private BufferedImage load(String path){
+        try{
+            BufferedImage img = ImageIO.read(getClass().getResourceAsStream(path));
+            return img;
+        }
+        catch(Exception e){
+            System.err.println("error loading "+path);
+            return null;
+        }
     }
 
     // w and h is size per image (size for spliting)

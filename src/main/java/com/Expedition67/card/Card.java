@@ -1,4 +1,5 @@
 package com.Expedition67.card;
+import com.Expedition67.unit.PlayerBrain;
 import com.Expedition67.unit.Unit;
 
 public class Card {
@@ -16,25 +17,34 @@ public class Card {
         this.usesLeft = usesLeft;
         this.ability = ability;
     }
+
+    public Card (Card c){
+        this.name=c.getName();
+        this.apCost=c.getAP();
+        this.ability=c.getAbility();
+        this.usesLeft=c.usesLeft();
+        this.isPermanant=c.getPerm();
+    }
+    
     public void use(Unit src,Unit target){
-        if(!canUse(src)){
-              System.out.println("Cannot use card: " + name);
-        }
-        src.useAp(apCost);
-        ability.apply(src, target);
-        if(!isPermanant){
-            usesLeft--;
+        target.getBrain().applyCard(ability, src);
+    }
+
+    public void use(PlayerBrain playerBrain,Unit target){
+        if(canUse(playerBrain)){
+            target.getBrain().applyCard(ability, playerBrain.getOwner());
+            playerBrain.onUseCard(apCost);
         }
     }
 
-    public boolean canUse(Unit src){
-        if(!isPermanant && usesLeft <= 0 ){
-            return false;
-        }
-        if(src.apCost <= apCost){
-            return false;
-        }
-        return true;
+    public boolean canUse(PlayerBrain pb){
+        return (!isPermanant && usesLeft > 0) && pb.getAP() > apCost;
     }
+
+    public String getName(){return this.name;}
+    public int getAP(){return this.apCost;}
+    public boolean getPerm(){return this.isPermanant;}
+    public int usesLeft(){return this.usesLeft;}
+    public CardAbility getAbility() {return this.ability;}
 
 }

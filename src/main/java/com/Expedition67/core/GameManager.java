@@ -1,7 +1,9 @@
 package com.Expedition67.core;
 
 import com.Expedition67.states.*;
-
+import com.Expedition67.unit.PlayerBrain;
+import com.Expedition67.unit.Unit;
+import com.Expedition67.unit.UnitStats;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.List;
 public class GameManager {
 
     // --- Constants for Game States ---
+    private static GameManager instance;
+
     public static final int MENU_STATE = 0;
     public static final int COMBAT_STATE = 1;
     public static final int CARD_DROP_STATE = 2;
@@ -25,13 +29,22 @@ public class GameManager {
     private int totalSeconds;
     private int room;
 
+    private Unit player;
+
     /**
      * Constructor: Initializes the game states and sets the starting state.
      */
-    public GameManager() {
+    private GameManager() {
         loadGameStates();
         // Start the game with the Menu State
         setCurrentState(MENU_STATE, 0);
+    }
+
+    public static GameManager Instance(){
+        if(instance==null){
+            instance = new GameManager();
+        }
+        return instance;
     }
 
     /**
@@ -84,6 +97,9 @@ public class GameManager {
         ticks = 0;
         totalSeconds = 0;
         room = 0;
+
+        player = new Unit("Player", new UnitStats(100,1,1,1,0), new PlayerBrain(), 50,50,500,500);
+        player.getAnimator().addAnimation("idle", 0, 5, 5);
     }
 
     /**
@@ -133,6 +149,10 @@ public class GameManager {
     }
 
     // --- Getters and Setters ---
+
+    public Unit getPlayer(){
+        return player;
+    }
 
     public int getRoom() {
         return room;

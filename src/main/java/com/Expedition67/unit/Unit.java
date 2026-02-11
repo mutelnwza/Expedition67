@@ -40,8 +40,12 @@ public class Unit {
 
     public UnitBrain getBrain(){return  this.unitBrain;}
     
-    public void takeDamage(Unit src, float amount){
-        unitBrain.takeDamage(src, amount);
+    public void takeDamage(float amount){
+        unitBrain.takeDamage(amount);
+    }
+
+    public UnitStats getUnitStats(){
+        return this.unitStats;
     }
     
     public Animator getAnimator() {
@@ -66,9 +70,5 @@ public class Unit {
 
     public int getHeight() {
         return height;
-    }
-
-    public void takeDamage(int damage) {
-        // TODO Auto-generated method stub
     }
 }
