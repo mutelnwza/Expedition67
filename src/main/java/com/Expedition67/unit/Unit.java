@@ -11,7 +11,7 @@ public class Unit {
     private final Animator animator;
 
     //each unit will be create once in a warehouse
-    public Unit (String name, UnitStats unitStats, UnitBrain unitBrain, Animator animator, int x, int y, int w, int h){
+    public Unit (String name, UnitStats unitStats, UnitBrain unitBrain, int x, int y, int w, int h){
         this.name = name;
         this.unitBrain = unitBrain;
         this.unitStats = unitStats;
@@ -40,8 +40,12 @@ public class Unit {
 
     public UnitBrain getBrain(){return  this.unitBrain;}
     
-    public void takeDamage(Unit src, float amount){
-        unitBrain.takeDamage(src, amount);
+    public void takeDamage(float amount){
+        unitBrain.takeDamage(amount);
+    }
+
+    public UnitStats getUnitStats(){
+        return this.unitStats;
     }
     
     public Animator getAnimator() {
@@ -66,25 +70,5 @@ public class Unit {
 
     public int getHeight() {
         return height;
-    }
-
-    public void takeDamage(int damage) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'takeDamage'");
-    }
-
-    public void heal(int heal) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'heal'");
-    }
-
-    public void useAp(int apCost2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'useAp'");
-    }
-
-    public void addShield(int shield) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addShield'");
     }
 }

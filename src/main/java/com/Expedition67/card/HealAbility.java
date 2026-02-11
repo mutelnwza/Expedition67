@@ -8,8 +8,7 @@ public class HealAbility implements CardAbility {
         this.heal = heal;
     }
     @Override
-    public void apply(Unit src, Unit target){
-        target.heal(heal);
+    public void apply(Unit target){
+        target.getBrain().heal(heal);
     }
-    
 }
