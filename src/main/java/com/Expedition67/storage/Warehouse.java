@@ -1,10 +1,9 @@
 package com.Expedition67.storage;
-import com.Expedition67.card.BuffAbility;
-import com.Expedition67.card.Card;
-import com.Expedition67.card.DamageAbility;
-import com.Expedition67.card.HealAbility;
-import com.Expedition67.card.ShieldAbility;
+//import com.Expedition67.card.Card;
+import com.Expedition67.card.*;
+import com.Expedition67.unit.Enemy.EnemyBrain;
 import com.Expedition67.unit.Unit;
+import com.Expedition67.unit.UnitStats;
 import java.util.HashMap;
 
 public class Warehouse {
@@ -12,6 +11,7 @@ public class Warehouse {
     private HashMap<String, Unit> unitFactory = new HashMap<>();
     private HashMap<String, Card> cardFactory = new HashMap<>();
     private Warehouse(){
+        loadEnemy();
         loadCard();
     }
 
@@ -23,11 +23,12 @@ public class Warehouse {
     }
 
     private void loadEnemy(){
-        // UnitBrain momoBrain = new UnitBrain();
-        // Unit Momo = new Unit("Momo", new UnitStats(maxHp, str, critDmg, critRate, def, agi), momoBrain, new, 0, 0, 0, 0);
+        Unit test = new Unit("test", new UnitStats(50, 1, 1, 1, 0), new EnemyBrain(),30,30,500,500);
+        test.getAnimator().addAnimation("idle", 0, 4, 4);
+        unitFactory.put("test", test);
+        // Unit Momo = new Unit("Momo", new UnitStats(maxHp, str, critDmg, critRate, def, agi), new MomoBrain(), 0, 0, 0, 0); <- x,y,w,h
+        // Momo.getAnimator().addAnimation(name, row, speed, frameCount); <- hard code เอา
         // unitFactory.put("Momo", Momo);
-        // momoBrain.setOwner(Momo);
-        // Momo.getAnimator().addAnimation(name, row, speed, frameCount);
     }
 
     private void loadCard(){
@@ -55,7 +56,11 @@ public class Warehouse {
         cardFactory.put("Eternal Soul Rebirth", new Card("Eternal Soul Rebirth", 3, true, -1, new HealAbility(18)));
     }
 
-    public Unit getEnemy(String name){
-        return null;
+    public Unit spawnEnemy(String name,int x, int y){
+        Unit master = unitFactory.get(name);
+        if(master!=null){
+            return master.copy(x, y);
+        }
+        else return null;
     }
 }

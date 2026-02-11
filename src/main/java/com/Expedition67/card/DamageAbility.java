@@ -8,8 +8,7 @@ public class DamageAbility implements CardAbility {
         this.Damage = Damage;
     }
     @Override
-    public void apply(Unit src, Unit target){
-        src.takeDamage(Damage);
+    public void apply(Unit target){
+        target.takeDamage(Damage);
     }
-    
 }
