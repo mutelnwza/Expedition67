@@ -9,8 +9,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class CreditsState extends GameState {
-    public CreditsState(GameManager gameManager) {
-        super(gameManager);
+    public CreditsState() {
+        super();
     }
 
     @Override
@@ -20,7 +20,7 @@ public class CreditsState extends GameState {
 
         // Back Button
         gameComponents.add(new GameButton("Back to Main Menu", 24f, 380, 600, 250, 50, () -> {
-            gameManager.setCurrentState(GameManager.MENU_STATE, 0);
+            GameManager.Instance().setCurrentState(GameManager.MENU_STATE, 0);
         }));
     }
 

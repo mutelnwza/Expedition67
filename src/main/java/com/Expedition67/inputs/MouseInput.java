@@ -8,19 +8,10 @@ import java.awt.event.MouseMotionListener;
 
 public class MouseInput implements MouseListener, MouseMotionListener {
 
-    private final GameManager gameManager;
-
-    /**
-     * Constructor: Connects this input handler to the main Game Manager.
-     */
-    public MouseInput(GameManager gameManager) {
-        this.gameManager = gameManager;
-    }
-
     // --- MouseListener Methods ---
     @Override
     public void mouseClicked(MouseEvent e) {
-        gameManager.mouseClicked(e);
+        GameManager.Instance().mouseClicked(e);
     }
 
     @Override
@@ -46,6 +37,6 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        gameManager.mouseMoved(e);
+        GameManager.Instance().mouseMoved(e);
     }
 }
