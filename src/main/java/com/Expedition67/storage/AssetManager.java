@@ -39,7 +39,20 @@ public class AssetManager {
     }
 
     private void loadCard(){
-        cardDatabase.put("RemnantHit", load("/img/RennantHit.png"));
+        cardDatabase.put("RemnantHit", load("/img/RemnantHit.png"));
+        cardDatabase.put("Celestial_Singularity", load("/img/Celestial_Singularity.png"));
+        cardDatabase.put("Echoing_Strike", load("/img/Echoing_Strike.png"));
+        cardDatabase.put("Eternal_Soul_Rebirth", load("/img/Eternal_Soul_Rebirth.png"));
+        cardDatabase.put("Ethereal Restoration", load("/img/Ethereal_Restoration.png"));
+        cardDatabase.put("Event_Horizon", load("/img/Event_Horizon.png"));
+        cardDatabase.put("Harmonic_Resonance", load("/img/Harmonic_Resonance.png"));
+        cardDatabase.put("SoulAegis", load("/img/SoulAegis.png"));
+        cardDatabase.put("SoulFlicker", load("/img/SoulFlicker.png"));
+        cardDatabase.put("Soul_Resonance", load("/img/Soul_Resonance.png"));
+        cardDatabase.put("Sovereigns_Overdrive", load("/img/Sovereigns_Overdrive.png"));
+        cardDatabase.put("Spectral_Veil", load("/img/Spectral_Veil .png"));
+        cardDatabase.put("Void_Dragon", load("/img/Void_Dragon.png"));
+        
     }
 
     private BufferedImage load(String path){
