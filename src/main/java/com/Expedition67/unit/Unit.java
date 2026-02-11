@@ -30,6 +30,21 @@ public class Unit {
         animator.update();
     }
 
+    //use when clone a unit
+    public Unit copy(int x, int y){
+        UnitStats stats = this.unitStats.copy();
+        UnitBrain brain = this.unitBrain.copy();
+        Unit clone = new Unit(this.name, stats, brain, x, y, this.width, this.height);
+        clone.getAnimator().copy(this.animator);
+        return clone;
+    }
+
+    public UnitBrain getBrain(){return  this.unitBrain;}
+    
+    public void takeDamage(Unit src, float amount){
+        unitBrain.takeDamage(src, amount);
+    }
+    
     public Animator getAnimator() {
         return animator;
     }
