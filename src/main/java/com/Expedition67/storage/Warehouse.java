@@ -1,12 +1,16 @@
 package com.Expedition67.storage;
-
+import com.Expedition67.card.Card;
+import com.Expedition67.card.DamageAbility;
 import com.Expedition67.unit.Unit;
 import java.util.HashMap;
 
 public class Warehouse {
     private static Warehouse instance;
     private HashMap<String, Unit> unitFactory = new HashMap<>();
-    private Warehouse(){}
+    private HashMap<String, Card> cardFactory = new HashMap<>();
+    private Warehouse(){
+        loadCard();
+    }
 
     public static Warehouse Instance(){
         if(instance == null){
@@ -24,6 +28,9 @@ public class Warehouse {
     }
 
     private void loadCard(){
+        Card Attack = new Card("Remnant Hit", 1, false, 1,new DamageAbility(6));
+        cardFactory.put("Remnant Hit" , Attack);
+
 
     }
 
