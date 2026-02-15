@@ -4,6 +4,7 @@ import com.Expedition67.states.*;
 import com.Expedition67.unit.PlayerBrain;
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.UnitStats;
+import com.Expedition67.unit.UnitType;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class GameManager {
     private int room;
 
     private Unit player;
+    private PlayerBrain playerBrain;
 
     /**
      * Constructor: Initializes the game states and sets the starting state.
@@ -98,7 +100,8 @@ public class GameManager {
         totalSeconds = 0;
         room = 0;
 
-        player = new Unit("Player", new UnitStats(100,1,1,1,0), new PlayerBrain(), 50,50,500,500);
+        player = new Unit("Player", new UnitStats(100,1,0), new PlayerBrain(),UnitType.PLAYER, 50,50,500,500);
+        playerBrain = (PlayerBrain)player.getBrain();
         player.getAnimator().addAnimation("idle", 0, 5, 5);
     }
 
@@ -152,6 +155,10 @@ public class GameManager {
 
     public Unit getPlayer(){
         return player;
+    }
+
+    public PlayerBrain getPlayerBrain(){
+        return playerBrain;
     }
 
     public int getRoom() {

@@ -1,39 +1,32 @@
 package com.Expedition67.unit.Enemy;
 
-import com.Expedition67.core.GameManager;
+import com.Expedition67.card.*;
 import com.Expedition67.unit.UnitBrain;
 
-public class EnemyBrain extends UnitBrain{
+public abstract class EnemyBrain extends UnitBrain{
+    protected CardAbility nextAction = null;
 
     @Override
     protected void die() {
         System.out.println("im ded");
+        //tell combatmanager that this unit is dead
     }
 
-    @Override
-    public void startTurn() {
-        
+// in case there are actions to perform if player use a card
+    public void onPlayerUseCard(Card c){
+        calculateNextMove(c);
     }
 
-    @Override
-    public void endTurn() {
-        //end
+// pre calculate next action, call when starts player turn
+    public abstract void calculateNextMove();
+
+// in case that the action depends on players card
+    public void calculateNextMove(Card c){
+
     }
 
-    @Override
-    public UnitBrain copy() {
-        return new EnemyBrain();
+// combat manager call this to get the next action then perform
+    public CardAbility getNextAction(){
+        return nextAction;
     }
-
-    @Override
-    protected void onTurnStarted() {
-        System.out.println("START!!!");
-        GameManager.Instance().getPlayer().takeDamage(5);
-    }
-
-    @Override
-    protected void onTurnEnded() {
-        super.onTurnEnded();
-    }
-    
 }

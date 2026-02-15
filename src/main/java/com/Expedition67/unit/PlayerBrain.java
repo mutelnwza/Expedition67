@@ -1,5 +1,7 @@
 package com.Expedition67.unit;
 
+import com.Expedition67.card.Card;
+
 public class PlayerBrain extends UnitBrain{
 
     private int ap;
@@ -8,8 +10,9 @@ public class PlayerBrain extends UnitBrain{
         
     }
 
-    public void onUseCard(int ap){
-        this.ap-=ap;
+    public void useCard(Card c, Unit target){
+        ap -= c.getAP();
+        c.use(this, target);
     }
 
     @Override
@@ -18,13 +21,8 @@ public class PlayerBrain extends UnitBrain{
     }
 
     @Override
-    public void startTurn() {
-        
-    }
-
-    @Override
-    public void endTurn() {
-        ap = 4;
+    protected void onTurnEnded() {
+        this.ap = 4;
     }
 
     @Override

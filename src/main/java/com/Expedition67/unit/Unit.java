@@ -9,12 +9,14 @@ public class Unit {
     private final UnitStats unitStats;
     private final UnitBrain unitBrain;
     private final Animator animator;
+    private final UnitType unitType;
 
     //each unit will be create once in a warehouse
-    public Unit (String name, UnitStats unitStats, UnitBrain unitBrain, int x, int y, int w, int h){
+    public Unit (String name, UnitStats unitStats, UnitBrain unitBrain, UnitType unitType, int x, int y, int w, int h){
         this.name = name;
         this.unitBrain = unitBrain;
         this.unitStats = unitStats;
+        this.unitType = unitType;
         this.animator = new Animator();
         this.x=x;
         this.y=y;
@@ -25,6 +27,8 @@ public class Unit {
     
     //will be called from gamemanager or smth that hold all the unit references
     public void update(){
+        if (unitStats.getHp() <= 0) return;
+        System.out.println("updating");
         unitBrain.update();
         animator.update();
     }
@@ -33,12 +37,12 @@ public class Unit {
     public Unit copy(int x, int y){
         UnitStats stats = this.unitStats.copy();
         UnitBrain brain = this.unitBrain.copy();
-        Unit clone = new Unit(this.name, stats, brain, x, y, this.width, this.height);
+        Unit clone = new Unit(this.name, stats, brain,unitType, x, y, this.width, this.height);
         clone.getAnimator().copy(this.animator);
         return clone;
     }
 
-    public UnitBrain getBrain(){return  this.unitBrain;}
+    public UnitBrain getBrain(){return this.unitBrain;}
     
     public void takeDamage(float amount){
         unitBrain.takeDamage(amount);

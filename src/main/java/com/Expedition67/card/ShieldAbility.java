@@ -1,11 +1,10 @@
 package com.Expedition67.card;
 import com.Expedition67.unit.Unit;
 
-public class ShieldAbility extends RemoveableAbility {
+public class ShieldAbility implements CardAbility {
     private int Shield;
     
-    public ShieldAbility(int turn, int Shield){
-        super(turn);
+    public ShieldAbility(int Shield){
         this.Shield = Shield;
     }
 
@@ -13,9 +12,4 @@ public class ShieldAbility extends RemoveableAbility {
     public void apply(Unit target){
          target.getBrain().addDef(Shield);
      }
-
-    @Override
-    public void remove(Unit target) {
-        target.getBrain().addDef(Shield*-1);
-    }
 }

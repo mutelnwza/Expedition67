@@ -13,13 +13,13 @@ public class AssetManager {
 
     private static AssetManager instance;
     private HashMap<String, BufferedImage[][]> spriteDatabase = new HashMap<>();
-    private HashMap<String, BufferedImage> cardDatabase = new HashMap<>();
+    private HashMap<String, BufferedImage> staticDatabase = new HashMap<>();
     private Font gameFont;
 
     // make it private to prevent other class from creating this
     private AssetManager() {
-        loadSprite();
-        loadCard();
+        // loadSprite();
+        // loadCard();
         gameFont = loadFont("/fonts/Jersey10-Regular.ttf");
     }
 
@@ -31,6 +31,11 @@ public class AssetManager {
         return instance;
     }
 
+    public void invoke(){
+        loadSprite();
+        loadCard();
+    }
+
     private void loadSprite() {
         // hard code เอานะจ๊ะ
         // register all sprites with load method
@@ -39,7 +44,7 @@ public class AssetManager {
     }
 
     private void loadCard(){
-        cardDatabase.put("RemnantHit", load("/img/RennantHit.png"));
+        staticDatabase.put("RemnantHit", load("/img/RemnantHit.png"));
     }
 
     private BufferedImage load(String path){
@@ -49,6 +54,7 @@ public class AssetManager {
         }
         catch(Exception e){
             System.err.println("error loading "+path);
+            e.printStackTrace();
             return null;
         }
     }
@@ -68,12 +74,17 @@ public class AssetManager {
             return result;
         } catch (Exception e) {
             System.err.println("error loading " + path);
+            e.printStackTrace();
             return null;
         }
     }
 
     public BufferedImage getSprite(String key, int row, int index) {
         return spriteDatabase.get(key)[row][index];
+    }
+
+    public BufferedImage getSprite(String key){
+        return staticDatabase.get(key);
     }
 
     public Font loadFont(String path) {
