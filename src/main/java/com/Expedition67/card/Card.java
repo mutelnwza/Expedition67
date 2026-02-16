@@ -47,4 +47,8 @@ public class Card {
     public int usesLeft(){return this.usesLeft;}
     public CardAbility getAbility() {return this.ability;}
 
+    public Card copy() {
+        return new Card(this.name,this.apCost,this.isPermanant,this.usesLeft,this.ability);
+    }
+
 }

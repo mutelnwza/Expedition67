@@ -49,6 +49,7 @@ public class ResultState extends GameState {
         if (id == WIN) {
             resultHeader.setText("You Won!");
         } else {
+            GameManager.Instance().setRoom(GameManager.Instance().getRoom() - 1);
             resultHeader.setText("You Lost!");
         }
 

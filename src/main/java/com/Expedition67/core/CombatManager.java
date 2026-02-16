@@ -1,0 +1,172 @@
+package com.Expedition67.core;
+
+import com.Expedition67.card.Card;
+import com.Expedition67.states.CardDropState;
+import com.Expedition67.states.ResultState;
+import com.Expedition67.unit.Deck;
+import com.Expedition67.unit.Enemy.Enemy;
+import com.Expedition67.unit.PlayerBrain;
+import com.Expedition67.unit.Unit;
+
+import java.awt.*;
+import java.util.List;
+
+public class CombatManager {
+
+    private static CombatManager instance;
+
+    private Unit player;
+    private List<Enemy> enemies;
+    private Enemy target;
+    private Deck deck;
+
+    private boolean isPlayerTurn;
+    private boolean isCombatActive;
+
+    private int turnCount;
+    private int cardUsedCount;
+
+    private CombatManager() {
+        isCombatActive = false;
+    }
+
+    public static CombatManager Instance() {
+        if (instance == null) {
+            instance = new CombatManager();
+        }
+        return instance;
+    }
+
+    public static void initNew() {
+        instance = new CombatManager();
+    }
+
+    public void startCombat(List<Enemy> enemies) {
+        this.player = GameManager.Instance().getPlayer();
+        this.enemies = enemies;
+        this.target = enemies.getFirst();
+        this.turnCount = 1;
+        this.cardUsedCount = 0;
+
+        if (deck == null) {
+            deck = new Deck();
+        }
+        deck.instantiate();
+        deck.addToHand();
+
+        isCombatActive = true;
+        isPlayerTurn = true;
+
+        player.getBrain().startTurn();
+    }
+
+    public void executeTurn() {
+        if (!isCombatActive || player == null || enemies == null) {
+            return;
+        }
+
+        if (isPlayerTurn) {
+            player.getBrain().endTurn();
+            isPlayerTurn = false;
+
+            for (Unit enemy : enemies) {
+                enemy.getBrain().startTurn();
+                enemy.getBrain().endTurn();
+            }
+        }
+
+        startPlayerTurn();
+    }
+
+    private void startPlayerTurn() {
+        isPlayerTurn = true;
+        if (player != null && player.getUnitStats().getHp() > 0) {
+            turnCount++;
+            cardUsedCount = 0;
+            deck.addToHand();
+            player.getBrain().startTurn();
+        }
+    }
+
+    public void onPlayerUseCard(Card card, Unit target) {
+        Unit player = GameManager.Instance().getPlayer();
+        PlayerBrain pb = (PlayerBrain) player.getBrain();
+
+        if (card == null || target == null || pb.getAP() < card.getAP()) {
+            return;
+        }
+        card.getAbility().apply(target);
+        pb.onUseCard(card.getAP());
+        deck.useCard(card);
+
+        cardUsedCount++;
+    }
+
+    public void update() {
+        if (!isCombatActive) {
+            return;
+        }
+
+        checkWinCondition();
+
+        if (player != null) {
+            player.update();
+        }
+        for (Unit enemy : enemies) {
+            enemy.update();
+        }
+        deck.update();
+    }
+
+    public void render(Graphics g) {
+        if (player != null) {
+            player.render(g);
+        }
+        for (Unit enemy : enemies) {
+            enemy.render(g);
+        }
+        if (target != null) {
+            target.renderTarget(g);
+        }
+        deck.render(g);
+    }
+
+    private void checkWinCondition() {
+        if (player.getUnitStats().getHp() <= 0) {
+            isCombatActive = false;
+            GameManager.Instance().setCurrentState(GameManager.RESULT_STATE, ResultState.LOSE);
+            return;
+        }
+
+        int i = 0;
+        while (i < enemies.size()) {
+            if (enemies.get(i).getUnitStats().getHp() <= 0) {
+                enemies.remove(i);
+                target = null;
+            } else {
+                i++;
+            }
+        }
+
+        if (enemies.isEmpty()) {
+            isCombatActive = false;
+            GameManager.Instance().setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.MONSTER_DROP);
+        }
+    }
+
+    public Unit getTarget() {
+        return target;
+    }
+
+    public void setTarget(Enemy target) {
+        this.target = target;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public int getTurnCount() {
+        return turnCount;
+    }
+}

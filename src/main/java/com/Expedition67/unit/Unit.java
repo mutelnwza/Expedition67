@@ -1,6 +1,11 @@
 package com.Expedition67.unit;
 
+import com.Expedition67.core.SpriteRenderer;
 import com.Expedition67.model.Animator;
+import com.Expedition67.ui.GameText;
+
+import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class Unit {
     private final String name;
@@ -9,8 +14,12 @@ public class Unit {
     private final UnitStats unitStats;
     private final UnitBrain unitBrain;
     private final Animator animator;
+    private final SpriteRenderer spriteRenderer;
 
-    //each unit will be create once in a warehouse
+    private GameText hpText;
+    private GameText apText;
+
+    //each unit will be created once in a warehouse
     public Unit (String name, UnitStats unitStats, UnitBrain unitBrain, int x, int y, int w, int h){
         this.name = name;
         this.unitBrain = unitBrain;
@@ -21,12 +30,26 @@ public class Unit {
         this.width=w;
         this.height=h;
         this.unitBrain.setOwner(this);
+        this.spriteRenderer = new SpriteRenderer();
+
+        initHpText();
+        initApText();
     }
-    
-    //will be called from gamemanager or smth that hold all the unit references
-    public void update(){
-        unitBrain.update();
-        animator.update();
+
+    private void initHpText() {
+        String hpStr = String.format("HP: %.2f/%.2f", unitStats.getHp(), unitStats.getMaxHp());
+        int hpX = x;
+        int hpY = y - 10;
+        hpText = new GameText(hpStr, hpX, hpY, 18f, Color.WHITE);
+    }
+
+    private void initApText() {
+        if (getBrain() instanceof PlayerBrain pb) {
+            String apStr = String.format("AP: %d", pb.getAP());
+            int apX = x;
+            int apY = y + 150;
+            apText = new GameText(apStr, apX, apY, 18f, Color.WHITE);
+        }
     }
 
     //use when clone a unit
@@ -38,11 +61,33 @@ public class Unit {
         return clone;
     }
 
-    public UnitBrain getBrain(){return  this.unitBrain;}
-    
     public void takeDamage(float amount){
         unitBrain.takeDamage(amount);
     }
+
+    // --- GameComponent Implementation ---
+
+    public void update() {
+        unitBrain.update();
+        animator.update();
+
+        hpText.setText(String.format("HP: %.2f/%.2f", unitStats.getHp(), unitStats.getMaxHp()));
+        if (getBrain() instanceof PlayerBrain pb) {
+            apText.setText(String.format("AP: %d", pb.getAP()));
+        }
+    }
+
+    public void render(Graphics g) {
+        spriteRenderer.unitRender((Graphics2D) g, this);
+        hpText.render(g);
+        if (apText != null) {
+            apText.render(g);
+        }
+    }
+
+    // --- Getter and Setter ---
+
+    public UnitBrain getBrain(){return  this.unitBrain;}
 
     public UnitStats getUnitStats(){
         return this.unitStats;

@@ -1,11 +1,12 @@
 package com.Expedition67.unit;
 
+import com.Expedition67.storage.CardInventory;
+
 public class PlayerBrain extends UnitBrain{
 
     private int ap;
 
     public PlayerBrain(){
-        
     }
 
     public void onUseCard(int ap){
@@ -19,12 +20,12 @@ public class PlayerBrain extends UnitBrain{
 
     @Override
     public void startTurn() {
-        
+        ap = 4;
+        onTurnStarted();
     }
 
     @Override
     public void endTurn() {
-        ap = 4;
     }
 
     @Override

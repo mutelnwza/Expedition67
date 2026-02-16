@@ -35,14 +35,15 @@ public class AssetManager {
         // hard code เอานะจ๊ะ
         // register all sprites with load method
         // use this -> spriteDatabase.put("name", load(path,w,h))
-        spriteDatabase.put("test",load("/img/test.png",500,500));
+        spriteDatabase.put("player", loadSpriteImage("/images/sprites/player.PNG", 2000, 2000));
+        spriteDatabase.put("test", loadSpriteImage("/images/sprites/test.png",500,500));
     }
 
     private void loadCard(){
-        cardDatabase.put("RemnantHit", load("/img/RennantHit.png"));
+        cardDatabase.put("Remnant Hit", loadCardImage("/images/cards/RemnantHit.png"));
     }
 
-    private BufferedImage load(String path){
+    private BufferedImage loadCardImage(String path){
         try{
             BufferedImage img = ImageIO.read(getClass().getResourceAsStream(path));
             return img;
@@ -54,7 +55,7 @@ public class AssetManager {
     }
 
     // w and h is size per image (size for spliting)
-    private BufferedImage[][] load(String path, int w, int h) {
+    private BufferedImage[][] loadSpriteImage(String path, int w, int h) {
         try {
             BufferedImage sheet = ImageIO.read(getClass().getResourceAsStream(path));
             int rows = sheet.getHeight() / h;
@@ -74,6 +75,10 @@ public class AssetManager {
 
     public BufferedImage getSprite(String key, int row, int index) {
         return spriteDatabase.get(key)[row][index];
+    }
+
+    public BufferedImage getCard(String key) {
+        return cardDatabase.get(key);
     }
 
     public Font loadFont(String path) {

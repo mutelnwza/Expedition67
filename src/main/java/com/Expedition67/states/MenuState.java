@@ -22,7 +22,7 @@ public class MenuState extends GameState {
 
         // Start Game Button
         gameComponents.add(new GameButton("START GAME", 24f, x, 400, w, h, () -> {
-            GameManager.Instance().setTimeCounter(true);
+            GameManager.Instance().newGame();
             GameManager.Instance().setCurrentState(GameManager.COMBAT_STATE, CombatState.MONSTER_ROOM);
         }));
 
@@ -39,8 +39,6 @@ public class MenuState extends GameState {
 
     @Override
     public void enter(int id) {
-        // Reset game stats whenever we return to the menu
-        GameManager.Instance().newGame();
     }
 
     @Override

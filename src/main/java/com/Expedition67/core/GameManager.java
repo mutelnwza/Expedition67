@@ -1,9 +1,10 @@
 package com.Expedition67.core;
 
 import com.Expedition67.states.*;
-import com.Expedition67.unit.PlayerBrain;
+import com.Expedition67.storage.CardInventory;
+import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.Unit;
-import com.Expedition67.unit.UnitStats;
+
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -40,8 +41,8 @@ public class GameManager {
         currentState = gameStates.get(MENU_STATE);
     }
 
-    public static GameManager Instance(){
-        if(instance==null){
+    public static GameManager Instance() {
+        if (instance == null) {
             instance = new GameManager();
         }
         return instance;
@@ -93,13 +94,16 @@ public class GameManager {
      * Resets game variables
      */
     public void newGame() {
-        isTimeCounter = false;
+        isTimeCounter = true;
         ticks = 0;
         totalSeconds = 0;
         room = 0;
 
-        player = new Unit("Player", new UnitStats(100,1,1,1,0), new PlayerBrain(), 50,50,500,500);
-        player.getAnimator().addAnimation("idle", 0, 5, 5);
+        player = Warehouse.Instance().spawnPlayer(300, 460);
+        CombatManager.initNew();
+        CardInventory.Instance().emptyInventory();
+        // Temp
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard("Remnant Hit"), 5);
     }
 
     /**
@@ -150,7 +154,7 @@ public class GameManager {
 
     // --- Getters and Setters ---
 
-    public Unit getPlayer(){
+    public Unit getPlayer() {
         return player;
     }
 
