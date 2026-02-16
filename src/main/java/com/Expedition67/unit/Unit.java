@@ -5,19 +5,18 @@ import com.Expedition67.model.Animator;
 import com.Expedition67.ui.GameText;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class Unit {
-    private final String name;
-    private final int width,height; //position in canvas and size
-    private int x,y;
-    private final UnitStats unitStats;
-    private final UnitBrain unitBrain;
-    private final Animator animator;
-    private final SpriteRenderer spriteRenderer;
+    protected final String name;
+    protected final int width,height; //position in canvas and size
+    protected int x,y;
+    protected final UnitStats unitStats;
+    protected final UnitBrain unitBrain;
+    protected final Animator animator;
+    protected final SpriteRenderer spriteRenderer;
 
-    private GameText hpText;
-    private GameText apText;
+    protected GameText hpText;
+    protected GameText apText;
 
     //each unit will be created once in a warehouse
     public Unit (String name, UnitStats unitStats, UnitBrain unitBrain, int x, int y, int w, int h){
@@ -38,17 +37,15 @@ public class Unit {
 
     private void initHpText() {
         String hpStr = String.format("HP: %.2f/%.2f", unitStats.getHp(), unitStats.getMaxHp());
-        int hpX = x;
-        int hpY = y - 10;
-        hpText = new GameText(hpStr, hpX, hpY, 18f, Color.WHITE);
+        hpText = new GameText(hpStr, 0, y - 10, 18f, Color.WHITE);
+        hpText.horizontallyCentering(x, width);
     }
 
     private void initApText() {
         if (getBrain() instanceof PlayerBrain pb) {
             String apStr = String.format("AP: %d", pb.getAP());
-            int apX = x;
-            int apY = y + 150;
-            apText = new GameText(apStr, apX, apY, 18f, Color.WHITE);
+            apText = new GameText(apStr, 0, y + 130, 18f, Color.WHITE);
+            apText.horizontallyCentering(x, width);
         }
     }
 

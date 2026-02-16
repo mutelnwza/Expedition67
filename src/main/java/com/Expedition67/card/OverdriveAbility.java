@@ -12,8 +12,8 @@ public class OverdriveAbility implements CardAbility {
 
     @Override
     public void apply(Unit target, Unit src) {
-        src.takeDamage(src, selfDamage);
-        src.getBrain().addCritRate(critRate, 1); 
+        src.takeDamage(selfDamage);
+        src.getBrain().addCritRate(critRate);
     }
 
     @Override

@@ -24,20 +24,21 @@ public class ResultState extends GameState {
     @Override
     protected void loadComponents() {
         // Result Header (Win/Lose)
-        resultHeader = new GameText("", 320, 460, 100f, Color.white); //340,450
+        resultHeader = new GameText("Placeholder", 0, 470, 100f, Color.white);
         gameComponents.add(resultHeader);
 
         // Stats
-        roomsClearedText = new GameText("Room Cleared: 0", 420, 510, 24f, Color.white); //440,500
+        roomsClearedText = new GameText("Room Cleared: 0", 0, 520, 24f, Color.white);
         gameComponents.add(roomsClearedText);
 
-        finalTimeText = new GameText("Time: 00:00", 440, 540, 24f, Color.white); //460 , 530
+        finalTimeText = new GameText("Time: 00:00", 0, 550, 24f, Color.white);
         gameComponents.add(finalTimeText);
 
         // Back Button
-        gameComponents.add(new GameButton("Back to Main Menu", 24f, 370, 610, 250, 50, () -> {
-            GameManager.Instance().setCurrentState(GameManager.MENU_STATE, 0); //380, 620
+        gameComponents.add(new GameButton("Back to Main Menu", 24f, 0, 610, 250, 50, () -> {
+            GameManager.Instance().setCurrentState(GameManager.MENU_STATE, 0);
         }));
+        gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 
     @Override
@@ -52,10 +53,13 @@ public class ResultState extends GameState {
             GameManager.Instance().setRoom(GameManager.Instance().getRoom() - 1);
             resultHeader.setText("You Lost!");
         }
+        resultHeader.horizontallyCentering(0, GameView.GAME_WIDTH);
 
         // Set Stats
         roomsClearedText.setText(String.format("Room Cleared: %d", GameManager.Instance().getRoom()));
+        roomsClearedText.horizontallyCentering(0, GameView.GAME_WIDTH);
         finalTimeText.setText(String.format("Time: %s", GameManager.Instance().getTimeString()));
+        finalTimeText.horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 
     @Override
@@ -68,7 +72,7 @@ public class ResultState extends GameState {
         g.setColor(Color.black);
         g.fillRect(0, 0, GameView.GAME_WIDTH, GameView.GAME_HEIGHT);
 
-
+        // Draw Box
         int boxWidth = 400;
         int boxHeight = 200;
         int x = (GameView.GAME_WIDTH - boxWidth) / 2;

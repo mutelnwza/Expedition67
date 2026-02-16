@@ -10,7 +10,7 @@ public class BuffAbility implements CardAbility {
     
     @Override
     public void apply(Unit src, Unit target){
-        target.getBrain().addCritRate(critRate, 1);
+        target.getBrain().addCritRate(critRate);
     }
 
     @Override

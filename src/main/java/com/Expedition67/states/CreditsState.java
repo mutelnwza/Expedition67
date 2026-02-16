@@ -4,7 +4,6 @@ import com.Expedition67.core.GameManager;
 import com.Expedition67.core.GameView;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
-import java.awt.Font;
 
 
 import java.awt.Color;
@@ -17,20 +16,28 @@ public class CreditsState extends GameState {
 
     @Override
     protected void loadComponents() {
-        // Title (Temp)
-        gameComponents.add(new GameText("Made by", 340, 310, 100f, Color.white));
-        gameComponents.add(new GameText("68050042       Khwannapat Boontub", 255, 365, 30f, Color.white));
-        gameComponents.add(new GameText("68050075       Chayada Sriwisan", 255, 415, 30f, Color.white));
-        gameComponents.add(new GameText("68050188       Taewich Boonrerm", 255, 465, 30f, Color.white));
-        gameComponents.add(new GameText("68050349       Panit Phonpinit", 255, 515, 30f, Color.white));
-        gameComponents.add(new GameText("68050306       Prangthip Utaivatcharanan", 255, 565, 30f, Color.white));
-        gameComponents.add(new GameText("Special Thanks",400, 635, 30f, Color.white));
-        gameComponents.add(new GameText("Gemini - Nano Banana Pro(Art)", 300, 685, 30f, Color.white));
+        // Title
+        gameComponents.add(new GameText("Made by", 0, 310, 100f, Color.white));
+        gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
+
+        // Name
+        gameComponents.add(new GameText("68050042       Khwannapat Boontub       ", 255, 385, 30f, Color.white));
+        gameComponents.add(new GameText("68050075       Chayada Sriwisan         ", 255, 435, 30f, Color.white));
+        gameComponents.add(new GameText("68050188       Taewich Boonrerm         ", 255, 485, 30f, Color.white));
+        gameComponents.add(new GameText("68050349       Panit Phonpinit          ", 255, 535, 30f, Color.white));
+        gameComponents.add(new GameText("68050306       Prangthip Utaivatcharanan", 255, 585, 30f, Color.white));
+
+        // Special Thanks
+        gameComponents.add(new GameText("Special Thanks",0, 655, 30f, Color.white));
+        gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
+        gameComponents.add(new GameText("Gemini - Nano Banana Pro (Art)", 0, 705, 30f, Color.white));
+        gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
 
         // Back Button
-        gameComponents.add(new GameButton("Back to Main Menu", 24f, 360, 750, 250, 50, () -> {
+        gameComponents.add(new GameButton("Back to Main Menu", 24f, 0, 800, 250, 50, () -> {
             GameManager.Instance().setCurrentState(GameManager.MENU_STATE, 0);
         }));
+        gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 
     @Override
@@ -47,9 +54,9 @@ public class CreditsState extends GameState {
         g.setColor(Color.black);
         g.fillRect(0, 0, GameView.GAME_WIDTH, GameView.GAME_HEIGHT);
 
-        //Draw Bok
+        //Draw Box
         int boxWidth = 600;
-        int boxHeight = 480;
+        int boxHeight = 550;
         int x = (GameView.GAME_WIDTH - boxWidth) / 2;
         int y = (GameView.GAME_HEIGHT - boxHeight) / 2;
         g.setColor(Color.WHITE);

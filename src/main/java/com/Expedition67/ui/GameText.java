@@ -2,16 +2,16 @@ package com.Expedition67.ui;
 
 import com.Expedition67.core.GameView;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 public class GameText implements GameComponent {
 
     private String text;
     private int x;
     private int y;
+    private float size;
     private final Font font;
     private final Color color;
 
@@ -28,6 +28,7 @@ public class GameText implements GameComponent {
         this.text = text;
         this.x = x;
         this.y = y;
+        this.size = size;
         this.font = GameView.MAIN_FONT.deriveFont(size);
         this.color = color;
     }
@@ -47,6 +48,38 @@ public class GameText implements GameComponent {
     }
 
     // --- GameComponent Implementation ---
+
+    @Override
+    public void horizontallyCentering(int x, int w) {
+        // Create a dummy image to get a Graphics context
+        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = img.createGraphics();
+
+        // Setup Font
+        Font font = GameView.MAIN_FONT.deriveFont(size);
+        g2d.setFont(font);
+        FontMetrics fm = g2d.getFontMetrics();
+
+        this.x = x + (w - fm.stringWidth(text)) / 2;
+
+        g2d.dispose();
+    }
+
+    @Override
+    public void verticallyCentering(int y, int h) {
+        // Create a dummy image to get a Graphics context
+        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = img.createGraphics();
+
+        // Setup Font
+        Font font = GameView.MAIN_FONT.deriveFont(size);
+        g2d.setFont(font);
+        FontMetrics fm = g2d.getFontMetrics();
+
+        this.y = y + ((h - fm.getHeight()) / 2) + fm.getAscent();
+
+        g2d.dispose();
+    }
 
     @Override
     public void update() {

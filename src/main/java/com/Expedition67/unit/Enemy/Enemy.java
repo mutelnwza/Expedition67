@@ -31,6 +31,16 @@ public class Enemy extends Unit implements GameComponent {
     }
 
     @Override
+    public void horizontallyCentering(int x, int w) {
+        super.x = x + (w - width) / 2;
+    }
+
+    @Override
+    public void verticallyCentering(int y, int h) {
+        this.y = y + (h - height) / 2;
+    }
+
+    @Override
     public void render(Graphics g) {
         if (mouseOver) {
             renderTarget(g);

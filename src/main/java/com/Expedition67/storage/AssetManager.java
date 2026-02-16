@@ -40,19 +40,19 @@ public class AssetManager {
     }
 
     private void loadCard(){
-        cardDatabase.put("RemnantHit", load("/img/RemnantHit.png"));
-        cardDatabase.put("Celestial_Singularity", load("/img/Celestial_Singularity.png"));
-        cardDatabase.put("Echoing_Strike", load("/img/Echoing_Strike.png"));
-        cardDatabase.put("Eternal_Soul_Rebirth", load("/img/Eternal_Soul_Rebirth.png"));
-        cardDatabase.put("Ethereal Restoration", load("/img/Ethereal_Restoration.png"));
-        cardDatabase.put("Event_Horizon", load("/img/Event_Horizon.png"));
-        cardDatabase.put("Harmonic_Resonance", load("/img/Harmonic_Resonance.png"));
-        cardDatabase.put("SoulAegis", load("/img/SoulAegis.png"));
-        cardDatabase.put("SoulFlicker", load("/img/SoulFlicker.png"));
-        cardDatabase.put("Soul_Resonance", load("/img/Soul_Resonance.png"));
-        cardDatabase.put("Sovereigns_Overdrive", load("/img/Sovereigns_Overdrive.png"));
-        cardDatabase.put("Spectral_Veil", load("/img/Spectral_Veil .png"));
-        cardDatabase.put("Void_Dragon", load("/img/Void_Dragon.png"));
+        cardDatabase.put("Remnant Hit", loadCardImage("/images/cards/Remnant_Hit.png"));
+        cardDatabase.put("Celestial Singularity", loadCardImage("/images/cards/Celestial_Singularity.png"));
+        cardDatabase.put("Echoing Strike", loadCardImage("/images/cards/Echoing_Strike.png"));
+        cardDatabase.put("Eternal Soul Rebirth", loadCardImage("/images/cards/Eternal_Soul_Rebirth.png"));
+        cardDatabase.put("Ethereal Restoration", loadCardImage("/images/cards/Ethereal_Restoration.png"));
+        cardDatabase.put("Event Horizon", loadCardImage("/images/cards/Event_Horizon.png"));
+        cardDatabase.put("Harmonic Resonance", loadCardImage("/images/cards/Harmonic_Resonance.png"));
+        cardDatabase.put("Soul Aegis", loadCardImage("/images/cards/Soul_Aegis.png"));
+        cardDatabase.put("Soul Flicker", loadCardImage("/images/cards/Soul_Flicker.png"));
+        cardDatabase.put("Soul Resonance", loadCardImage("/images/cards/Soul_Resonance.png"));
+        cardDatabase.put("Sovereigns Overdrive", loadCardImage("/images/cards/Sovereigns_Overdrive.png"));
+        cardDatabase.put("Spectral Veil", loadCardImage("/images/cards/Spectral_Veil.png"));
+        cardDatabase.put("Void Dragon", loadCardImage("/images/cards/Void_Dragon.png"));
 
     }
 

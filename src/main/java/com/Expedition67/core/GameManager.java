@@ -103,7 +103,9 @@ public class GameManager {
         CombatManager.initNew();
         CardInventory.Instance().emptyInventory();
         // Temp
-        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard("Remnant Hit"), 5);
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard("Remnant Hit"), 1);
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard("Spectral Veil"), 1);
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard("Ethereal Restoration"), 1);
     }
 
     /**

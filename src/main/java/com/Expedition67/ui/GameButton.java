@@ -1,9 +1,6 @@
 package com.Expedition67.ui;
 
-import com.Expedition67.core.GameView;
-
 import java.awt.Color;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -12,6 +9,10 @@ public class GameButton implements GameComponent {
 
     private String label;
     private float labelSize;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
     private Rectangle bounds;
 
     // The visual text inside the button
@@ -35,8 +36,16 @@ public class GameButton implements GameComponent {
     public GameButton(String label, float labelSize, int x, int y, int width, int height, Runnable onClick) {
         this.label = label;
         this.labelSize = labelSize;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
         this.bounds = new Rectangle(x, y, width, height);
         this.onClick = onClick;
+
+        this.textComponent = new GameText(label, 0, 0, labelSize, Color.white);
+        this.textComponent.horizontallyCentering(x, width);
+        this.textComponent.verticallyCentering(y, height);
     }
 
     /**
@@ -46,25 +55,21 @@ public class GameButton implements GameComponent {
         this.onClick = onClick;
     }
 
-    /**
-     * Calculates the exact center for the text.
-     */
-    private void initTextComponent(Graphics g) {
-        g.setFont(GameView.MAIN_FONT.deriveFont(labelSize));
-        FontMetrics fm = g.getFontMetrics();
+    // --- GameComponent Implementation ---
 
-        int stringWidth = fm.stringWidth(label);
-
-        // Horizontal Center
-        int x = bounds.x + (bounds.width - stringWidth) / 2;
-
-        // Vertical Center
-        int y = bounds.y + ((bounds.height - fm.getHeight()) / 2) + fm.getAscent();
-
-        this.textComponent = new GameText(label, x, y, labelSize, Color.white);
+    @Override
+    public void horizontallyCentering(int x, int w) {
+        this.x = x + (w - width) / 2;
+        bounds.setLocation(this.x, y);
+        textComponent.horizontallyCentering(this.x, width);
     }
 
-    // --- GameComponent Implementation ---
+    @Override
+    public void verticallyCentering(int y, int h) {
+        this.y = y + (h - height) / 2;
+        bounds.setLocation(x, this.y);
+        textComponent.verticallyCentering(this.y, height);
+    }
 
     @Override
     public void update() {
@@ -84,10 +89,7 @@ public class GameButton implements GameComponent {
         g.setColor(Color.white);
         g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
 
-        // Draw Text (Initialize first if not)
-        if (textComponent == null) {
-            initTextComponent(g);
-        }
+        // Draw label
         textComponent.render(g);
     }
 
@@ -109,10 +111,5 @@ public class GameButton implements GameComponent {
     public boolean mouseMoved(MouseEvent e) {
         this.mouseOver = isInside(e.getX(), e.getY());
         return mouseOver;
-    }
-
-    public void setText(String string) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setText'");
     }
 }

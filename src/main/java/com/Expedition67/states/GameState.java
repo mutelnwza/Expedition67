@@ -1,6 +1,5 @@
 package com.Expedition67.states;
 
-import com.Expedition67.core.GameManager;
 import com.Expedition67.ui.GameComponent;
 
 import java.awt.Graphics;

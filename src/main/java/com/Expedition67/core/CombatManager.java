@@ -8,7 +8,6 @@ import com.Expedition67.unit.Enemy.Enemy;
 import com.Expedition67.unit.PlayerBrain;
 import com.Expedition67.unit.Unit;
 
-import java.awt.*;
 import java.util.List;
 
 public class CombatManager {
@@ -103,32 +102,7 @@ public class CombatManager {
     }
 
     public void update() {
-        if (!isCombatActive) {
-            return;
-        }
-
         checkWinCondition();
-
-        if (player != null) {
-            player.update();
-        }
-        for (Unit enemy : enemies) {
-            enemy.update();
-        }
-        deck.update();
-    }
-
-    public void render(Graphics g) {
-        if (player != null) {
-            player.render(g);
-        }
-        for (Unit enemy : enemies) {
-            enemy.render(g);
-        }
-        if (target != null) {
-            target.renderTarget(g);
-        }
-        deck.render(g);
     }
 
     private void checkWinCondition() {
@@ -154,7 +128,7 @@ public class CombatManager {
         }
     }
 
-    public Unit getTarget() {
+    public Enemy getTarget() {
         return target;
     }
 

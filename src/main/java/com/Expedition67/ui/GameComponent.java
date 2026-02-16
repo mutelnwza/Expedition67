@@ -4,6 +4,21 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
 public interface GameComponent {
+
+    /**
+     * Centering component horizontally in bound.
+     * @param x X of bound.
+     * @param w Width of bound.
+     */
+    void horizontallyCentering(int x, int w);
+
+    /**
+     * Centering component vertically in bound.
+     * @param y Y of bound.
+     * @param h Height of bound.
+     */
+    void verticallyCentering(int y, int h);
+
     /**
      * Updates the logic of the component.
      */

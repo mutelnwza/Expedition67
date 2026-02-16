@@ -1,7 +1,5 @@
 package com.Expedition67.unit;
 
-import com.Expedition67.storage.CardInventory;
-
 public class PlayerBrain extends UnitBrain{
 
     private int ap;

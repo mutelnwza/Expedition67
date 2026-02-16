@@ -3,6 +3,7 @@ package com.Expedition67.states;
 import com.Expedition67.core.GameManager;
 import com.Expedition67.core.GameView;
 import com.Expedition67.ui.GameButton;
+import com.Expedition67.ui.GameComponent;
 import com.Expedition67.ui.GameText;
 
 import java.awt.Color;
@@ -10,37 +11,35 @@ import java.awt.Graphics;
 
 public class MenuState extends GameState {
 
-    private GameText Title;
-
     public MenuState() {
         super();
     }
 
     @Override
     protected void loadComponents() {
-        // Button Dimensions and Layout
-        int w = 300;
-        int h = 50;
-        int x = (GameView.GAME_WIDTH / 2) - (w / 2); // Center horizontally
+        // Game Title
+        gameComponents.add(new GameText("EXPEDITION67", 0, 360, 150f, Color.white));
 
         // Start Game Button
-        gameComponents.add(new GameButton("START GAME", 24f, x, 400, w, h, () -> {
+        gameComponents.add(new GameButton("START GAME", 24f, 0, 470, 300, 50, () -> {
             GameManager.Instance().newGame();
             GameManager.Instance().setCurrentState(GameManager.COMBAT_STATE, CombatState.MONSTER_ROOM);
         }));
 
         // Credits Button
-        gameComponents.add(new GameButton("CREDITS", 24f, x, 470, w, h, () -> {
+        gameComponents.add(new GameButton("CREDITS", 24f, 0, 540, 300, 50, () -> {
             GameManager.Instance().setCurrentState(GameManager.CREDITS_STATE, 0);
         }));
 
         // Exit Buttons
-        gameComponents.add(new GameButton("EXIT GAME", 24f, x, 540, w, h, () -> {
+        gameComponents.add(new GameButton("EXIT GAME", 24f, 0, 610, 300, 50, () -> {
             System.exit(0);
         }));
 
-        Title = new GameText("EXPEDITION67", 150, 290, 150f, Color.white);
-        gameComponents.add(Title);
+        // Make all centered horizontally
+        for (GameComponent gc : gameComponents) {
+            gc.horizontallyCentering(0, GameView.GAME_WIDTH);
+        }
     }
 
     @Override

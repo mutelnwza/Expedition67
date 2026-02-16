@@ -12,7 +12,7 @@ public class VoidDragonAbility implements CardAbility {
 
     @Override
     public void apply(Unit target, Unit src) {
-        target.takeDamage(src, normalDamage);
+        target.takeDamage(normalDamage);
         
         // TODO: รอทำเงื่อนไขเช็คเลือด < 50% เพื่อทำดาเมจ boostDamage
         // TODO: รอทำระบบลบการ์ด Void 
