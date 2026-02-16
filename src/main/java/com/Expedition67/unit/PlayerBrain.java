@@ -15,6 +15,7 @@ public class PlayerBrain extends UnitBrain{
 
     @Override
     public void takeDamage(float amount) {
+        super.takeDamage(amount);
         
     }
 

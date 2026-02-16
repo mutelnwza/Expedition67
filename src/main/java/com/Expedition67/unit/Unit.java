@@ -30,7 +30,6 @@ public class Unit {
         this.height=h;
         this.unitBrain.setOwner(this);
         this.spriteRenderer = new SpriteRenderer();
-
         initHpText();
         initApText();
     }
@@ -68,7 +67,7 @@ public class Unit {
         if (unitStats.getHp() <= 0) return;
         unitBrain.update();
         animator.update();
-
+        
         hpText.setText(String.format("HP: %.2f/%.2f", unitStats.getHp(), unitStats.getMaxHp()));
         if (getBrain() instanceof PlayerBrain pb) {
             apText.setText(String.format("AP: %d", pb.getAP()));

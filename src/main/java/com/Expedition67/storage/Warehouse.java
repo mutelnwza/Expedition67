@@ -50,6 +50,7 @@ public class Warehouse {
                 new UnitStats(67, 1, 0), new LukchinBrain(),
                 UnitType.ENEMY, 0, 0, 200, 200));
         lukchin.getUnit().getAnimator().addAnimation("idle", 0, 5, 2);
+        lukchin.addActions("ATTACK", new DamageAbility(8));
         unitFactory.put("Lukchin", lukchin);
 
         /*VISION */
@@ -110,7 +111,9 @@ public class Warehouse {
 
         List<EnemyData> unitList = new ArrayList<>(unitFactory.values());
         Enemy randEnemy = (Enemy) unitList.get(randIndex).getUnit();
-        return randEnemy.copy(x, y);
+        Enemy clone = randEnemy.copy(x, y);
+        clone.getAnimator().play("idle");
+        return clone;
     }
 
     public Card spawnRandomCard() {
@@ -127,6 +130,7 @@ public class Warehouse {
         if (master != null) {
             return master.getAbility(actionName);
         }
+        System.out.println("NULL");
         return null;
     }
 }

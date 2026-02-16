@@ -10,6 +10,7 @@ public class DamageAbility implements CardAbility {
     @Override
     public void apply(Unit target){
         target.takeDamage(Damage);
+        System.out.println("DEAL DAMAGE TO "+target.getName()+" ="+Damage);
     }
 
     public void setDamage(int newDmg){

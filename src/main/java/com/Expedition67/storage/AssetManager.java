@@ -42,9 +42,9 @@ public class AssetManager {
         // use this -> spriteDatabase.put("name", load(path,w,h))
         spriteDatabase.put("Player", loadSpriteImage("/images/sprites/player.PNG", 2000, 2000));
         spriteDatabase.put("test", loadSpriteImage("/images/sprites/test.png",500,500));
-        spriteDatabase.put("CryingSlime", loadSpriteImage("/images/sprites/CryingSlime.png",500,500));
-        spriteDatabase.put("Lukchin", loadSpriteImage("/images/sprites/Lukchin.png",500,500));
-        spriteDatabase.put("Vision", loadSpriteImage("/images/sprites/Vision.png",500,500));
+        spriteDatabase.put("CryingSlime", loadSpriteImage("/images/sprites/test.png",500,500));
+        spriteDatabase.put("Lukchin", loadSpriteImage("/images/sprites/test.png",500,500));
+        spriteDatabase.put("Vision", loadSpriteImage("/images/sprites/test.png",500,500));
     }
 
     private void loadCard(){
@@ -91,7 +91,7 @@ public class AssetManager {
             return result;
         } catch (Exception e) {
             System.err.println("error loading " + path);
-            e.printStackTrace();
+            //e.printStackTrace();
             return null;
         }
     }

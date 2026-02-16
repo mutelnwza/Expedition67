@@ -1,11 +1,13 @@
 package com.Expedition67.unit.Enemy;
 
 import com.Expedition67.card.*;
+import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.UnitBrain;
 
 public abstract class EnemyBrain extends UnitBrain{
     protected CardAbility nextAction = null;
-
+    protected Unit target;
+    
     @Override
     protected void die() {
         System.out.println("im ded");
@@ -28,5 +30,9 @@ public abstract class EnemyBrain extends UnitBrain{
 // combat manager call this to get the next action then perform
     public CardAbility getNextAction(){
         return nextAction;
+    }
+
+    public Unit getTarget(){
+        return target;
     }
 }

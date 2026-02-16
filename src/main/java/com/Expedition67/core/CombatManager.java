@@ -19,7 +19,7 @@ public class CombatManager {
     private Enemy target;
     private Deck deck;
 
-    private boolean isPlayerTurn;
+    private boolean isPlayerTurn = false;
     private boolean isCombatActive;
 
     private int turnCount;
@@ -51,12 +51,16 @@ public class CombatManager {
             deck = new Deck();
         }
         deck.instantiate();
-        deck.addToHand();
+        // deck.addToHand();
 
         isCombatActive = true;
-        isPlayerTurn = true;
+        // isPlayerTurn = true;
 
-        player.getBrain().onTurnStarted();
+        // player.getBrain().onTurnStarted();
+        // for(Enemy e : enemies){
+        //     ((EnemyBrain)e.getBrain()).calculateNextMove();
+        // }
+        executeTurn();
     }
 
     public void executeTurn() {
@@ -69,8 +73,10 @@ public class CombatManager {
             isPlayerTurn = false;
 
             for (Unit enemy : enemies) {
-                enemy.getBrain().onTurnStarted();
-                enemy.getBrain().onTurnEnded();
+                EnemyBrain eb = (EnemyBrain) enemy.getBrain();
+                eb.onTurnStarted();
+                eb.getNextAction().apply(eb.getTarget());
+                eb.onTurnEnded();
             }
         }
 
@@ -84,6 +90,10 @@ public class CombatManager {
             cardUsedCount = 0;
             deck.addToHand();
             player.getBrain().onTurnStarted();
+
+            for(Enemy e : enemies){
+            ((EnemyBrain)e.getBrain()).calculateNextMove();
+        }
         }
     }
 

@@ -3,6 +3,7 @@ package com.Expedition67.unit.Enemy;
 import com.Expedition67.card.BuffAbility;
 import com.Expedition67.card.Card;
 import com.Expedition67.card.DamageAbility;
+import com.Expedition67.core.GameManager;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.UnitBrain;
 
@@ -19,6 +20,7 @@ public class VisionBrain extends EnemyBrain {
     @Override
     public void calculateNextMove() {
         nextAction = Warehouse.Instance().spawnAction(owner.getName(), "HEAL");
+        target = this.owner;
     }
 
     @Override
@@ -28,10 +30,14 @@ public class VisionBrain extends EnemyBrain {
                 dmgStack += d.getDamage();
                 counterAbility.setDamage(dmgStack);
                 nextAction = counterAbility;
+                target = GameManager.Instance().getPlayer();
             }
-            case BuffAbility b ->
+            case BuffAbility b -> {
                 nextAction = b;
+                target = this.owner;
+            }
             default -> {
+                calculateNextMove();
             }
         }
     }
@@ -46,5 +52,5 @@ public class VisionBrain extends EnemyBrain {
         super.onTurnEnded();
         dmgStack = 0;
         counterAbility.setDamage(0);
-}
+    }
 }
