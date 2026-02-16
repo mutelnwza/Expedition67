@@ -12,6 +12,9 @@ public class CardDropState extends GameState {
 
     public static final int MONSTER_DROP = 0;
     public static final int TREASURE_ROOM = 1;
+    private GameButton cardButton;
+    private GameText nowText;
+
 
     // Direct references for dynamic updates
     private GameText roomTimeText;
@@ -24,7 +27,7 @@ public class CardDropState extends GameState {
     @Override
     protected void loadComponents() {
         // Message Text
-        messageText = new GameText("Placeholder", 400, 95, 24f, Color.white);
+        messageText = new GameText("Placeholder", 200, 95, 50f, Color.white);
         gameComponents.add(messageText);
 
         // Info HUD
@@ -34,7 +37,7 @@ public class CardDropState extends GameState {
         // Next Room Button
         gameComponents.add(new GameButton("Go into the next room", 24f, 113, 715, 350, 50, () -> {
             // 15% chance to find a Treasure Room
-            if (Math.random() > 0.15) {
+            if (Math.random() > 1) {
                 GameManager.Instance().setCurrentState(GameManager.COMBAT_STATE, CombatState.MONSTER_ROOM);
             } else {
                 GameManager.Instance().setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.TREASURE_ROOM);
@@ -45,6 +48,12 @@ public class CardDropState extends GameState {
         gameComponents.add(new GameButton("Challenge the BOSS", 24f, 497, 715, 350, 50, () -> {
             GameManager.Instance().setCurrentState(GameManager.COMBAT_STATE, CombatState.FINAL_BOSS_ROOM);
         }));
+        // Card Button 
+        cardButton = new GameButton("Card", 30f, 360, 200, 250, 300, null);
+        gameComponents.add(cardButton);
+        // Now you gonna 
+        nowText = new GameText("Now you gonna...", 340, 650, 50f, Color.white); 
+        gameComponents.add(nowText);
     }
 
     @Override
@@ -52,13 +61,17 @@ public class CardDropState extends GameState {
         switch (id) {
             case MONSTER_DROP:
                 messageText.setText("Monster drop you...");
-                messageText.setX(400);
+                messageText.setX(300);
+                cardButton.setText("Card");
+                nowText.setText("Now you gonna...");
                 break;
             case TREASURE_ROOM:
                 // Enter a treasure room counts as a new room visit
                 GameManager.Instance().setRoom(GameManager.Instance().getRoom() + 1);
                 messageText.setText("Lucky! You found the Treasure Room. You got...");
-                messageText.setX(300);
+                messageText.setX(70);
+                cardButton.setText("Card");
+                nowText.setText("Now you gonna...");
                 break;
         }
     }
