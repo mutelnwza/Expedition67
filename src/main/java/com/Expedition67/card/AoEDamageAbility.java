@@ -10,7 +10,7 @@ public class AoEDamageAbility implements CardAbility {
 
     @Override
     public void apply(Unit target, Unit src) {
-        target.takeDamage(src, damage);
+        target.takeDamage(damage);
         // TODO: รอทำระบบ(AoE)
     }
 

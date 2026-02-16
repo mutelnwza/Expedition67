@@ -58,12 +58,8 @@ public abstract class UnitBrain {
         owner.getUnitStats().def+=amount;
     }
 
-    public void addCritRate(float amount) {
-        owner.getUnitStats().critRate+=amount;
-    }
-
-    public void addCritDmg(float amount) {
-        owner.getUnitStats().critDmg+=amount;
+    public void addCrit(float amount) {
+        owner.getUnitStats().crit+=amount;
     }
 
     protected void onTurnStarted() {
