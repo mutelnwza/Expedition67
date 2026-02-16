@@ -2,20 +2,20 @@ package com.Expedition67.card;
 import com.Expedition67.unit.Unit;
 
 public class BuffAbility implements CardAbility {
-    private int Damage;
+    private int amount;
 
-    public BuffAbility(int Damage){
-        this.Damage = Damage;
+    public BuffAbility(int amount){
+        this.amount = amount;
     }
     @Override
     public void apply(Unit target){
-        target.takeDamage(Damage);
+        
     }
 
-    public void setDamage(int newDmg){
-        this.Damage=newDmg;
+    public void setamount(int newDmg){
+        this.amount=newDmg;
     }
-    public int getDamage(){
-        return Damage;
+    public int getamount(){
+        return amount;
     }
 }
