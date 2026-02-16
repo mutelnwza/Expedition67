@@ -110,4 +110,9 @@ public class GameButton implements GameComponent {
         this.mouseOver = isInside(e.getX(), e.getY());
         return mouseOver;
     }
+
+    public void setText(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setText'");
+    }
 }

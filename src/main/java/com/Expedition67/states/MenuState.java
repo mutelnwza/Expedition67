@@ -3,11 +3,14 @@ package com.Expedition67.states;
 import com.Expedition67.core.GameManager;
 import com.Expedition67.core.GameView;
 import com.Expedition67.ui.GameButton;
+import com.Expedition67.ui.GameText;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 public class MenuState extends GameState {
+
+    private GameText Title;
 
     public MenuState() {
         super();
@@ -35,6 +38,9 @@ public class MenuState extends GameState {
         gameComponents.add(new GameButton("EXIT GAME", 24f, x, 540, w, h, () -> {
             System.exit(0);
         }));
+
+        Title = new GameText("EXPEDITION67", 150, 290, 150f, Color.white);
+        gameComponents.add(Title);
     }
 
     @Override
@@ -54,5 +60,7 @@ public class MenuState extends GameState {
 
         // Draw components
         super.render(g);
+
+
     }
 }

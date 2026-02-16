@@ -23,7 +23,7 @@ public abstract class GameState {
     /**
      * Abstract method for child states to add their specific buttons and text.
      */
-    protected abstract void loadComponents();
+    protected abstract void loadComponents(); 
 
     /**
      * Called when the game switches to this state.

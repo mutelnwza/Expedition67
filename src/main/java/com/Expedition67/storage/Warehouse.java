@@ -43,22 +43,22 @@ public class Warehouse {
     private void loadCard(){
 
         //Attack
-        cardFactory.put("Soul Flicker", new Card("Soul Flicker", 0, true, -1, new DamageAbility(2)));
-        cardFactory.put("Remnant Hit", new Card("Remnant Hit", 1, true, -1, new DamageAbility(6)));
-        cardFactory.put("Echoing Strike", new Card("Echoing Strike", 2, true, -1, new DamageAbility(14)));
-        cardFactory.put("Void Dragon", new Card("Void Dragon", 4, true, -1,new DamageAbility(30)));
+        cardFactory.put("Soul Flicker", new Card("Soul Flicker", 0, true, -1, new DamageAbility(6)));
+        cardFactory.put("Remnant Hit", new Card("Remnant Hit", 1, true, -1, new DamageAbility(12)));
+        cardFactory.put("Echoing Strike", new Card("Echoing Strike", 2, true, -1, new DamageAbility(30)));
+        cardFactory.put("Void Dragon", new Card("Void Dragon", 4, true, -1,new DamageAbility(45)));
 
 
         //Defense
-        cardFactory.put("Spectral Veil", new Card("Spectral Veil", 1, true, -1, new ShieldAbility(1,7)));
-        cardFactory.put("Soul Aegis", new Card("Soul Aegis", 2, true, -1, new ShieldAbility(1,12)));
-        cardFactory.put("Celestial Singularity", new Card("Celestial Singularity", 3, true, -1, new ShieldAbility(1,25)));
-        cardFactory.put("Event Horizon", new Card("Event Horizon", 4, true, -1, new ShieldAbility(1,50)));
+        cardFactory.put("Spectral Veil", new Card("Spectral Veil", 1, true, -1, new ShieldAbility(1,10)));
+        cardFactory.put("Soul Aegis", new Card("Soul Aegis", 2, true, -1, new ShieldHealAbility(20, 10)));
+        cardFactory.put("Celestial Singularity", new Card("Celestial Singularity", 3, true, -1, new ShieldAbility(1,35)));
+        cardFactory.put("Event Horizon", new Card("Event Horizon", 4, true, -1, new ShieldAbility(1,70)));
 
         //Buff
         // cardFactory.put("Soul Resonance", new Card("Soul Resonance", 1, true, -1, new BuffAbility(0.20f)));
         // cardFactory.put("Harmonic Resonance", new Card("Harmonic Resonance", 2, true, -1, new BuffAbility(0.40f)));
-        // cardFactory.put("Sovereign's Overdrive", new Card("Sovereign's Overdrive", 0, true, -1, new BuffAbility(1.0f)));
+        // cardFactory.put("Sovereign's Overdrive", new Card("Sovereign’s Overdrive", 0, false, 2, new OverdriveAbility(5, 1.0f)));
 
         //Heal
         cardFactory.put("Ethereal Restoration", new Card("Ethereal Restoration", 2, true, -1, new HealAbility(8)));

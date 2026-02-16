@@ -24,19 +24,19 @@ public class ResultState extends GameState {
     @Override
     protected void loadComponents() {
         // Result Header (Win/Lose)
-        resultHeader = new GameText("", 340, 450, 100f, Color.white);
+        resultHeader = new GameText("", 320, 460, 100f, Color.white); //340,450
         gameComponents.add(resultHeader);
 
         // Stats
-        roomsClearedText = new GameText("Room Cleared: 0", 440, 500, 24f, Color.white);
+        roomsClearedText = new GameText("Room Cleared: 0", 420, 510, 24f, Color.white); //440,500
         gameComponents.add(roomsClearedText);
 
-        finalTimeText = new GameText("Time: 00:00", 460, 530, 24f, Color.white);
+        finalTimeText = new GameText("Time: 00:00", 440, 540, 24f, Color.white); //460 , 530
         gameComponents.add(finalTimeText);
 
         // Back Button
-        gameComponents.add(new GameButton("Back to Main Menu", 24f, 380, 600, 250, 50, () -> {
-            GameManager.Instance().setCurrentState(GameManager.MENU_STATE, 0);
+        gameComponents.add(new GameButton("Back to Main Menu", 24f, 370, 610, 250, 50, () -> {
+            GameManager.Instance().setCurrentState(GameManager.MENU_STATE, 0); //380, 620
         }));
     }
 
@@ -67,6 +67,14 @@ public class ResultState extends GameState {
         // Draw Background
         g.setColor(Color.black);
         g.fillRect(0, 0, GameView.GAME_WIDTH, GameView.GAME_HEIGHT);
+
+
+        int boxWidth = 400;
+        int boxHeight = 200;
+        int x = (GameView.GAME_WIDTH - boxWidth) / 2;
+        int y = (GameView.GAME_HEIGHT - boxHeight) / 2;
+        g.setColor(Color.WHITE);
+        g.drawRect(x, y, boxWidth, boxHeight);
 
         // Draw components
         super.render(g);
