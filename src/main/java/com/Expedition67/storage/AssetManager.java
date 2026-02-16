@@ -18,8 +18,8 @@ public class AssetManager {
 
     // make it private to prevent other class from creating this
     private AssetManager() {
-        // loadSprite();
-        // loadCard();
+         loadSprite();
+         loadCard();
         gameFont = loadFont("/fonts/Jersey10-Regular.ttf");
     }
 
@@ -40,8 +40,11 @@ public class AssetManager {
         // hard code เอานะจ๊ะ
         // register all sprites with load method
         // use this -> spriteDatabase.put("name", load(path,w,h))
-        spriteDatabase.put("player", loadSpriteImage("/images/sprites/player.PNG", 2000, 2000));
+        spriteDatabase.put("Player", loadSpriteImage("/images/sprites/player.PNG", 2000, 2000));
         spriteDatabase.put("test", loadSpriteImage("/images/sprites/test.png",500,500));
+        spriteDatabase.put("CryingSlime", loadSpriteImage("/images/sprites/CryingSlime.png",500,500));
+        spriteDatabase.put("Lukchin", loadSpriteImage("/images/sprites/Lukchin.png",500,500));
+        spriteDatabase.put("Vision", loadSpriteImage("/images/sprites/Vision.png",500,500));
     }
 
     private void loadCard(){

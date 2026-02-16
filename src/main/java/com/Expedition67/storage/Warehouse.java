@@ -37,7 +37,7 @@ public class Warehouse {
 
     private void loadEnemy() {
         //* CRYING SLIME */
-        EnemyData cryingSlime = new EnemyData(new Unit("CryingSlime",
+        EnemyData cryingSlime = new EnemyData(new Enemy("CryingSlime",
                 new UnitStats(75, 1, 0), new CryingSlimeBrain(),
                 UnitType.ENEMY, 0, 0, 200, 200));
         cryingSlime.getUnit().getAnimator().addAnimation("idle", 0, 5, 2);
@@ -46,14 +46,14 @@ public class Warehouse {
         unitFactory.put("CryingSlime", cryingSlime);
         
         /* LUKCHIN */
-        EnemyData lukchin = new EnemyData(new Unit("Lukchin",
+        EnemyData lukchin = new EnemyData(new Enemy("Lukchin",
                 new UnitStats(67, 1, 0), new LukchinBrain(),
                 UnitType.ENEMY, 0, 0, 200, 200));
         lukchin.getUnit().getAnimator().addAnimation("idle", 0, 5, 2);
         unitFactory.put("Lukchin", lukchin);
 
         /*VISION */
-        EnemyData vision = new EnemyData(new Unit("Vision", new UnitStats(150, 1, 0),
+        EnemyData vision = new EnemyData(new Enemy("Vision", new UnitStats(150, 1, 0),
                 new VisionBrain(), UnitType.MINIBOSS, 0, 0, 200, 200));
         vision.getUnit().getAnimator().addAnimation("idle", 0, 5, 2);
         vision.addActions("HEAL", new HealAbility(10,18));

@@ -3,13 +3,14 @@ package com.Expedition67.storage;
 import java.util.HashMap;
 
 import com.Expedition67.card.CardAbility;
+import com.Expedition67.unit.Enemy.Enemy;
 import com.Expedition67.unit.Unit;
 
 public class EnemyData {
-    private Unit unit;
+    private Enemy unit;
     private HashMap<String, CardAbility> actions;
 
-    public EnemyData(Unit unit){
+    public EnemyData(Enemy unit){
         this.unit=unit;
         actions = new HashMap<>();
     }
@@ -21,7 +22,7 @@ public class EnemyData {
     public CardAbility getAbility(String name){
         return actions.get(name);
     }
-    public Unit getUnit(){
+    public Enemy getUnit(){
         return unit;
     }
 }
