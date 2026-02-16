@@ -5,9 +5,9 @@ import com.Expedition67.states.CardDropState;
 import com.Expedition67.states.ResultState;
 import com.Expedition67.unit.Deck;
 import com.Expedition67.unit.Enemy.Enemy;
+import com.Expedition67.unit.Enemy.EnemyBrain;
 import com.Expedition67.unit.PlayerBrain;
 import com.Expedition67.unit.Unit;
-
 import java.util.List;
 
 public class CombatManager {
@@ -56,7 +56,7 @@ public class CombatManager {
         isCombatActive = true;
         isPlayerTurn = true;
 
-        player.getBrain().startTurn();
+        player.getBrain().onTurnStarted();
     }
 
     public void executeTurn() {
@@ -65,12 +65,12 @@ public class CombatManager {
         }
 
         if (isPlayerTurn) {
-            player.getBrain().endTurn();
+            player.getBrain().onTurnEnded();
             isPlayerTurn = false;
 
             for (Unit enemy : enemies) {
-                enemy.getBrain().startTurn();
-                enemy.getBrain().endTurn();
+                enemy.getBrain().onTurnStarted();
+                enemy.getBrain().onTurnEnded();
             }
         }
 
@@ -83,7 +83,7 @@ public class CombatManager {
             turnCount++;
             cardUsedCount = 0;
             deck.addToHand();
-            player.getBrain().startTurn();
+            player.getBrain().onTurnStarted();
         }
     }
 
@@ -94,7 +94,13 @@ public class CombatManager {
         if (card == null || target == null || pb.getAP() < card.getAP()) {
             return;
         }
-        card.getAbility().apply(target);
+        card.getAbility().apply(target, player);
+        
+        for(Enemy e : enemies){
+            EnemyBrain eb =  (EnemyBrain)e.getBrain();
+            eb.onPlayerUseCard(card);
+        }
+
         pb.onUseCard(card.getAP());
         deck.useCard(card);
 

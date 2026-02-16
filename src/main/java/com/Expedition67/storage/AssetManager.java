@@ -18,8 +18,8 @@ public class AssetManager {
 
     // make it private to prevent other class from creating this
     private AssetManager() {
-        loadSprite();
-        loadCard();
+        // loadSprite();
+        // loadCard();
         gameFont = loadFont("/fonts/Jersey10-Regular.ttf");
     }
 
@@ -29,6 +29,11 @@ public class AssetManager {
             instance = new AssetManager();
         }
         return instance;
+    }
+
+    public void invoke(){
+        loadSprite();
+        loadCard();
     }
 
     private void loadSprite() {
@@ -63,6 +68,7 @@ public class AssetManager {
         }
         catch(Exception e){
             System.err.println("error loading "+path);
+            e.printStackTrace();
             return null;
         }
     }
@@ -82,6 +88,7 @@ public class AssetManager {
             return result;
         } catch (Exception e) {
             System.err.println("error loading " + path);
+            e.printStackTrace();
             return null;
         }
     }

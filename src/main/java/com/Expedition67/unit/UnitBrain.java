@@ -41,10 +41,6 @@ public abstract class UnitBrain {
 
     protected abstract void die();
 
-    public abstract void startTurn();
-
-    public abstract void endTurn();
-
     public abstract UnitBrain copy();
 
     public void applyCard(CardAbility ca, Unit src){
@@ -62,19 +58,15 @@ public abstract class UnitBrain {
         owner.getUnitStats().def+=amount;
     }
 
-    public void addCritRate(float amount) {
-        owner.getUnitStats().critRate+=amount;
+    public void addCrit(float amount) {
+        owner.getUnitStats().crit+=amount;
     }
 
-    public void addCritDmg(float amount) {
-        owner.getUnitStats().critDmg+=amount;
+    public void onTurnStarted() {
+        owner.getUnitStats().def = 0;
     }
 
-    protected void onTurnStarted() {
-
-    }
-
-    protected void onTurnEnded() {
+    public void onTurnEnded() {
         for (buffTracker bf : currentBuff) {
             bf.turnLeft--;
             if (bf.rb.isTickable()) {

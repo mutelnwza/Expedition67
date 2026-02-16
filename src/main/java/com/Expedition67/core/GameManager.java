@@ -3,8 +3,8 @@ package com.Expedition67.core;
 import com.Expedition67.states.*;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.storage.Warehouse;
+import com.Expedition67.unit.PlayerBrain;
 import com.Expedition67.unit.Unit;
-
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -31,6 +31,7 @@ public class GameManager {
     private int room;
 
     private Unit player;
+    private PlayerBrain playerBrain;
 
     /**
      * Constructor: Initializes the game states and sets the starting state.
@@ -158,6 +159,10 @@ public class GameManager {
 
     public Unit getPlayer() {
         return player;
+    }
+
+    public PlayerBrain getPlayerBrain(){
+        return playerBrain;
     }
 
     public int getRoom() {

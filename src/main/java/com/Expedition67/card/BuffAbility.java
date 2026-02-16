@@ -2,20 +2,25 @@ package com.Expedition67.card;
 import com.Expedition67.unit.Unit;
 
 public class BuffAbility implements CardAbility {
-    private float critRate;
+    private int amount;
 
-    public BuffAbility(float critRate){
-        this.critRate = critRate;
+    public BuffAbility(int amount){
+        this.amount = amount;
     }
-    
     @Override
     public void apply(Unit src, Unit target){
-        target.getBrain().addCritRate(critRate);
+        //target.getBrain().addCrit(crit);
+    }
+
+    public void setamount(int newDmg){
+        this.amount=newDmg;
+    }
+    public int getamount(){
+        return amount;
     }
 
     @Override
     public void apply(Unit target) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'apply'");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 }

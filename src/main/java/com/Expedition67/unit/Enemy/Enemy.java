@@ -5,22 +5,22 @@ import com.Expedition67.ui.GameComponent;
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.UnitBrain;
 import com.Expedition67.unit.UnitStats;
-
+import com.Expedition67.unit.UnitType;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class Enemy extends Unit implements GameComponent {
     private boolean mouseOver;
 
-    public Enemy(String name, UnitStats unitStats, UnitBrain unitBrain, int x, int y, int w, int h) {
-        super(name, unitStats, unitBrain, x, y, w, h);
+    public Enemy(String name, UnitStats unitStats, UnitBrain unitBrain,UnitType unitType, int x, int y, int w, int h) {
+        super(name, unitStats, unitBrain, unitType, x, y, w, h);
     }
 
     @Override
     public Enemy copy(int x, int y) {
         UnitStats stats = this.getUnitStats().copy();
         UnitBrain brain = this.getBrain().copy();
-        Enemy clone = new Enemy(this.getName(), stats, brain, x, y, this.getWidth(), this.getHeight());
+        Enemy clone = new Enemy(this.getName(), stats, brain, unitType,x, y, this.getWidth(), this.getHeight());
         clone.getAnimator().copy(this.getAnimator());
         return clone;
     }

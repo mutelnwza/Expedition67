@@ -8,7 +8,7 @@ public class PlayerBrain extends UnitBrain{
     }
 
     public void onUseCard(int ap){
-        this.ap-=ap;
+        this.ap -= ap;
     }
 
     @Override
@@ -17,13 +17,9 @@ public class PlayerBrain extends UnitBrain{
     }
 
     @Override
-    public void startTurn() {
-        ap = 4;
-        onTurnStarted();
-    }
-
-    @Override
-    public void endTurn() {
+    public void onTurnEnded() {
+        super.onTurnEnded();
+        this.ap = 4;
     }
 
     @Override

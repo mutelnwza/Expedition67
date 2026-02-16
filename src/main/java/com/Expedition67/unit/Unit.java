@@ -3,7 +3,6 @@ package com.Expedition67.unit;
 import com.Expedition67.core.SpriteRenderer;
 import com.Expedition67.model.Animator;
 import com.Expedition67.ui.GameText;
-
 import java.awt.*;
 
 public class Unit {
@@ -14,15 +13,16 @@ public class Unit {
     protected final UnitBrain unitBrain;
     protected final Animator animator;
     protected final SpriteRenderer spriteRenderer;
+    protected final UnitType unitType;
 
     protected GameText hpText;
     protected GameText apText;
-
-    //each unit will be created once in a warehouse
-    public Unit (String name, UnitStats unitStats, UnitBrain unitBrain, int x, int y, int w, int h){
+    //each unit will be create once in a warehouse
+    public Unit (String name, UnitStats unitStats, UnitBrain unitBrain, UnitType unitType, int x, int y, int w, int h){
         this.name = name;
         this.unitBrain = unitBrain;
         this.unitStats = unitStats;
+        this.unitType = unitType;
         this.animator = new Animator();
         this.x=x;
         this.y=y;
@@ -53,11 +53,11 @@ public class Unit {
     public Unit copy(int x, int y){
         UnitStats stats = this.unitStats.copy();
         UnitBrain brain = this.unitBrain.copy();
-        Unit clone = new Unit(this.name, stats, brain, x, y, this.width, this.height);
+        Unit clone = new Unit(this.name, stats, brain,unitType, x, y, this.width, this.height);
         clone.getAnimator().copy(this.animator);
         return clone;
     }
-
+        
     public void takeDamage(float amount){
         unitBrain.takeDamage(amount);
     }
@@ -65,6 +65,7 @@ public class Unit {
     // --- GameComponent Implementation ---
 
     public void update() {
+        if (unitStats.getHp() <= 0) return;
         unitBrain.update();
         animator.update();
 

@@ -11,4 +11,11 @@ public class DamageAbility implements CardAbility {
     public void apply(Unit target){
         target.takeDamage(Damage);
     }
+
+    public void setDamage(int newDmg){
+        this.Damage=newDmg;
+    }
+    public int getDamage(){
+        return Damage;
+    }
 }
