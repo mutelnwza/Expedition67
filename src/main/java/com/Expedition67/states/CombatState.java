@@ -1,12 +1,20 @@
 package com.Expedition67.states;
 
+import com.Expedition67.core.CombatManager;
 import com.Expedition67.core.GameManager;
 import com.Expedition67.core.GameView;
+import com.Expedition67.storage.Warehouse;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
+import com.Expedition67.unit.Deck;
+import com.Expedition67.unit.Enemy.Enemy;
+import com.Expedition67.unit.Unit;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class CombatState extends GameState {
 
@@ -14,9 +22,13 @@ public class CombatState extends GameState {
     public static final int FINAL_BOSS_ROOM = 1;
 
     // Direct references for dynamic updates
-    private GameText roomTimeText;
-    private GameText enemyTypeText; // Temp
-    private GameButton winButton; // Temp
+    private GameText roomTimeTurnText;
+    private GameText cardInfoText;
+
+    private List<Enemy> enemies;
+    private Deck deck;
+
+
 
     public CombatState() {
         super();
@@ -25,21 +37,36 @@ public class CombatState extends GameState {
     @Override
     protected void loadComponents() {
         // Info text
-        roomTimeText = new GameText("Room: 0  Time: 00:00", 400, 740, 24f, Color.white);
-        gameComponents.add(roomTimeText);
+        roomTimeTurnText = new GameText("Room: 0  Time: 00:00  Turn: 0", 0, 740, 24f, Color.white);
+        gameComponents.add(roomTimeTurnText);
 
-        // Win Button (Temp)
-        winButton = new GameButton("Win", 24f, 800, 700, 100, 100, null);
-        gameComponents.add(winButton);
-
-        // Lose Button (Temp)
-        gameComponents.add(new GameButton("Lose", 24f, 800, 820, 100, 100, () -> {
+        // Lose (Temp)
+        gameComponents.add(new GameButton("Lose", 24f, 50, 650, 100, 50, () -> {
             GameManager.Instance().setCurrentState(GameManager.RESULT_STATE, ResultState.LOSE);
         }));
 
-        // Enemy Type (Temp)
-        enemyTypeText = new GameText("Monster", 270, 470, 150f, Color.white);
-        gameComponents.add(enemyTypeText);
+        // Win (Temp)
+        gameComponents.add(new GameButton("Win", 24f, 50, 710, 100, 50, () -> {
+            GameManager.Instance().setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.MONSTER_DROP);
+        }));
+
+        // Card Info
+        gameComponents.add(new GameButton("Card Name :" , 24f, 180, 770, 590, 110, null));
+
+        // Reshuffle
+        gameComponents.add(new GameButton("Reshuffle" , 24f, 50, 770, 100, 50, () -> {
+            deck.reshuffle();
+        }));
+
+        // End Turn
+        gameComponents.add(new GameButton("End Turn" , 24f, 50, 830, 100, 50, () -> {
+            CombatManager.Instance().executeTurn();
+        }));
+
+        // Use Card
+        gameComponents.add(new GameButton("Use Card", 24f, 800, 770, 100, 110, () -> {
+            CombatManager.Instance().onPlayerUseCard(deck.getSelectedCard(), CombatManager.Instance().getTarget());
+        }));
     }
 
     @Override
@@ -47,36 +74,40 @@ public class CombatState extends GameState {
         // Increment room count
         GameManager.Instance().setRoom(GameManager.Instance().getRoom() + 1);
 
-        // Configure components based on the room type
-        switch (id) {
-            case MONSTER_ROOM:
-                // Temp
-                enemyTypeText.setText("Monster");
-                enemyTypeText.setX(270);
-                winButton.setOnClick(() -> {
-                    GameManager.Instance().setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.MONSTER_DROP);
-                });
-                break;
-
-            case FINAL_BOSS_ROOM:
-                // Temp
-                enemyTypeText.setText("Final Boss");
-                enemyTypeText.setX(230);
-                winButton.setOnClick(() -> {
-                    GameManager.Instance().setCurrentState(GameManager.RESULT_STATE, ResultState.WIN);
-                });
-                break;
+        // Create an enemy based on the room type
+        enemies = new ArrayList<>();
+        if (id == FINAL_BOSS_ROOM) {
+            enemies.add(Warehouse.Instance().spawnRandomEnemy(550, 460));
+        } else {
+            Random rand = new Random();
+            int enemiesAmount = rand.nextInt(1, 4);
+            for (int i = 0; i < enemiesAmount; i++) {
+                enemies.add(Warehouse.Instance().spawnRandomEnemy((i * 120) + 550, 460));
+            }
         }
+
+        CombatManager.Instance().startCombat(enemies);
+        deck = CombatManager.Instance().getDeck();
     }
 
     @Override
     public void exit() {
+        enemies.clear();
     }
 
     @Override
     public void update() {
         // Update the HUD with current room and time
-        roomTimeText.setText(String.format("Room: %d  Time: %s", GameManager.Instance().getRoom(), GameManager.Instance().getTimeString()));
+        roomTimeTurnText.setText(String.format("Room: %d  Time: %s  Turn: %d", GameManager.Instance().getRoom(), GameManager.Instance().getTimeString(), CombatManager.Instance().getTurnCount()));
+        roomTimeTurnText.horizontallyCentering(0, GameView.GAME_WIDTH);
+
+        CombatManager.Instance().update();
+        GameManager.Instance().getPlayer().update();
+        for (Enemy enemy : enemies) {
+            enemy.update();
+        }
+        deck.update();
+
         super.update();
     }
 
@@ -86,7 +117,43 @@ public class CombatState extends GameState {
         g.setColor(Color.black);
         g.fillRect(0, 0, GameView.GAME_WIDTH, GameView.GAME_HEIGHT);
 
+        GameManager.Instance().getPlayer().render(g);
+        for (Unit enemy : enemies) {
+            enemy.render(g);
+        }
+        if (CombatManager.Instance().getTarget() != null) {
+            CombatManager.Instance().getTarget().renderTarget(g);
+        }
+
+        deck.render(g);
+
         // Draw components
         super.render(g);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        for (Enemy enemy : enemies) {
+            if (enemy.mouseClicked(e)) {
+                break;
+            }
+        }
+
+        deck.mouseClicked(e);
+
+        super.mouseClicked(e);
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        for (Enemy enemy : enemies) {
+            if (enemy.mouseMoved(e)) {
+                break;
+            }
+        }
+
+        deck.mouseMoved(e);
+
+        super.mouseMoved(e);
     }
 }

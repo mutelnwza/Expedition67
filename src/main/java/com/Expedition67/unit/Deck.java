@@ -1,75 +1,183 @@
 package com.Expedition67.unit;
 
 import com.Expedition67.card.Card;
+import com.Expedition67.core.GameView;
+import com.Expedition67.storage.AssetManager;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.GameComponent;
-import java.awt.Graphics;
+
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 
-public class Deck implements GameComponent{
+public class Deck implements GameComponent {
     private Stack<Card> drawPile;
     private ArrayList<Card> discardPile;
     private ArrayList<Card> hand;
 
-    public Deck(){
-        instantiate();
+    private int selectedCard = -1;
+    private int mouseOver = -1;
+
+    private int[][] handPos;
+
+    private final int CARD_Y = 80;
+    private final int CARD_WIDTH = 200;
+    private final int CARD_HEIGHT = 200;
+    private final int CARD_SPACING = -30;
+
+    public Deck() {
     }
 
-    private void instantiate(){
+    public void instantiate() {
         drawPile = new Stack<>();
         discardPile = new ArrayList<>();
         hand = new ArrayList<>();
-        
-        for(Card c : CardInventory.Instance().getCardInventory()){
-            drawPile.add(new Card(c));
+
+        for (Card c : CardInventory.Instance().getCardInventory()) {
+            drawPile.add(c.copy());
         }
-        shuffle(drawPile);
-        
+
+        shuffle();
+        horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 
-    private void shuffle(Stack<Card> cards){
-        Collections.shuffle(cards);
+    public void shuffle() {
+        Collections.shuffle(drawPile);
     }
 
-    public void addToHand(){
-        for(int i=0; i<5; i++){
-            hand.add(drawPile.removeLast());
-            if(drawPile.isEmpty()) addToDraw();
+    public void reshuffle() {
+        drawPile.addAll(hand);
+        drawPile.addAll(discardPile);
+
+        hand.clear();
+        discardPile.clear();
+
+        shuffle();
+
+        selectedCard = -1;
+        mouseOver = -1;
+
+        addToHand();
+    }
+
+    public void addToHand() {
+        while (hand.size() < 5) {
+            if (drawPile.isEmpty()) {
+                if (discardPile.isEmpty()) {
+                    break;
+                }
+                recycleDiscardPile();
+            }
+            hand.add(drawPile.pop());
+        }
+        horizontallyCentering(0, GameView.GAME_WIDTH);
+    }
+
+    public void recycleDiscardPile() {
+        drawPile.addAll(discardPile);
+        discardPile.clear();
+        shuffle();
+    }
+
+    public void discardHand() {
+        discardPile.addAll(hand);
+        hand.clear();
+        selectedCard = -1;
+        horizontallyCentering(0, GameView.GAME_WIDTH);
+    }
+
+    public void useCard(Card card) {
+        if (hand.contains(card)) {
+            hand.remove(card);
+            discardPile.add(card);
+            selectedCard = -1;
+            horizontallyCentering(0, GameView.GAME_WIDTH);
         }
     }
 
-    public void addToDraw(){
-        while(!discardPile.isEmpty()){
-            drawPile.add(discardPile.removeLast());
+    @Override
+    public void horizontallyCentering(int x, int w) {
+        int cardAmount = hand.size();
+        handPos = new int[cardAmount][2];
+
+        if (cardAmount == 0) return;
+
+        int totalWidth = (cardAmount * CARD_WIDTH) + ((cardAmount - 1) * CARD_SPACING);
+        int startX = x + (w - totalWidth) / 2;
+        for (int i = 0; i < cardAmount; i++) {
+            handPos[i][0] = startX + (i * (CARD_WIDTH + CARD_SPACING));
+            handPos[i][1] = CARD_Y;
         }
-        shuffle(drawPile);
+    }
+
+    @Override
+    public void verticallyCentering(int y, int h) {
     }
 
     @Override
     public void update() {
-        
     }
 
     @Override
     public void render(Graphics g) {
-        
+        for (int i = 0; i < hand.size(); i++) {
+            Card card = hand.get(i);
+            g.drawImage(AssetManager.Instance().getCard(card.getName()), handPos[i][0], handPos[i][1], CARD_WIDTH, CARD_HEIGHT, null);
+            if (i == selectedCard || i == mouseOver) {
+                renderSelected(g, i);
+            }
+        }
+    }
+
+    private void renderSelected(Graphics g, int handCardIndex) {
+        Graphics2D g2 = (Graphics2D) g;
+        Stroke oldStroke = g2.getStroke();
+
+        g2.setColor(Color.YELLOW);
+        g2.setStroke(new BasicStroke(3));
+
+        g2.drawRect(handPos[handCardIndex][0], handPos[handCardIndex][1], CARD_WIDTH, CARD_HEIGHT);
+
+        g2.setStroke(oldStroke);
     }
 
     @Override
     public boolean isInside(int x, int y) {
-        return true;
+        return false;
+    }
+
+    public boolean isInside(int x, int y, int handCardIndex) {
+        return (x >= handPos[handCardIndex][0] && x <= handPos[handCardIndex][0] + CARD_WIDTH
+                && y >= handPos[handCardIndex][1] && y <= handPos[handCardIndex][1] + CARD_HEIGHT);
     }
 
     @Override
     public boolean mouseClicked(MouseEvent e) {
-        return true;
+        for (int i = 0; i < hand.size(); i++) {
+            if (isInside(e.getX(), e.getY(), i)) {
+                selectedCard = i;
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean mouseMoved(MouseEvent e) {
-        return true;
+        for (int i = 0; i < hand.size(); i++) {
+            if (isInside(e.getX(), e.getY(), i)) {
+                mouseOver = i;
+                return true;
+            }
+        }
+        mouseOver = -1;
+        return false;
+    }
+
+    public Card getSelectedCard() {
+        if (selectedCard == -1) return null;
+        return hand.get(selectedCard);
     }
 }

@@ -24,20 +24,21 @@ public class ResultState extends GameState {
     @Override
     protected void loadComponents() {
         // Result Header (Win/Lose)
-        resultHeader = new GameText("", 340, 450, 100f, Color.white);
+        resultHeader = new GameText("Placeholder", 0, 470, 100f, Color.white);
         gameComponents.add(resultHeader);
 
         // Stats
-        roomsClearedText = new GameText("Room Cleared: 0", 440, 500, 24f, Color.white);
+        roomsClearedText = new GameText("Room Cleared: 0", 0, 520, 24f, Color.white);
         gameComponents.add(roomsClearedText);
 
-        finalTimeText = new GameText("Time: 00:00", 460, 530, 24f, Color.white);
+        finalTimeText = new GameText("Time: 00:00", 0, 550, 24f, Color.white);
         gameComponents.add(finalTimeText);
 
         // Back Button
-        gameComponents.add(new GameButton("Back to Main Menu", 24f, 380, 600, 250, 50, () -> {
+        gameComponents.add(new GameButton("Back to Main Menu", 24f, 0, 610, 250, 50, () -> {
             GameManager.Instance().setCurrentState(GameManager.MENU_STATE, 0);
         }));
+        gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 
     @Override
@@ -49,12 +50,16 @@ public class ResultState extends GameState {
         if (id == WIN) {
             resultHeader.setText("You Won!");
         } else {
+            GameManager.Instance().setRoom(GameManager.Instance().getRoom() - 1);
             resultHeader.setText("You Lost!");
         }
+        resultHeader.horizontallyCentering(0, GameView.GAME_WIDTH);
 
         // Set Stats
         roomsClearedText.setText(String.format("Room Cleared: %d", GameManager.Instance().getRoom()));
+        roomsClearedText.horizontallyCentering(0, GameView.GAME_WIDTH);
         finalTimeText.setText(String.format("Time: %s", GameManager.Instance().getTimeString()));
+        finalTimeText.horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 
     @Override
@@ -66,6 +71,14 @@ public class ResultState extends GameState {
         // Draw Background
         g.setColor(Color.black);
         g.fillRect(0, 0, GameView.GAME_WIDTH, GameView.GAME_HEIGHT);
+
+        // Draw Box
+        int boxWidth = 400;
+        int boxHeight = 200;
+        int x = (GameView.GAME_WIDTH - boxWidth) / 2;
+        int y = (GameView.GAME_HEIGHT - boxHeight) / 2;
+        g.setColor(Color.WHITE);
+        g.drawRect(x, y, boxWidth, boxHeight);
 
         // Draw components
         super.render(g);

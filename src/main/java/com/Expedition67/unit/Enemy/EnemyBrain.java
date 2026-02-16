@@ -12,7 +12,7 @@ public class EnemyBrain extends UnitBrain{
 
     @Override
     public void startTurn() {
-        
+        onTurnStarted();
     }
 
     @Override

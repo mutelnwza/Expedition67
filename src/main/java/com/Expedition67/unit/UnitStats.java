@@ -18,6 +18,10 @@ public class UnitStats {
         return this.hp;
     }
 
+    public float getMaxHp() {
+        return this.maxHp;
+    }
+
     public UnitStats copy() {
         return new UnitStats(maxHp, str, critDmg, critRate, def);
     }
