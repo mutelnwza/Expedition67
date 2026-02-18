@@ -1,22 +1,10 @@
 package com.Expedition67.card;
 import com.Expedition67.unit.Unit;
 
-public class BuffAbility implements CardAbility {
-    private int amount;
+public class BuffAbility extends CardAbility {
 
-    public BuffAbility(int amount){
-        this.amount = amount;
-    }
-    @Override
-    public void apply(Unit src, Unit target){
-        //target.getBrain().addCrit(crit);
-    }
-
-    public void setamount(int newDmg){
-        this.amount=newDmg;
-    }
-    public int getamount(){
-        return amount;
+    public BuffAbility(int value, CardType cardType) {
+        super(value, cardType);
     }
 
     @Override

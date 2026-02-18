@@ -1,11 +1,9 @@
 package com.Expedition67.card;
 import com.Expedition67.unit.Unit;
 
-public class SoulResonanceAbility implements CardAbility {
-    private int damageBuff;
-
-    public SoulResonanceAbility(int damageBuff) {
-        this.damageBuff = damageBuff;
+public class SoulResonanceAbility extends CardAbility {
+    public SoulResonanceAbility(CardType cardType) {
+        super(cardType);
     }
 
     @Override

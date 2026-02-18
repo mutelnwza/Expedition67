@@ -1,23 +1,24 @@
 package com.Expedition67.card;
 import com.Expedition67.unit.Unit;
 
-public class HealAbility implements CardAbility {
+public class HealAbility extends CardAbility {
     private int minHeal;
     private int maxHeal;
 
-    public HealAbility(int heal){
-        this.maxHeal = heal;
+    public HealAbility(int value, CardType cardType) {
+        super(value, cardType);
     }
 
-    public HealAbility(int minH, int maxH){
+    public HealAbility(int minH, int maxH, CardType cardType){
+        super(maxH, cardType);
         this.minHeal = minH;
         this.maxHeal = maxH;
     }
     @Override
     public void apply(Unit target){
-        int healAmount = maxHeal;
+        int healAmount = value;
 
-        if(minHeal > 0){
+        if(minHeal > 0 && maxHeal > 0){
             healAmount = minHeal + (int)(Math.random() * ((maxHeal - minHeal) + 1));
         }
 

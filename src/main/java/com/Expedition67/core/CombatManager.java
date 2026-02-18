@@ -104,7 +104,8 @@ public class CombatManager {
         if (card == null || target == null || pb.getAP() < card.getAP()) {
             return;
         }
-        card.getAbility().apply(target, player);
+        card.use(pb, target);
+        //card.getAbility().apply(target, player);
         
         for(Enemy e : enemies){
             EnemyBrain eb =  (EnemyBrain)e.getBrain();

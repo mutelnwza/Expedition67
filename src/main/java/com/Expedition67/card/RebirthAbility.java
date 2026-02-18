@@ -1,12 +1,13 @@
 package com.Expedition67.card;
 import com.Expedition67.unit.Unit;
 
-public class RebirthAbility implements CardAbility {
+public class RebirthAbility extends CardAbility {
     private int healAmount;
     private int normalShield;
     private int boostShield;
 
-    public RebirthAbility(int healAmount, int normalShield, int boostShield) {
+    public RebirthAbility(int healAmount, int normalShield, int boostShield, CardType cardType) {
+        super(cardType);
         this.healAmount = healAmount;
         this.normalShield = normalShield;
         this.boostShield = boostShield;
