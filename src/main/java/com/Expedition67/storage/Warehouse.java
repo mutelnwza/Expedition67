@@ -32,6 +32,9 @@ public class Warehouse {
     private HashMap<String, EnemyData> unitFactory = new HashMap<>();
     private HashMap<String, Card> cardFactory = new HashMap<>();
 
+    private List<EnemyData> normalEnemies;
+    private List<EnemyData> minibosses;
+
     private Warehouse() {
         loadPlayer();
         loadEnemy();
@@ -111,35 +114,38 @@ public class Warehouse {
         bigBadBoss.addActions("ATTACK1", new VoidAttackAbility(15,CardAbility.CardType.ATK));
         bigBadBoss.addActions("ATTACK2", new MultiAttackAbility(4,CardAbility.CardType.ATK,6));
         bigBadBoss.addActions("ATTACK3", new StackAttackAbility(10,2,CardAbility.CardType.ATK));
-        sonAndDad.addActions("DEFENSE", new ShieldAbility(8,19, CardAbility.CardType.DEF));
+        bigBadBoss.addActions("DEFENSE", new ShieldAbility(8,19, CardAbility.CardType.DEF));
         bigBadBoss.addActions("LOCK", new LockCardAbility(1,2,CardAbility.CardType.DEBUFF));
         bigBadBoss.addActions("MIMIC", new MimicAbility(CardAbility.CardType.ATK));
+
+        normalEnemies = unitFactory.values().stream().filter(u->u.getUnit().getType()==UnitType.ENEMY).toList();
+        minibosses = unitFactory.values().stream().filter(u->u.getUnit().getType()==UnitType.MINIBOSS).toList();
     }
 
     private void loadCard() {
         //void
-        cardFactory.put("VOID", new Card("VOID",1,true,-1,new VoidCard(CardAbility.CardType.VOID)));
+        cardFactory.put("VOID", new Card("VOID",1,true,-1,new VoidCard(CardAbility.CardType.VOID),Card.CardTier.DEBUFF));
         //Attack
-        cardFactory.put("Soul Flicker", new Card("Soul Flicker", 0, true, -1, new DamageAbility(6, CardAbility.CardType.ATK)));
-        cardFactory.put("Remnant Hit", new Card("Remnant Hit", 1, true, -1, new DamageAbility(12, CardAbility.CardType.ATK)));
-        cardFactory.put("Echoing Strike", new Card("Echoing Strike", 2, true, -1, new DamageAbility(30, CardAbility.CardType.ATK)));
-        cardFactory.put("Void Dragon", new Card("Void Dragon", 4, true, -1, new DamageAbility(45, CardAbility.CardType.ATK)));
+        cardFactory.put("Soul Flicker", new Card("Soul Flicker", 0, true, -1, new DamageAbility(6, CardAbility.CardType.ATK),Card.CardTier.NORMAL));
+        cardFactory.put("Remnant Hit", new Card("Remnant Hit", 1, true, -1, new DamageAbility(12, CardAbility.CardType.ATK),Card.CardTier.NORMAL));
+        cardFactory.put("Echoing Strike", new Card("Echoing Strike", 2, true, -1, new DamageAbility(30, CardAbility.CardType.ATK),Card.CardTier.RARE));
+        cardFactory.put("Void Dragon", new Card("Void Dragon", 4, true, -1, new DamageAbility(45, CardAbility.CardType.ATK),Card.CardTier.RARE));
 
 
         //Defense
-        cardFactory.put("Spectral Veil", new Card("Spectral Veil", 1, true, -1, new ShieldAbility(10,CardAbility.CardType.DEF)));
+        cardFactory.put("Spectral Veil", new Card("Spectral Veil", 1, true, -1, new ShieldAbility(10,CardAbility.CardType.DEF),Card.CardTier.NORMAL));
         // cardFactory.put("Soul Aegis", new Card("Soul Aegis", 2, true, -1, new ShieldHealAbility(20, 10,CardAbility.CardType.DEF)));
-        cardFactory.put("Celestial Singularity", new Card("Celestial Singularity", 3, true, -1, new ShieldAbility(35,CardAbility.CardType.DEF)));
-        cardFactory.put("Event Horizon", new Card("Event Horizon", 4, true, -1, new ShieldAbility(70,CardAbility.CardType.DEF)));
+        cardFactory.put("Celestial Singularity", new Card("Celestial Singularity", 3, true, -1, new ShieldAbility(35,CardAbility.CardType.DEF),Card.CardTier.NORMAL));
+        cardFactory.put("Event Horizon", new Card("Event Horizon", 4, true, -1, new ShieldAbility(70,CardAbility.CardType.DEF),Card.CardTier.RARE));
 
         //Buff
         // cardFactory.put("Soul Resonance", new Card("Soul Resonance", 1, true, -1, new BuffAbility(2)));
         // cardFactory.put("Harmonic Resonance", new Card("Harmonic Resonance", 2, true, -1, new BuffAbility(4)));
-        cardFactory.put("Sovereign's Overdrive", new Card("Sovereign’s Overdrive", 0, false, 2, new OverdriveAbility(1,5,1,CardAbility.CardType.BUFF)));
+        cardFactory.put("Sovereign's Overdrive", new Card("Sovereign’s Overdrive", 0, false, 2, new OverdriveAbility(1,5,1,CardAbility.CardType.BUFF),Card.CardTier.NORMAL));
 
         //Heal
-        cardFactory.put("Ethereal Restoration", new Card("Ethereal Restoration", 2, true, -1, new HealAbility(8,CardAbility.CardType.HEAL)));
-        cardFactory.put("Eternal Soul Rebirth", new Card("Eternal Soul Rebirth", 3, true, -1, new HealAbility(18,CardAbility.CardType.HEAL)));
+        cardFactory.put("Ethereal Restoration", new Card("Ethereal Restoration", 2, true, -1, new HealAbility(8,CardAbility.CardType.HEAL),Card.CardTier.NORMAL));
+        cardFactory.put("Eternal Soul Rebirth", new Card("Eternal Soul Rebirth", 3, true, -1, new HealAbility(18,CardAbility.CardType.HEAL),Card.CardTier.RARE));
     }
 
     public Unit spawnPlayer(int x, int y) {
@@ -167,6 +173,24 @@ public class Warehouse {
 
         List<EnemyData> unitList = new ArrayList<>(unitFactory.values());
         Enemy randEnemy = (Enemy) unitList.get(randIndex).getUnit();
+        Enemy clone = randEnemy.copy(x, y);
+        clone.getAnimator().play("idle");
+        return clone;
+    }
+
+    public Enemy spawnRandomEnemy(UnitType type, int x, int y){
+        Random rand = new Random();
+        int randIndex;
+        Enemy randEnemy;
+        if(type==UnitType.MINIBOSS){
+            randIndex = rand.nextInt(minibosses.size());
+            randEnemy = (Enemy) minibosses.get(randIndex).getUnit();
+        }
+        else{
+            randIndex = rand.nextInt(normalEnemies.size());
+            randEnemy = (Enemy) normalEnemies.get(randIndex).getUnit();
+        }
+        
         Enemy clone = randEnemy.copy(x, y);
         clone.getAnimator().play("idle");
         return clone;

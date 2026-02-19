@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 public class Deck implements GameComponent {
@@ -64,7 +65,7 @@ public class Deck implements GameComponent {
         addToHand();
     }
 
-    public void removeFromHand(Card c){
+    public void removeFromHand(Card c) {
         hand.remove(c);
         selectedCard = -1;
         horizontallyCentering(0, GameView.GAME_WIDTH);
@@ -113,17 +114,27 @@ public class Deck implements GameComponent {
     }
 
     public Card getRandomCardFromHand(CardAbility.CardType type) {
-        return hand.stream()
+        List<Card> matches = hand.stream()
                 .filter(c -> c.getAbility().getCardType() == type)
-                .findAny()
-                .orElse(null);
+                .toList();
+
+        if (matches.isEmpty()) {
+            return null;
+        }
+
+        return matches.get(new java.util.Random().nextInt(matches.size()));
     }
 
     public Card getRandomCardFromHand() {
-        return hand.stream()
-                .filter(c->c.isLocked()!=true)
-                .findAny()
-                .orElse(null);
+        List<Card> matches = hand.stream()
+                .filter(c -> c.isLocked() != true)
+                .toList();
+
+        if (matches.isEmpty()) {
+            return null;
+        }
+
+        return matches.get(new java.util.Random().nextInt(matches.size()));
     }
 
     @Override
@@ -218,6 +229,11 @@ public class Deck implements GameComponent {
         return hand;
     }
 
-    public int getHandSize(){return handSize;}
-    public void setHandSize(int handSize){this.handSize=handSize;}
+    public int getHandSize() {
+        return handSize;
+    }
+
+    public void setHandSize(int handSize) {
+        this.handSize = handSize;
+    }
 }

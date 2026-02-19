@@ -2,19 +2,26 @@ package com.Expedition67.card;
 import com.Expedition67.unit.*;
 
 public class Card {
+    
+    public enum CardTier{
+        NORMAL,RARE,DEBUFF
+    }
+
     private String name;
     private int apCost;
     private boolean isPermanant;
     private int usesLeft;
     private CardAbility ability;
     private boolean locked = false;
+    private CardTier cardTier;
 
-    public Card(String name,int apCost,boolean isPermanant,int usesLeft,CardAbility ability){
+    public Card(String name,int apCost,boolean isPermanant,int usesLeft,CardAbility ability, CardTier cardTier){
         this.name = name;
         this.apCost = apCost; //for crad
         this.isPermanant = isPermanant; 
         this.usesLeft = usesLeft;
         this.ability = ability;
+        this.cardTier = cardTier;
     }
 
     public Card (Card c){
@@ -49,6 +56,7 @@ public class Card {
     public boolean getPerm(){return this.isPermanant;}
     public int usesLeft(){return this.usesLeft;}
     public CardAbility getAbility() {return this.ability;}
+    public CardTier getTier(){return this.cardTier;}
 
     public Card copy() {
         return new Card(this);
