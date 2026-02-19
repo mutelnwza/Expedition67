@@ -43,7 +43,7 @@ public class Unit {
     private void initApText() {
         if (getBrain() instanceof PlayerBrain pb) {
             String apStr = String.format("AP: %d", pb.getAP());
-            apText = new GameText(apStr, 0, y + 130, 18f, Color.WHITE);
+            apText = new GameText(apStr, 0, y + 30, 18f, Color.WHITE);
             apText.horizontallyCentering(x, width);
         }
     }

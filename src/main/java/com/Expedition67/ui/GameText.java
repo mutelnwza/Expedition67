@@ -14,6 +14,7 @@ public class GameText implements GameComponent {
     private float size;
     private final Font font;
     private final Color color;
+    private boolean isVisible;
 
     /**
      * Constructor: Creates a text label
@@ -31,6 +32,7 @@ public class GameText implements GameComponent {
         this.size = size;
         this.font = GameView.MAIN_FONT.deriveFont(size);
         this.color = color;
+        this.isVisible = true;
     }
 
     // --- Setters ---
@@ -87,6 +89,8 @@ public class GameText implements GameComponent {
 
     @Override
     public void render(Graphics g) {
+        if (!isVisible) return;
+
         g.setFont(font);
         g.setColor(color);
         g.drawString(text, x, y);
@@ -105,5 +109,10 @@ public class GameText implements GameComponent {
     @Override
     public boolean mouseMoved(MouseEvent e) {
         return false;
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }

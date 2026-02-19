@@ -5,6 +5,7 @@ import com.Expedition67.storage.CardInventory;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.PlayerBrain;
 import com.Expedition67.unit.Unit;
+
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class GameManager {
     public static final int CARD_DROP_STATE = 2;
     public static final int RESULT_STATE = 3;
     public static final int CREDITS_STATE = 4;
+    public static final int INVENTORY_STATE = 5;
 
     // --- Fields ---
     private static GameManager instance;
@@ -59,6 +61,7 @@ public class GameManager {
         gameStates.add(new CardDropState());
         gameStates.add(new ResultState());
         gameStates.add(new CreditsState());
+        gameStates.add(new InventoryState());
     }
 
     /**
@@ -68,7 +71,11 @@ public class GameManager {
      * @param id    An optional identifier to pass to the new state
      */
     public void setCurrentState(int state, int id) {
-        if (currentState != null) {
+        if (currentState instanceof InventoryState) {
+            currentState = gameStates.get(state);
+            return;
+        }
+        if (currentState != null && state != INVENTORY_STATE) {
             currentState.exit();
         }
         currentState = gameStates.get(state);
@@ -100,7 +107,7 @@ public class GameManager {
         totalSeconds = 0;
         room = 0;
 
-        player = Warehouse.Instance().spawnPlayer(300, 460);
+        player = Warehouse.Instance().spawnPlayer(100, 300);
         CombatManager.initNew();
         CardInventory.Instance().emptyInventory();
         // Temp
@@ -161,7 +168,7 @@ public class GameManager {
         return player;
     }
 
-    public PlayerBrain getPlayerBrain(){
+    public PlayerBrain getPlayerBrain() {
         return playerBrain;
     }
 

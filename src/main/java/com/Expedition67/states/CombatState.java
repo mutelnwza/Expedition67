@@ -53,9 +53,9 @@ public class CombatState extends GameState {
         // Card Info
         gameComponents.add(new GameButton("Card Name :" , 24f, 180, 770, 590, 110, null));
 
-        // Reshuffle
-        gameComponents.add(new GameButton("Reshuffle" , 24f, 50, 770, 100, 50, () -> {
-            deck.reshuffle();
+        // Inventory
+        gameComponents.add(new GameButton("Inventory" , 24f, 50, 770, 100, 50, () -> {
+            GameManager.Instance().setCurrentState(GameManager.INVENTORY_STATE, InventoryState.ENTER_FROM_COMBAT);
         }));
 
         // End Turn
@@ -65,7 +65,7 @@ public class CombatState extends GameState {
 
         // Use Card
         gameComponents.add(new GameButton("Use Card", 24f, 800, 770, 100, 110, () -> {
-            CombatManager.Instance().onPlayerUseCard(deck.getSelectedCard(), CombatManager.Instance().getTarget());
+            CombatManager.Instance().onPlayerUseCard(deck.getSelectedCardIndex(), CombatManager.Instance().getTarget());
         }));
     }
 

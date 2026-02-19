@@ -58,7 +58,7 @@ public class AssetManager {
         cardDatabase.put("Soul Aegis", loadCardImage("/images/cards/Soul_Aegis.png"));
         cardDatabase.put("Soul Flicker", loadCardImage("/images/cards/Soul_Flicker.png"));
         cardDatabase.put("Soul Resonance", loadCardImage("/images/cards/Soul_Resonance.png"));
-        cardDatabase.put("Sovereigns Overdrive", loadCardImage("/images/cards/Sovereigns_Overdrive.png"));
+        cardDatabase.put("Sovereign's Overdrive", loadCardImage("/images/cards/Sovereigns_Overdrive.png"));
         cardDatabase.put("Spectral Veil", loadCardImage("/images/cards/Spectral_Veil.png"));
         cardDatabase.put("Void Dragon", loadCardImage("/images/cards/Void_Dragon.png"));
 

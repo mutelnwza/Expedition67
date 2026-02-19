@@ -8,6 +8,7 @@ import com.Expedition67.unit.Enemy.Enemy;
 import com.Expedition67.unit.Enemy.EnemyBrain;
 import com.Expedition67.unit.PlayerBrain;
 import com.Expedition67.unit.Unit;
+
 import java.util.List;
 
 public class CombatManager {
@@ -19,11 +20,15 @@ public class CombatManager {
     private Enemy target;
     private Deck deck;
 
-    private boolean isPlayerTurn = false;
+    private boolean isPlayerTurn = true;
     private boolean isCombatActive;
 
     private int turnCount;
     private int cardUsedCount;
+
+    private int actionTimer = 0;
+    private final int ACTION_DELAY = 30;
+    private int currentEnemyActionIndex = 0;
 
     private CombatManager() {
         isCombatActive = false;
@@ -54,13 +59,13 @@ public class CombatManager {
         // deck.addToHand();
 
         isCombatActive = true;
-        // isPlayerTurn = true;
+        isPlayerTurn = true;
 
         // player.getBrain().onTurnStarted();
-        // for(Enemy e : enemies){
-        //     ((EnemyBrain)e.getBrain()).calculateNextMove();
-        // }
-        executeTurn();
+        for (Enemy e : enemies) {
+            ((EnemyBrain) e.getBrain()).calculateNextMove();
+        }
+        startPlayerTurn();
     }
 
     public void executeTurn() {
@@ -72,15 +77,9 @@ public class CombatManager {
             player.getBrain().onTurnEnded();
             isPlayerTurn = false;
 
-            for (Unit enemy : enemies) {
-                EnemyBrain eb = (EnemyBrain) enemy.getBrain();
-                eb.onTurnStarted();
-                eb.getNextAction().apply(eb.getTarget());
-                eb.onTurnEnded();
-            }
+            currentEnemyActionIndex = 0;
+            actionTimer = ACTION_DELAY;
         }
-
-        startPlayerTurn();
     }
 
     private void startPlayerTurn() {
@@ -91,9 +90,9 @@ public class CombatManager {
             deck.addToHand();
             player.getBrain().onTurnStarted();
 
-            for(Enemy e : enemies){
-            ((EnemyBrain)e.getBrain()).calculateNextMove();
-        }
+            for (Enemy e : enemies) {
+                ((EnemyBrain) e.getBrain()).calculateNextMove();
+            }
         }
     }
 
@@ -106,9 +105,9 @@ public class CombatManager {
         }
         card.use(pb, target);
         //card.getAbility().apply(target, player);
-        
-        for(Enemy e : enemies){
-            EnemyBrain eb =  (EnemyBrain)e.getBrain();
+
+        for (Enemy e : enemies) {
+            EnemyBrain eb = (EnemyBrain) e.getBrain();
             eb.onPlayerUseCard(card);
         }
 
@@ -119,7 +118,29 @@ public class CombatManager {
     }
 
     public void update() {
+        if (!isCombatActive) return;
         checkWinCondition();
+
+        if (!isPlayerTurn) {
+            actionTimer--;
+
+            if (actionTimer <= 0) {
+                if (currentEnemyActionIndex < enemies.size()) {
+                    Enemy currentEnemy = enemies.get(currentEnemyActionIndex);
+
+                    if (currentEnemy.getUnitStats().getHp() > 0) {
+                        EnemyBrain eb = (EnemyBrain) currentEnemy.getBrain();
+                        eb.onTurnStarted();
+                        eb.getNextAction().apply(eb.getTarget());
+                        eb.onTurnEnded();
+                    }
+
+                    currentEnemyActionIndex++;
+                    actionTimer = ACTION_DELAY;
+                } else
+                    startPlayerTurn();
+            }
+        }
     }
 
     private void checkWinCondition() {

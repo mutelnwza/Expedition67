@@ -47,4 +47,6 @@ public interface GameComponent {
      * @return true if the event was consumed.
      */
     boolean mouseMoved(MouseEvent e);
+
+    void setVisible(boolean visible);
 }
