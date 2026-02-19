@@ -61,6 +61,10 @@ public class Unit {
         unitBrain.takeDamage(amount);
     }
 
+    public void takeTrueDamage(float amount){
+        unitBrain.takeTrueDamage(amount);
+    }
+
     // --- GameComponent Implementation ---
 
     public void update() {

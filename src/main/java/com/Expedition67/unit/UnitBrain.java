@@ -1,5 +1,6 @@
 package com.Expedition67.unit;
 
+import com.Expedition67.card.Attack.DamageAbility;
 import com.Expedition67.card.CardAbility;
 import com.Expedition67.card.RemoveableAbility;
 import com.Expedition67.core.ITickable;
@@ -33,34 +34,52 @@ public abstract class UnitBrain {
 
     }
 
-    public void takeDamage(float amount){
-        owner.getUnitStats().hp-=amount;
-        if(owner.getUnitStats().hp<=0){
-            die();
+    public float takeDamage(float amount) {
+        float dmgDealt = amount;
+        if (owner.getUnitStats().getDef() > 0) {
+            float blocked = Math.min(owner.getUnitStats().getDef(), amount);
+            owner.getUnitStats().def = owner.getUnitStats().getDef() - blocked;
+            dmgDealt -= blocked;
+        }
+        if (dmgDealt > 0) {
+            owner.getUnitStats().hp = Math.max(0, owner.getUnitStats().hp - dmgDealt);
+        }
+        return dmgDealt;
+    }
+    public void takeTrueDamage(float amount) {
+        owner.getUnitStats().hp = Math.max(0, amount);
+    }
+    public abstract UnitBrain copy();
+
+    public void applyCard(CardAbility ca, Unit src) {
+        if (ca instanceof RemoveableAbility rb) {
+            currentBuff.add(new buffTracker(rb.getTurn(), rb));
+        }
+        if (ca instanceof DamageAbility d) {
+            d.apply(this.owner, src);
+        } else {
+            ca.apply(this.owner);
         }
     }
 
-    protected abstract void die();
+    public void onUseCard(CardAbility ca) {
 
-    public abstract UnitBrain copy();
-
-    public void applyCard(CardAbility ca, Unit src){
-        if(ca instanceof RemoveableAbility rb){
-            currentBuff.add(new buffTracker(rb.getTurn(), rb));
-        }
-        ca.apply(this.owner);
     }
 
     public void heal(float amount) {
-        owner.getUnitStats().hp=Math.min(owner.getUnitStats().maxHp, owner.getUnitStats().hp+amount);
+        owner.getUnitStats().hp = Math.min(owner.getUnitStats().maxHp, owner.getUnitStats().hp + amount);
     }
 
     public void addDef(float amount) {
-        owner.getUnitStats().def+=amount;
+        owner.getUnitStats().def += amount;
+    }
+
+    public void addStr(float amount) {
+        owner.getUnitStats().str += amount;
     }
 
     public void addCrit(float amount) {
-        owner.getUnitStats().crit+=amount;
+        owner.getUnitStats().crit += amount;
     }
 
     public void onTurnStarted() {

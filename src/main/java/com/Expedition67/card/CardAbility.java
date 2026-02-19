@@ -4,7 +4,7 @@ import com.Expedition67.unit.Unit;
 
 public abstract class CardAbility {
     public enum CardType{
-        ATK,DEF,HEAL,BUFF,VOID;
+        ATK,DEF,HEAL,BUFF,VOID,DEBUFF;
     }
 
     private final CardType cardType;
@@ -20,6 +20,10 @@ public abstract class CardAbility {
     }
     
     public abstract void apply(Unit target);
+    public void apply(Unit target, Unit src){
+        src.getBrain().onUseCard(this);
+    }
+    
     public CardType getCardType(){return cardType;}
     public int getValue(){return value;}
 }

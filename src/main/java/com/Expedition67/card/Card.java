@@ -24,6 +24,10 @@ public class Card {
         this.usesLeft=c.usesLeft();
         this.isPermanant=c.getPerm();
     }
+
+    public void addCost(int cost){
+        this.apCost += cost;
+    }
     
     public void use(Unit src,Unit target){
         target.getBrain().applyCard(ability, src);
@@ -47,7 +51,7 @@ public class Card {
     public CardAbility getAbility() {return this.ability;}
 
     public Card copy() {
-        return new Card(this.name,this.apCost,this.isPermanant,this.usesLeft,this.ability);
+        return new Card(this);
     }
 
 }

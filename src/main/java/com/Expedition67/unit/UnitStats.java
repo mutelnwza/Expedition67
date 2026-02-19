@@ -17,8 +17,24 @@ public class UnitStats {
         return this.hp;
     }
 
+    public void setMaxHp(float hp){
+        maxHp=hp;
+    }
+
     public float getMaxHp() {
         return this.maxHp;
+    }
+
+    public float getCrit(){
+        return this.crit;
+    }
+
+    public float getDef(){
+        return def;
+    }
+
+    public float getStr(){
+        return str;
     }
 
     public UnitStats copy() {

@@ -70,6 +70,7 @@ public class CombatManager {
 
         if (isPlayerTurn) {
             player.getBrain().onTurnEnded();
+            deck.addToHand();
             isPlayerTurn = false;
 
             for (Unit enemy : enemies) {
@@ -88,7 +89,7 @@ public class CombatManager {
         if (player != null && player.getUnitStats().getHp() > 0) {
             turnCount++;
             cardUsedCount = 0;
-            deck.addToHand();
+            
             player.getBrain().onTurnStarted();
 
             for(Enemy e : enemies){
