@@ -3,7 +3,13 @@ package com.Expedition67.unit.Enemy;
 import com.Expedition67.core.GameManager;
 import com.Expedition67.unit.UnitBrain;
 
-public class EnemyBrain extends UnitBrain{
+public class EnemyBrain extends UnitBrain {
+
+    private String intent = "Attack: 5 DMG"; 
+
+    public String getIntent() {
+        return intent;
+    }
 
     @Override
     protected void die() {
@@ -12,7 +18,7 @@ public class EnemyBrain extends UnitBrain{
 
     @Override
     public void startTurn() {
-        
+        intent = "Attack: 5 DMG"; 
     }
 
     @Override
@@ -35,5 +41,4 @@ public class EnemyBrain extends UnitBrain{
     protected void onTurnEnded() {
         super.onTurnEnded();
     }
-    
 }

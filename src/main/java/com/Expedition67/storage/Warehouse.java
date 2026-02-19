@@ -31,29 +31,27 @@ public class Warehouse {
         // unitFactory.put("Momo", Momo);
     }
 
-    private void loadCard(){
+private void loadCard(){
+        // Attack
+        cardFactory.put("Soul Flicker", new Card("Soul Flicker", "Deal 6 damage. A faint spark of soul energy.", 0, true, -1, new DamageAbility(6)));
+        cardFactory.put("Remnant Hit", new Card("Remnant Hit", "Deal 12 damage. A precise strike fueled by lingering soul fragments.", 1, true, -1, new DamageAbility(12)));
+        cardFactory.put("Echoing Strike", new Card("Echoing Strike", "Deal 30 damage to all enemies. Condense your spirit into a heavy blow.", 2, true, -1, new DamageAbility(30)));
+        cardFactory.put("Void Dragon", new Card("Void Dragon", "Deal 45 damage. If target's HP < 50%, deal 80 damage instead.", 4, true, -1, new DamageAbility(45)));
 
-        //Attack
-        cardFactory.put("Soul Flicker", new Card("Soul Flicker", 0, true, -1, new DamageAbility(2)));
-        cardFactory.put("Remnant Hit", new Card("Remnant Hit", 1, true, -1, new DamageAbility(6)));
-        cardFactory.put("Echoing Strike", new Card("Echoing Strike", 2, true, -1, new DamageAbility(14)));
-        cardFactory.put("Void Dragon", new Card("Void Dragon", 4, true, -1,new DamageAbility(30)));
+        // Defense
+        cardFactory.put("Spectral Veil", new Card("Spectral Veil", "Gain 10 Block. A thin veil of shattered souls to absorb impacts.", 1, true, -1, new ShieldAbility(1,10)));
+        cardFactory.put("Soul Aegis", new Card("Soul Aegis", "Gain 20 Block and heal 10 HP. Converts kinetic force into life energy.", 2, true, -1, new ShieldAbility(1,20)));
+        cardFactory.put("Celestial Singularity", new Card("Celestial Singularity", "Gain 35 Block. The next card played costs 0 AP.", 3, true, -1, new ShieldAbility(1,35)));
+        cardFactory.put("Event Horizon", new Card("Event Horizon", "Gain 70 Block. Absolute defense. Incoming strikes vanish into the void.", 4, true, -1, new ShieldAbility(1,70)));
 
+        // Buff (ใช้ ShieldAbility ไปก่อนชั่วคราวกัน Error)
+        cardFactory.put("Soul Resonance", new Card("Soul Resonance", "Attack cards in your hand gain +6 Damage this turn.", 1, true, -1, new ShieldAbility(1,0)));
+        cardFactory.put("Harmonic Resonance", new Card("Harmonic Resonance", "Whenever you play an Attack card this turn, gain 6 Block.", 2, true, -1, new ShieldAbility(1,0)));
+        cardFactory.put("Sovereign's Overdrive", new Card("Sovereign's Overdrive", "Lose 5 HP. Your next attack has a 100% Critical Rate.", 0, true, -1, new ShieldAbility(1,0)));
 
-        //Defense
-        cardFactory.put("Spectral Veil", new Card("Spectral Veil", 1, true, -1, new ShieldAbility(1,7)));
-        cardFactory.put("Soul Aegis", new Card("Soul Aegis", 2, true, -1, new ShieldAbility(1,12)));
-        cardFactory.put("Celestial Singularity", new Card("Celestial Singularity", 3, true, -1, new ShieldAbility(1,25)));
-        cardFactory.put("Event Horizon", new Card("Event Horizon", 4, true, -1, new ShieldAbility(1,50)));
-
-        //Buff
-        // cardFactory.put("Soul Resonance", new Card("Soul Resonance", 1, true, -1, new BuffAbility(0.20f)));
-        // cardFactory.put("Harmonic Resonance", new Card("Harmonic Resonance", 2, true, -1, new BuffAbility(0.40f)));
-        // cardFactory.put("Sovereign's Overdrive", new Card("Sovereign's Overdrive", 0, true, -1, new BuffAbility(1.0f)));
-
-        //Heal
-        cardFactory.put("Ethereal Restoration", new Card("Ethereal Restoration", 2, true, -1, new HealAbility(8)));
-        cardFactory.put("Eternal Soul Rebirth", new Card("Eternal Soul Rebirth", 3, true, -1, new HealAbility(18)));
+        // Heal
+        cardFactory.put("Ethereal Restoration", new Card("Ethereal Restoration", "Heal 15 HP and remove all debuffs.", 2, true, -1, new HealAbility(15)));
+        cardFactory.put("Eternal Soul Rebirth", new Card("Eternal Soul Rebirth", "Heal 28 HP and gain 10 Block. If HP < 20%, gain 30 Block.", 3, true, -1, new HealAbility(28)));
     }
 
     public Unit spawnEnemy(String name,int x, int y){

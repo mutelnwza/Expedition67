@@ -16,6 +16,7 @@ public class CombatState extends GameState {
     // Direct references for dynamic updates
     private GameText roomTimeText;
     private GameText enemyTypeText; // Temp
+    private GameText intentText;
     private GameButton winButton; // Temp
 
     public CombatState() {
@@ -40,6 +41,9 @@ public class CombatState extends GameState {
         // Enemy Type (Temp)
         enemyTypeText = new GameText("Monster", 270, 470, 150f, Color.white);
         gameComponents.add(enemyTypeText);
+
+        intentText = new GameText("Intent: Attack 5 DMG", 270, 520, 24f, Color.red);
+        gameComponents.add(intentText);
     }
 
     @Override
@@ -78,6 +82,9 @@ public class CombatState extends GameState {
         // Update the HUD with current room and time
         roomTimeText.setText(String.format("Room: %d  Time: %s", GameManager.Instance().getRoom(), GameManager.Instance().getTimeString()));
         super.update();
+
+        //Intent บนหน้าจอชั่วคราว
+        intentText.setText("Intent: Attack 5 DMG");
     }
 
     @Override
