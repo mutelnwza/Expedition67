@@ -1,9 +1,9 @@
 package com.Expedition67.unit.Enemy;
 
+import com.Expedition67.card.Attack.DamageAbility;
 import com.Expedition67.card.BuffAbility;
 import com.Expedition67.card.Card;
 import com.Expedition67.card.CardAbility;
-import com.Expedition67.card.DamageAbility;
 import com.Expedition67.core.GameManager;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.UnitBrain;
