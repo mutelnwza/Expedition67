@@ -49,7 +49,7 @@ public class CombatManager {
         this.player = GameManager.Instance().getPlayer();
         this.enemies = enemies;
         this.target = enemies.getFirst();
-        this.turnCount = 1;
+        this.turnCount = 0;
         this.cardUsedCount = 0;
 
         if (deck == null) {

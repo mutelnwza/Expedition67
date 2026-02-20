@@ -28,8 +28,6 @@ public class CombatState extends GameState {
     private List<Enemy> enemies;
     private Deck deck;
 
-
-
     public CombatState() {
         super();
     }
@@ -51,21 +49,22 @@ public class CombatState extends GameState {
         }));
 
         // Card Info
-        gameComponents.add(new GameButton("Card Name :" , 24f, 180, 770, 590, 110, null));
+        cardInfoText = new GameText("Placeholder", 0, 0, 24f, Color.white);
+        gameComponents.add(cardInfoText);
 
         // Inventory
-        gameComponents.add(new GameButton("Inventory" , 24f, 50, 770, 100, 50, () -> {
+        gameComponents.add(new GameButton("Inventory", 24f, 50, 770, 100, 50, () -> {
             GameManager.Instance().setCurrentState(GameManager.INVENTORY_STATE, InventoryState.ENTER_FROM_COMBAT);
         }));
 
         // End Turn
-        gameComponents.add(new GameButton("End Turn" , 24f, 50, 830, 100, 50, () -> {
+        gameComponents.add(new GameButton("End Turn", 24f, 50, 830, 100, 50, () -> {
             CombatManager.Instance().executeTurn();
         }));
 
         // Use Card
         gameComponents.add(new GameButton("Use Card", 24f, 800, 770, 100, 110, () -> {
-            CombatManager.Instance().onPlayerUseCard(deck.getSelectedCardIndex(), CombatManager.Instance().getTarget());
+            CombatManager.Instance().onPlayerUseCard(deck.getSelectedCard(), CombatManager.Instance().getTarget());
         }));
     }
 
@@ -108,6 +107,12 @@ public class CombatState extends GameState {
         }
         deck.update();
 
+        // Update card info text with current selected card
+        if (deck.getSelectedCard() != null) cardInfoText.setText(deck.getSelectedCard().toString());
+        else cardInfoText.setText("No card selected");
+        cardInfoText.horizontallyCentering(180, 590);
+        cardInfoText.verticallyCentering(770, 110);
+
         super.update();
     }
 
@@ -126,6 +131,10 @@ public class CombatState extends GameState {
         }
 
         deck.render(g);
+
+        // Card info border
+        g.setColor(Color.white);
+        g.drawRect(185, 770, 590, 110);
 
         // Draw components
         super.render(g);

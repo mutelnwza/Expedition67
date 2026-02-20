@@ -20,6 +20,7 @@ public class InventoryState extends GameState {
 
     private GameButton previousCard;
     private GameButton nextCard;
+    private GameText cardInfoText;
 
     private int previousState;
     private ArrayList<Card> inventory;
@@ -37,9 +38,6 @@ public class InventoryState extends GameState {
 
     @Override
     protected void loadComponents() {
-        // Card Info
-        gameComponents.add(new GameButton("Card Name :" , 24f, 180, 770, 590, 110, null));
-
         // Previous Card
         previousCard = new GameButton("<", 24f, 40, 0, 40, 40, this::previous);
         gameComponents.add(previousCard);
@@ -50,6 +48,10 @@ public class InventoryState extends GameState {
         gameComponents.add(nextCard);
         nextCard.verticallyCentering(0, GameView.GAME_HEIGHT);
 
+        // Card Info
+        cardInfoText = new GameText("Placeholder", 0, 0, 24f, Color.white);
+        gameComponents.add(cardInfoText);
+
         // Back
         gameComponents.add(new GameButton("Back", 24f, 20, 20, 60, 40, () -> {
             GameManager.Instance().setCurrentState(previousState, 0);
@@ -59,12 +61,18 @@ public class InventoryState extends GameState {
     @Override
     public void enter(int id) {
         if (id == ENTER_FROM_COMBAT)
-            previousState = GameManager.Instance().COMBAT_STATE;
+            previousState = GameManager.COMBAT_STATE;
         else
-            previousState = GameManager.Instance().CARD_DROP_STATE;
+            previousState = GameManager.CARD_DROP_STATE;
+
         inventory = CardInventory.Instance().getCardInventory();
         showedCardIndex = 0;
         showedCard = inventory.get(showedCardIndex);
+
+        cardInfoText.setText(showedCard.toString());
+        cardInfoText.horizontallyCentering(180, 590);
+        cardInfoText.verticallyCentering(770, 110);
+
         previousCard.setVisible(false);
         nextCard.setVisible(true);
     }
@@ -84,6 +92,10 @@ public class InventoryState extends GameState {
             g.drawImage(AssetManager.Instance().getCard(showedCard.getName()), CARD_X, CARD_Y, CARD_WIDTH, CARD_HEIGHT, null);
         }
 
+        // Card info border
+        g.setColor(Color.white);
+        g.drawRect(185, 770, 590, 110);
+
         // Draw components
         super.render(g);
     }
@@ -92,15 +104,25 @@ public class InventoryState extends GameState {
         showedCardIndex--;
         if (showedCardIndex < 0) return;
         showedCard = inventory.get(showedCardIndex);
+
         if (showedCardIndex == 0) previousCard.setVisible(false);
         nextCard.setVisible(true);
+
+        cardInfoText.setText(showedCard.toString());
+        cardInfoText.horizontallyCentering(180, 590);
+        cardInfoText.verticallyCentering(770, 110);
     }
 
     private void next() {
         showedCardIndex++;
         if (showedCardIndex >= inventory.size()) return;
         showedCard = inventory.get(showedCardIndex);
+
         if (showedCardIndex == inventory.size() - 1) nextCard.setVisible(false);
         previousCard.setVisible(true);
+
+        cardInfoText.setText(showedCard.toString());
+        cardInfoText.horizontallyCentering(180, 590);
+        cardInfoText.verticallyCentering(770, 110);
     }
 }

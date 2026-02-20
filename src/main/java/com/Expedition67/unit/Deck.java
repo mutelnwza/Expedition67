@@ -101,8 +101,8 @@ public class Deck implements GameComponent {
         }
     }
 
-    public Card getSelectedCardIndex() {
-        if (selectedCardIndex == -1) return null;
+    public Card getSelectedCard() {
+        if (hand.isEmpty() || selectedCardIndex < 0 || selectedCardIndex >= hand.size()) return null;
         return hand.get(selectedCardIndex);
     }
 

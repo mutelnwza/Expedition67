@@ -1,10 +1,12 @@
 package com.Expedition67.ui;
 
 import com.Expedition67.core.GameView;
+import com.Expedition67.storage.AssetManager;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public class GameText implements GameComponent {
 
@@ -58,11 +60,14 @@ public class GameText implements GameComponent {
         Graphics2D g2d = img.createGraphics();
 
         // Setup Font
-        Font font = GameView.MAIN_FONT.deriveFont(size);
         g2d.setFont(font);
         FontMetrics fm = g2d.getFontMetrics();
 
-        this.x = x + (w - fm.stringWidth(text)) / 2;
+        String[] lines = text.split("\n");
+        int maxWidth = 0;
+        for (String line : lines) maxWidth = Math.max(maxWidth, fm.stringWidth(line));
+
+        this.x = x + (w - maxWidth) / 2;
 
         g2d.dispose();
     }
@@ -74,11 +79,13 @@ public class GameText implements GameComponent {
         Graphics2D g2d = img.createGraphics();
 
         // Setup Font
-        Font font = GameView.MAIN_FONT.deriveFont(size);
         g2d.setFont(font);
         FontMetrics fm = g2d.getFontMetrics();
 
-        this.y = y + ((h - fm.getHeight()) / 2) + fm.getAscent();
+        String[] lines = text.split("\n");
+        int totalHeight = fm.getHeight() * lines.length;
+
+        this.y = y + ((h - totalHeight) / 2) + fm.getAscent();
 
         g2d.dispose();
     }
@@ -93,7 +100,11 @@ public class GameText implements GameComponent {
 
         g.setFont(font);
         g.setColor(color);
-        g.drawString(text, x, y);
+
+        String[] lines = text.split("\n");
+        int lineHeight = g.getFontMetrics(font).getHeight();
+        for (int i = 0; i < lines.length; i++)
+            g.drawString(lines[i], x, y + (i * lineHeight));
     }
 
     @Override

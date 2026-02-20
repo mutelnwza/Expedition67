@@ -9,8 +9,7 @@ import com.Expedition67.storage.Warehouse;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class CardDropState extends GameState {
 
@@ -22,10 +21,12 @@ public class CardDropState extends GameState {
     // Direct references for dynamic updates
     private GameText roomTimeText;
     private GameText messageText;
-    private GameButton cardInfo;
+    private GameText cardInfoText;
     private GameText nextActionText;
     private GameButton leftButton;
     private GameButton rightButton;
+
+    private boolean isNextRoomState;
 
     private final int CARD_DROP_WIDTH = 400;
     private final int CARD_DROP_HEIGHT = 400;
@@ -47,9 +48,8 @@ public class CardDropState extends GameState {
         gameComponents.add(messageText);
 
         // Card Info
-        cardInfo = new GameButton("Card Name :", 24f, 0, 600, 590, 110, null);
-        gameComponents.add(cardInfo);
-        cardInfo.horizontallyCentering(0, GameView.GAME_WIDTH);
+        cardInfoText = new GameText("Placeholder", 0, 0, 24f, Color.white);
+        gameComponents.add(cardInfoText);
 
         // Next Action Text
         nextActionText = new GameText("Now you gonna...", 0, 700, 50f, Color.white);
@@ -65,8 +65,8 @@ public class CardDropState extends GameState {
         gameComponents.add(rightButton);
 
         // Inventory
-        gameComponents.add(new GameButton("Inventory" , 24f, 0, 820, 200, 50, () -> {
-            GameManager.Instance().setCurrentState(GameManager.INVENTORY_STATE, InventoryState.ENTER_FROM_COMBAT);
+        gameComponents.add(new GameButton("Inventory", 24f, 0, 820, 200, 50, () -> {
+            GameManager.Instance().setCurrentState(GameManager.INVENTORY_STATE, InventoryState.ENTER_FROM_DROP);
         }));
         gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
     }
@@ -94,6 +94,7 @@ public class CardDropState extends GameState {
         // Update the HUD with current room and time
         roomTimeText.setText(String.format("Room: %d  Time: %s", GameManager.Instance().getRoom(), GameManager.Instance().getTimeString()));
         roomTimeText.horizontallyCentering(0, GameView.GAME_WIDTH);
+
         super.update();
     }
 
@@ -106,6 +107,12 @@ public class CardDropState extends GameState {
         // Draw Card
         if (cardDrop != null) {
             g.drawImage(AssetManager.Instance().getCard(cardDrop.getName()), CARD_DROP_X, CARD_DROP_Y, CARD_DROP_WIDTH, CARD_DROP_HEIGHT, null);
+        }
+
+        // Card info border
+        if (!isNextRoomState) {
+            g.setColor(Color.white);
+            g.drawRect(185, 600, 590, 110);
         }
 
         // Draw components
@@ -129,8 +136,13 @@ public class CardDropState extends GameState {
     }
 
     private void setGetCardUI() {
-        cardInfo.setVisible(true);
+        isNextRoomState = false;
+        cardInfoText.setVisible(true);
         nextActionText.setVisible(false);
+
+        cardInfoText.setText(cardDrop.toString());
+        cardInfoText.horizontallyCentering(180, 590);
+        cardInfoText.verticallyCentering(600, 110);
 
         leftButton.setLabel("Obtain");
         leftButton.setOnClick(this::obtainDropCard);
@@ -140,7 +152,8 @@ public class CardDropState extends GameState {
     }
 
     private void setNextActionUI() {
-        cardInfo.setVisible(false);
+        isNextRoomState = true;
+        cardInfoText.setVisible(false);
         nextActionText.setVisible(true);
 
         leftButton.setLabel("Go into next room");
