@@ -57,12 +57,10 @@ public class CombatManager {
             deck = new Deck();
         }
         deck.instantiate();
-        // deck.addToHand();
 
         isCombatActive = true;
         isPlayerTurn = true;
 
-        // player.getBrain().onTurnStarted();
         for (Enemy e : enemies) {
             ((EnemyBrain) e.getBrain()).calculateNextMove();
         }
@@ -77,9 +75,6 @@ public class CombatManager {
         if (isPlayerTurn) {
             player.getBrain().onTurnEnded();
             isPlayerTurn = false;
-            //
-            player.getBrain().onTurnEnded();
-                isPlayerTurn = false;
 
             currentEnemyActionIndex = 0;
             actionTimer = ACTION_DELAY;
@@ -89,10 +84,11 @@ public class CombatManager {
     private void startPlayerTurn() {
         clearActionString();
         isPlayerTurn = true;
+        deck.addToHand();
         if (player != null && player.getUnitStats().getHp() > 0) {
             turnCount++;
             cardUsedCount = 0;
-            deck.addToHand();
+
             player.getBrain().onTurnStarted();
 
             for (Enemy e : enemies) {
@@ -187,13 +183,16 @@ public class CombatManager {
     public int getTurnCount() {
         return turnCount;
     }
-    public String getActionString(){
+
+    public String getActionString() {
         return this.actionString;
     }
-    public void addActionString(String action){
+
+    public void addActionString(String action) {
         actionString += action;
     }
+
     public void clearActionString() {
-    actionString = "";
-}
+        actionString = "";
+    }
 }

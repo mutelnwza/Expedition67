@@ -9,7 +9,7 @@ import com.Expedition67.ui.GameText;
 import com.Expedition67.unit.Deck;
 import com.Expedition67.unit.Enemy.Enemy;
 import com.Expedition67.unit.Unit;
-
+import com.Expedition67.unit.UnitType;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -82,12 +82,17 @@ public class CombatState extends GameState {
         // Create an enemy based on the room type
         enemies = new ArrayList<>();
         if (id == FINAL_BOSS_ROOM) {
-            enemies.add(Warehouse.Instance().spawnRandomEnemy(550, 460));
+            enemies.add(Warehouse.Instance().spawnEnemy("BigBadBoss",550, 460));
         } else {
             Random rand = new Random();
-            int enemiesAmount = rand.nextInt(1, 4);
-            for (int i = 0; i < enemiesAmount; i++) {
-                enemies.add(Warehouse.Instance().spawnRandomEnemy((i * 120) + 550, 460));
+            int level = rand.nextInt(1, 2);
+            if (level == 1) {
+                enemies.add(Warehouse.Instance().spawnRandomEnemy(UnitType.MINIBOSS,550, 460));
+            } else {
+                int enemiesAmount = rand.nextInt(1, 4);
+                for (int i = 0; i < enemiesAmount; i++) {
+                    enemies.add(Warehouse.Instance().spawnRandomEnemy(UnitType.ENEMY, (i * 120) + 550, 460));
+                }
             }
         }
 

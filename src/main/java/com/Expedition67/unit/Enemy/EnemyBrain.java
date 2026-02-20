@@ -7,12 +7,6 @@ import com.Expedition67.unit.UnitBrain;
 public abstract class EnemyBrain extends UnitBrain{
     protected CardAbility nextAction = null;
     protected Unit target;
-    
-    @Override
-    protected void die() {
-        System.out.println("im ded");
-        //tell combatmanager that this unit is dead
-    }
 
 // in case there are actions to perform if player use a card
     public void onPlayerUseCard(Card c){

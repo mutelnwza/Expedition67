@@ -1,21 +1,24 @@
 package com.Expedition67.unit;
 
 import com.Expedition67.card.Card;
+import com.Expedition67.card.CardAbility;
 import com.Expedition67.core.GameView;
 import com.Expedition67.storage.AssetManager;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.GameComponent;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 public class Deck implements GameComponent {
+
     private Stack<Card> drawPile;
     private ArrayList<Card> discardPile;
     private ArrayList<Card> hand;
+    private int handSize = 5;
 
     private int selectedCardIndex = -1;
     private int mouseOverIndex = -1;
@@ -66,8 +69,17 @@ public class Deck implements GameComponent {
         addToHand();
     }
 
+    public void removeFromHand(Card c) {
+        hand.remove(c);
+        selectedCardIndex = -1;
+        horizontallyCentering(0, GameView.GAME_WIDTH);
+    }
+
     public void addToHand() {
-        while (hand.size() < 5) {
+        discardPile.addAll(hand);
+        hand.clear();
+
+        while (hand.size() < handSize) {
             if (drawPile.isEmpty()) {
                 if (discardPile.isEmpty()) {
                     break;
@@ -101,6 +113,34 @@ public class Deck implements GameComponent {
         }
     }
 
+    public void addCard(Card card) {
+        drawPile.add(card);
+    }
+
+    public Card getRandomCardFromHand(CardAbility.CardType type) {
+        List<Card> matches = hand.stream()
+                .filter(c -> c.getAbility().getCardType() == type)
+                .toList();
+
+        if (matches.isEmpty()) {
+            return null;
+        }
+
+        return matches.get(new java.util.Random().nextInt(matches.size()));
+    }
+
+    public Card getRandomCardFromHand() {
+        List<Card> matches = hand.stream()
+                .filter(c -> c.isLocked() != true)
+                .toList();
+
+        if (matches.isEmpty()) {
+            return null;
+        }
+
+        return matches.get(new java.util.Random().nextInt(matches.size()));
+    }
+
     public Card getSelectedCard() {
         if (hand.isEmpty() || selectedCardIndex < 0 || selectedCardIndex >= hand.size()) return null;
         return hand.get(selectedCardIndex);
@@ -111,7 +151,9 @@ public class Deck implements GameComponent {
         int cardAmount = hand.size();
         handPos = new int[cardAmount][2];
 
-        if (cardAmount == 0) return;
+        if (cardAmount == 0) {
+            return;
+        }
 
         int totalWidth = (cardAmount * CARD_WIDTH) + ((cardAmount - 1) * CARD_SPACING);
         int startX = x + (w - totalWidth) / 2;
@@ -194,5 +236,17 @@ public class Deck implements GameComponent {
     @Override
     public void setVisible(boolean visible) {
         isVisible = visible;
+    }
+
+    public ArrayList<Card> getHand() {
+        return hand;
+    }
+
+    public int getHandSize() {
+        return handSize;
+    }
+
+    public void setHandSize(int handSize) {
+        this.handSize = handSize;
     }
 }

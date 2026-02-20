@@ -7,6 +7,7 @@ import com.Expedition67.ui.GameText;
 import java.awt.*;
 
 public class Unit {
+
     protected final String name;
     protected final int width, height; //position in canvas and size
     protected int x, y;
@@ -24,6 +25,11 @@ public class Unit {
     protected int damageShowTimer;
     protected final int damageShowDeley = 60;
     protected boolean isTakeDamage;
+
+
+    //for render damaged animation
+    private int redFlashFrames = 0;
+    private final int FLASH_DURATION = 30;
 
     //each unit will be create once in a warehouse
     public Unit(String name, UnitStats unitStats, UnitBrain unitBrain, UnitType unitType, int x, int y, int w, int h) {
@@ -76,19 +82,38 @@ public class Unit {
         return clone;
     }
 
+    //handle take damage
     public void takeDamage(float amount) {
         unitBrain.takeDamage(amount);
         damageText.setText("-"+ String.valueOf(amount));
         damageText.horizontallyCentering(x, width);
         isTakeDamage = true;
+        triggerRedFlash();
+    }
+
+    public void takeTrueDamage(float amount) {
+        unitBrain.takeTrueDamage(amount);
+        damageText.setText("-"+ String.valueOf(amount));
+        damageText.horizontallyCentering(x, width);
+        isTakeDamage = true;
+        triggerRedFlash();
+    }
+
+    public void triggerRedFlash() {
+        redFlashFrames = FLASH_DURATION;
     }
 
     // --- GameComponent Implementation ---
-
     public void update() {
-        if (unitStats.getHp() <= 0) return;
+        if (unitStats.getHp() <= 0) {
+            return;
+        }
         unitBrain.update();
         animator.update();
+
+        if (redFlashFrames > 0) {
+            redFlashFrames--;
+        }
 
         hpText.setText(String.format("HP: %.2f/%.2f", unitStats.getHp(), unitStats.getMaxHp()));
         if (getBrain() instanceof PlayerBrain pb) {
@@ -117,9 +142,12 @@ public class Unit {
     }
 
     // --- Getter and Setter ---
-
     public UnitBrain getBrain() {
         return this.unitBrain;
+    }
+
+    public UnitType getType(){
+        return this.unitType;
     }
 
     public UnitStats getUnitStats() {
@@ -148,5 +176,9 @@ public class Unit {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getFlashFrame(){
+        return redFlashFrames;
     }
 }

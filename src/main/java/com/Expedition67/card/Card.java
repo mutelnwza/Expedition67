@@ -3,6 +3,11 @@ package com.Expedition67.card;
 import com.Expedition67.unit.*;
 
 public class Card {
+
+    public enum CardTier {
+        NORMAL, RARE, DEBUFF
+    }
+
     private String name;
     private int apCost;
     private boolean isPermanant;
@@ -10,25 +15,33 @@ public class Card {
     private int usesLeft;
     private CardAbility ability;
     private boolean locked = false;
+    private CardTier cardTier;
     private String description;
 
-    public Card(String name, int apCost, boolean isPermanant, int defaultUsesAmount, CardAbility ability, String description) {
+    public Card(String name, int apCost, boolean isPermanant, int defaultUsesAmount, CardAbility ability, CardTier cardTier, String description) {
         this.name = name;
         this.apCost = apCost; //for crad
         this.isPermanant = isPermanant;
         this.defaultUsesAmount = defaultUsesAmount;
         this.usesLeft = defaultUsesAmount;
         this.ability = ability;
+        this.cardTier = cardTier;
         this.description = description;
     }
 
     public Card(Card c) {
-        this.name = c.getName();
-        this.apCost = c.getAP();
-        this.ability = c.getAbility();
-        this.defaultUsesAmount = c.getDefaultUsesAmount();
-        this.usesLeft = c.getUsesLeft();
-        this.isPermanant = c.getPerm();
+        this.name = c.name;
+        this.apCost = c.apCost;
+        this.isPermanant = c.isPermanant;
+        this.defaultUsesAmount = c.defaultUsesAmount;
+        this.usesLeft = c.usesLeft;
+        this.ability = c.ability;
+        this.cardTier = c.cardTier;
+        this.description = c.description;
+    }
+
+    public void addCost(int cost) {
+        this.apCost += cost;
     }
 
     public void use(Unit src, Unit target) {
@@ -81,7 +94,7 @@ public class Card {
     }
 
     public Card copy() {
-        return new Card(this.name, this.apCost, this.isPermanant, this.usesLeft, this.ability, this.description);
+        return new Card(this);
     }
 
     @Override

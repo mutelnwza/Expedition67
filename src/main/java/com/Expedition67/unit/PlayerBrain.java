@@ -14,9 +14,9 @@ public class PlayerBrain extends UnitBrain{
     }
 
     @Override
-    public void takeDamage(float amount) {
-        super.takeDamage(amount);
-        
+    public float takeDamage(float amount) {
+        float d = super.takeDamage(amount);
+        return d;
     }
 
     @Override
@@ -31,9 +31,4 @@ public class PlayerBrain extends UnitBrain{
     }
     
     public int getAP(){return this.ap;}
-
-    @Override
-    protected void die() {
-        
-    }
 }
