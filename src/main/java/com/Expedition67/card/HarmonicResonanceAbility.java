@@ -10,6 +10,7 @@ public class HarmonicResonanceAbility extends CardAbility {
     @Override
     public void apply(Unit target) {
         // TODO: รอทำระบบ บัฟติดตัว (ถ้าเล่นการ์ดตี จะได้เกราะเพิ่ม)
+        CombatManager.Instance().addActionString("empowering to " + target.getName()+ " = " + value);
     }
 
 }

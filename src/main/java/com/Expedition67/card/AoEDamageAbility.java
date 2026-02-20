@@ -1,4 +1,5 @@
 package com.Expedition67.card;
+import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
 
 public class AoEDamageAbility extends CardAbility {
@@ -8,6 +9,9 @@ public class AoEDamageAbility extends CardAbility {
     }
     private float damage;
     @Override
-    public void apply(Unit target) {target.takeDamage(damage);
+    public void apply(Unit target) {
+        target.takeDamage(damage);
         // TODO: รอทำระบบ(AoE)}
-}}
+        CombatManager.Instance().addActionString(" deal damage to  all enemies for " + target.getName()+ " = " + value);
+    }
+}

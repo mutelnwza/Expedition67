@@ -22,12 +22,8 @@ public class HealAbility extends CardAbility {
         if(minHeal > 0 && maxHeal > 0){
             healAmount = minHeal + (int)(Math.random() * ((maxHeal - minHeal) + 1));
         }
-
         target.getBrain().heal(healAmount);
-        this.healAmount = healAmount;
+        CombatManager.Instance().addActionString(" restores " + target.getName()+ "for = " + healAmount);
     }
-    @Override
-    public void apply(Unit src, Unit target) {
-        CombatManager.Instance().addActionString(src.getName() + " restores " + target.getName() + " for = " + healAmount);
-    }
+
 }

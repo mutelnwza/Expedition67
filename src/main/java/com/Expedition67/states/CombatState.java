@@ -63,6 +63,7 @@ public class CombatState extends GameState {
 
         // End Turn
         gameComponents.add(new GameButton("End Turn", 24f, 50, 830, 100, 50, () -> {
+            CombatManager.Instance().clearActionString();
             CombatManager.Instance().executeTurn();
         }));
 

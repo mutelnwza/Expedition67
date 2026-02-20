@@ -45,7 +45,6 @@ public abstract class UnitBrain {
     public abstract UnitBrain copy();
 
     public void applyCard(CardAbility ca, Unit src){
-        CombatManager.Instance().setActionString(src.getName());
         if(ca instanceof RemoveableAbility rb){
             currentBuff.add(new buffTracker(rb.getTurn(), rb));
         }

@@ -11,5 +11,8 @@ public class VoidDragonAbility extends CardAbility {
     }
 
     @Override
-    public void apply(Unit target) {target.takeDamage(normalDamage);}
+    public void apply(Unit target) {
+        target.takeDamage(normalDamage);
+        CombatManager.Instance().addActionString("  void damage to " + target.getName()+ " = " + value);
+    }
 }

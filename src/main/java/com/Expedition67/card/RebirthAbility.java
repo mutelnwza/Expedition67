@@ -1,4 +1,5 @@
 package com.Expedition67.card;
+import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
 
 public class RebirthAbility extends CardAbility {
@@ -17,7 +18,7 @@ public class RebirthAbility extends CardAbility {
     public void apply(Unit target) {
         target.getBrain().heal(healAmount);
         target.getBrain().addDef(normalShield); 
-
+        CombatManager.Instance().addActionString(" revive " + target.getName()+ " = " + healAmount);
         // TODO: รอดึงค่า MaxHP ได้ ค่อยทำเงื่อนไข เลือด < 20% เพื่อให้เกราะบูสต์
     }
     public void apply(Unit target, Unit src){

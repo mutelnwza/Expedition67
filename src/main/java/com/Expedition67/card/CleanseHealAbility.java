@@ -12,6 +12,7 @@ public class CleanseHealAbility extends CardAbility {
     public void apply(Unit target) {
         target.getBrain().heal(value);
         // TODO: รอทำระบบ ลบล้างสถานะผิดปกติ (Remove all debuffs)
+        CombatManager.Instance().addActionString(" cleanses all negative effects " + target.getName()+ " = " + value);
     }
 
 }

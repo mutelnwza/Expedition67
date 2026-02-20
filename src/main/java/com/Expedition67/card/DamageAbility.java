@@ -12,7 +12,7 @@ public class DamageAbility extends CardAbility {
     @Override
     public void apply(Unit target){
         target.takeDamage(value);
-        System.out.println("DEAL DAMAGE TO "+target.getName()+" ="+value);
+        CombatManager.Instance().addActionString(" deal damage to " + target.getName()+ " = " + value);
     }
 
     public void setDamage(int newDmg){
@@ -20,10 +20,5 @@ public class DamageAbility extends CardAbility {
     }
     public int getDamage(){
         return value;
-    }
-    @Override
-    public void apply(Unit target) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'apply'");
     }
 }

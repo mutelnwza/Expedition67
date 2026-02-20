@@ -10,6 +10,7 @@ public class ShieldAbility extends CardAbility {
 
     @Override
     public void apply(Unit target){
-         target.getBrain().addDef(value);
+        target.getBrain().addDef(value);
+        CombatManager.Instance().addActionString(" shield to" + target.getName() + " = " + value);
      }
 }

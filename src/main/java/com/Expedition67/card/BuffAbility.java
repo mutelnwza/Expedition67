@@ -11,6 +11,7 @@ public class BuffAbility extends CardAbility {
     @Override
     public void apply(Unit target) {
         //throw new UnsupportedOperationException("Not supported yet.");
+        CombatManager.Instance().addActionString(" empowers to " + target.getName()+ " = " + value);
     }
   
 }
