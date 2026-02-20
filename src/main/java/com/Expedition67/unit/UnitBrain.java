@@ -49,6 +49,7 @@ public abstract class UnitBrain {
             currentBuff.add(new buffTracker(rb.getTurn(), rb));
         }
         ca.apply(this.owner);
+        
     }
 
     public void heal(float amount) {

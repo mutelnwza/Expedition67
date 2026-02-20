@@ -1,4 +1,5 @@
 package com.Expedition67.card;
+import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
 
 public class DamageAbility extends CardAbility {
@@ -11,7 +12,7 @@ public class DamageAbility extends CardAbility {
     @Override
     public void apply(Unit target){
         target.takeDamage(value);
-        System.out.println("DEAL DAMAGE TO "+target.getName()+" ="+value);
+        CombatManager.Instance().addActionString(" deal damage to " + target.getName()+ " = " + value);
     }
 
     public void setDamage(int newDmg){

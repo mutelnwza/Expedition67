@@ -19,6 +19,7 @@ public class CombatManager {
     private List<Enemy> enemies;
     private Enemy target;
     private Deck deck;
+    private String actionString = "";
 
     private boolean isPlayerTurn = true;
     private boolean isCombatActive;
@@ -27,7 +28,7 @@ public class CombatManager {
     private int cardUsedCount;
 
     private int actionTimer = 0;
-    private final int ACTION_DELAY = 30;
+    private final int ACTION_DELAY = 50;
     private int currentEnemyActionIndex = 0;
 
     private CombatManager() {
@@ -76,6 +77,9 @@ public class CombatManager {
         if (isPlayerTurn) {
             player.getBrain().onTurnEnded();
             isPlayerTurn = false;
+            //
+            player.getBrain().onTurnEnded();
+                isPlayerTurn = false;
 
             currentEnemyActionIndex = 0;
             actionTimer = ACTION_DELAY;
@@ -83,6 +87,7 @@ public class CombatManager {
     }
 
     private void startPlayerTurn() {
+        clearActionString();
         isPlayerTurn = true;
         if (player != null && player.getUnitStats().getHp() > 0) {
             turnCount++;
@@ -103,6 +108,7 @@ public class CombatManager {
         if (card == null || target == null || pb.getAP() < card.getAP()) {
             return;
         }
+        actionString = player.getName();
         card.use(pb, target);
         //card.getAbility().apply(target, player);
 
@@ -110,7 +116,6 @@ public class CombatManager {
             EnemyBrain eb = (EnemyBrain) e.getBrain();
             eb.onPlayerUseCard(card);
         }
-
         pb.onUseCard(card.getAP());
         deck.useCard(card);
 
@@ -131,6 +136,7 @@ public class CombatManager {
                     if (currentEnemy.getUnitStats().getHp() > 0) {
                         EnemyBrain eb = (EnemyBrain) currentEnemy.getBrain();
                         eb.onTurnStarted();
+                        actionString = currentEnemy.getName();
                         eb.getNextAction().apply(eb.getTarget());
                         eb.onTurnEnded();
                     }
@@ -181,4 +187,13 @@ public class CombatManager {
     public int getTurnCount() {
         return turnCount;
     }
+    public String getActionString(){
+        return this.actionString;
+    }
+    public void addActionString(String action){
+        actionString += action;
+    }
+    public void clearActionString() {
+    actionString = "";
+}
 }

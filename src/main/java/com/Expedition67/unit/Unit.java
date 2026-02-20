@@ -19,6 +19,11 @@ public class Unit {
     protected GameText nameText;
     protected GameText hpText;
     protected GameText apText;
+    protected GameText damageText;
+
+    protected int damageShowTimer;
+    protected final int damageShowDeley = 60;
+    protected boolean isTakeDamage;
 
     //each unit will be create once in a warehouse
     public Unit(String name, UnitStats unitStats, UnitBrain unitBrain, UnitType unitType, int x, int y, int w, int h) {
@@ -36,6 +41,7 @@ public class Unit {
         initNameText();
         initHpText();
         initApText();
+        initdamageText();
     }
 
     private void initNameText() {
@@ -56,6 +62,10 @@ public class Unit {
             apText.horizontallyCentering(x, width);
         }
     }
+    private void initdamageText(){
+        damageText = new GameText("0", 0, y - 50, 18f, Color.red);
+        damageText.setVisible(false);
+    }
 
     //use when clone a unit
     public Unit copy(int x, int y) {
@@ -68,6 +78,9 @@ public class Unit {
 
     public void takeDamage(float amount) {
         unitBrain.takeDamage(amount);
+        damageText.setText("-"+ String.valueOf(amount));
+        damageText.horizontallyCentering(x, width);
+        isTakeDamage = true;
     }
 
     // --- GameComponent Implementation ---
@@ -81,6 +94,16 @@ public class Unit {
         if (getBrain() instanceof PlayerBrain pb) {
             apText.setText(String.format("AP: %d", pb.getAP()));
         }
+        if(isTakeDamage){
+            damageText.setVisible(true);
+            damageShowTimer ++;
+            if(damageShowTimer >= damageShowDeley){
+                damageShowTimer = 0;
+                isTakeDamage = false;
+                damageText.setVisible(false);
+
+            }
+        }
     }
 
     public void render(Graphics g) {
@@ -90,6 +113,7 @@ public class Unit {
         if (apText != null) {
             apText.render(g);
         }
+        damageText.render(g);
     }
 
     // --- Getter and Setter ---
