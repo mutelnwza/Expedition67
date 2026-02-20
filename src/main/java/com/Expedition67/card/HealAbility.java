@@ -5,7 +5,7 @@ import com.Expedition67.unit.Unit;
 public class HealAbility extends CardAbility {
     private int minHeal;
     private int maxHeal;
-
+    private int healAmount;
     public HealAbility(int value, CardType cardType) {
         super(value, cardType);
     }
@@ -24,5 +24,10 @@ public class HealAbility extends CardAbility {
         }
 
         target.getBrain().heal(healAmount);
+        this.healAmount = healAmount;
+    }
+    @Override
+    public void apply(Unit src, Unit target) {
+        CombatManager.Instance().addActionString(src.getName() + " restores " + target.getName() + " for = " + healAmount);
     }
 }
