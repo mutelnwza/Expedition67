@@ -6,6 +6,7 @@ import com.Expedition67.core.GameView;
 import com.Expedition67.storage.AssetManager;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.GameComponent;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -186,12 +187,30 @@ public class Deck implements GameComponent {
 
     private void renderSelected(Graphics g, int handCardIndex) {
         Graphics2D g2 = (Graphics2D) g;
-        Stroke oldStroke = g2.getStroke();
 
+        int x = handPos[handCardIndex][0];
+        int y = handPos[handCardIndex][1];
+        int cornerSize = 20;
+
+        Stroke oldStroke = g2.getStroke();
         g2.setColor(Color.YELLOW);
         g2.setStroke(new BasicStroke(3));
 
-        g2.drawRect(handPos[handCardIndex][0], handPos[handCardIndex][1], CARD_WIDTH, CARD_HEIGHT);
+        // Top-left
+        g2.drawLine(x, y, x + cornerSize, y);
+        g2.drawLine(x, y, x, y + cornerSize);
+
+        // Top-right
+        g2.drawLine(x + CARD_WIDTH, y, x + CARD_WIDTH - cornerSize, y);
+        g2.drawLine(x + CARD_WIDTH, y, x + CARD_WIDTH, y + cornerSize);
+
+        // Bottom-left
+        g2.drawLine(x, y + CARD_HEIGHT, x + cornerSize, y + CARD_HEIGHT);
+        g2.drawLine(x, y + CARD_HEIGHT, x, y + CARD_HEIGHT - cornerSize);
+
+        // Bottom-right
+        g2.drawLine(x + CARD_WIDTH, y + CARD_HEIGHT, x + CARD_WIDTH - cornerSize, y + CARD_HEIGHT);
+        g2.drawLine(x + CARD_WIDTH, y + CARD_HEIGHT, x + CARD_WIDTH, y + CARD_HEIGHT - cornerSize);
 
         g2.setStroke(oldStroke);
     }
