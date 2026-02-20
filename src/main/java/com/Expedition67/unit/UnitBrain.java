@@ -2,8 +2,7 @@ package com.Expedition67.unit;
 
 import com.Expedition67.card.CardAbility;
 import com.Expedition67.card.RemoveableAbility;
-import com.Expedition67.core.CombatManager;
-
+import com.Expedition67.core.ITickable;
 import java.util.ArrayList;
 
 public abstract class UnitBrain {
@@ -73,8 +72,8 @@ public abstract class UnitBrain {
     public void onTurnEnded() {
         for (buffTracker bf : currentBuff) {
             bf.turnLeft--;
-            if (bf.rb.isTickable()) {
-                bf.rb.onTick(owner);
+            if (bf.rb instanceof ITickable i) {
+                i.onTick(owner);
             }
             if (bf.turnLeft == 0) {
                 bf.rb.remove(owner);

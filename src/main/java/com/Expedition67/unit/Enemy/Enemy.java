@@ -10,10 +10,13 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class Enemy extends Unit implements GameComponent {
+
+    private boolean isVisible;
     private boolean mouseOver;
 
     public Enemy(String name, UnitStats unitStats, UnitBrain unitBrain,UnitType unitType, int x, int y, int w, int h) {
         super(name, unitStats, unitBrain, unitType, x, y, w, h);
+        this.isVisible = true;
     }
 
     @Override
@@ -42,6 +45,8 @@ public class Enemy extends Unit implements GameComponent {
 
     @Override
     public void render(Graphics g) {
+        if (!isVisible) return;
+
         if (mouseOver) {
             renderTarget(g);
         }
@@ -62,6 +67,8 @@ public class Enemy extends Unit implements GameComponent {
 
     @Override
     public boolean mouseClicked(MouseEvent e) {
+        if (!isVisible) return false;
+
         if (isInside(e.getX(), e.getY())) {
             CombatManager.Instance().setTarget(this);
             return true;
@@ -71,11 +78,14 @@ public class Enemy extends Unit implements GameComponent {
 
     @Override
     public boolean mouseMoved(MouseEvent e) {
-        if (isInside(e.getX(), e.getY())) {
-            mouseOver = true;
-            return true;
-        }
-        mouseOver = false;
-        return false;
+        if (!isVisible) return false;
+
+        this.mouseOver = isInside(e.getX(), e.getY());
+        return mouseOver;
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }

@@ -2,17 +2,15 @@ package com.Expedition67.card;
 import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
 
-public class CleanseHealAbility implements CardAbility {
-    private int healAmount;
+public class CleanseHealAbility extends CardAbility {
 
-    public CleanseHealAbility(int healAmount) {
-        this.healAmount = healAmount;
+    public CleanseHealAbility(int value, CardType cardType) {
+        super(value, cardType);
     }
 
     @Override
     public void apply(Unit target) {
-        target.getBrain().heal(healAmount);
-        
+        target.getBrain().heal(value);
         // TODO: รอทำระบบ ลบล้างสถานะผิดปกติ (Remove all debuffs)
     }
 

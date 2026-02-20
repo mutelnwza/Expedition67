@@ -2,11 +2,9 @@ package com.Expedition67.card;
 import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
 
-public class HarmonicResonanceAbility implements CardAbility {
-    private int defPerAttack;
-
-    public HarmonicResonanceAbility(int defPerAttack) {
-        this.defPerAttack = defPerAttack;
+public class HarmonicResonanceAbility extends CardAbility {
+    public HarmonicResonanceAbility(int value, CardType cardType) {
+        super(value, cardType);
     }
 
     @Override

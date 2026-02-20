@@ -2,23 +2,24 @@ package com.Expedition67.card;
 import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
 
-public class DamageAbility implements CardAbility {
-    private int Damage;
+public class DamageAbility extends CardAbility {
 
-    public DamageAbility(int Damage){
-        this.Damage = Damage;
+    public DamageAbility(int value, CardType cardType) {
+        super(value, cardType);
+        //TODO Auto-generated constructor stub
     }
+
     @Override
-    public void apply(Unit src, Unit target) {
-        target.takeDamage(Damage);
-        CombatManager.Instance().addActionString(src.getName() + " DEAL DAMAGE TO " + target.getName() + " = " + Damage);
+    public void apply(Unit target){
+        target.takeDamage(value);
+        System.out.println("DEAL DAMAGE TO "+target.getName()+" ="+value);
     }
 
     public void setDamage(int newDmg){
-        this.Damage=newDmg;
+        this.value=newDmg;
     }
     public int getDamage(){
-        return Damage;
+        return value;
     }
     @Override
     public void apply(Unit target) {

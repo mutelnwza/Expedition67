@@ -17,8 +17,8 @@ public class Deck implements GameComponent {
     private ArrayList<Card> discardPile;
     private ArrayList<Card> hand;
 
-    private int selectedCard = -1;
-    private int mouseOver = -1;
+    private int selectedCardIndex = -1;
+    private int mouseOverIndex = -1;
 
     private int[][] handPos;
 
@@ -26,6 +26,8 @@ public class Deck implements GameComponent {
     private final int CARD_WIDTH = 200;
     private final int CARD_HEIGHT = 200;
     private final int CARD_SPACING = -30;
+
+    private boolean isVisible;
 
     public Deck() {
     }
@@ -41,6 +43,8 @@ public class Deck implements GameComponent {
 
         shuffle();
         horizontallyCentering(0, GameView.GAME_WIDTH);
+
+        isVisible = true;
     }
 
     public void shuffle() {
@@ -56,8 +60,8 @@ public class Deck implements GameComponent {
 
         shuffle();
 
-        selectedCard = -1;
-        mouseOver = -1;
+        selectedCardIndex = -1;
+        mouseOverIndex = -1;
 
         addToHand();
     }
@@ -84,7 +88,7 @@ public class Deck implements GameComponent {
     public void discardHand() {
         discardPile.addAll(hand);
         hand.clear();
-        selectedCard = -1;
+        selectedCardIndex = -1;
         horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 
@@ -92,9 +96,14 @@ public class Deck implements GameComponent {
         if (hand.contains(card)) {
             hand.remove(card);
             discardPile.add(card);
-            selectedCard = -1;
+            selectedCardIndex = -1;
             horizontallyCentering(0, GameView.GAME_WIDTH);
         }
+    }
+
+    public Card getSelectedCard() {
+        if (hand.isEmpty() || selectedCardIndex < 0 || selectedCardIndex >= hand.size()) return null;
+        return hand.get(selectedCardIndex);
     }
 
     @Override
@@ -122,10 +131,12 @@ public class Deck implements GameComponent {
 
     @Override
     public void render(Graphics g) {
+        if (!isVisible) return;
+
         for (int i = 0; i < hand.size(); i++) {
             Card card = hand.get(i);
             g.drawImage(AssetManager.Instance().getCard(card.getName()), handPos[i][0], handPos[i][1], CARD_WIDTH, CARD_HEIGHT, null);
-            if (i == selectedCard || i == mouseOver) {
+            if (i == selectedCardIndex || i == mouseOverIndex) {
                 renderSelected(g, i);
             }
         }
@@ -155,9 +166,11 @@ public class Deck implements GameComponent {
 
     @Override
     public boolean mouseClicked(MouseEvent e) {
+        if (!isVisible) return false;
+
         for (int i = 0; i < hand.size(); i++) {
             if (isInside(e.getX(), e.getY(), i)) {
-                selectedCard = i;
+                selectedCardIndex = i;
                 return true;
             }
         }
@@ -166,18 +179,20 @@ public class Deck implements GameComponent {
 
     @Override
     public boolean mouseMoved(MouseEvent e) {
+        if (!isVisible) return false;
+
         for (int i = 0; i < hand.size(); i++) {
             if (isInside(e.getX(), e.getY(), i)) {
-                mouseOver = i;
+                mouseOverIndex = i;
                 return true;
             }
         }
-        mouseOver = -1;
+        mouseOverIndex = -1;
         return false;
     }
 
-    public Card getSelectedCard() {
-        if (selectedCard == -1) return null;
-        return hand.get(selectedCard);
+    @Override
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }

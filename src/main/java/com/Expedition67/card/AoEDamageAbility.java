@@ -1,19 +1,13 @@
 package com.Expedition67.card;
 import com.Expedition67.unit.Unit;
 
-public class AoEDamageAbility implements CardAbility {
+public class AoEDamageAbility extends CardAbility {
+    public AoEDamageAbility(int value, CardType cardType) {
+        super(value, cardType);
+        //TODO Auto-generated constructor stub
+    }
     private float damage;
-
-    public AoEDamageAbility(float damage) {
-        this.damage = damage;
-    }
-
     @Override
-    public void apply(Unit target, Unit src) {
-        target.takeDamage(damage);
-        // TODO: รอทำระบบ(AoE)
-    }
-
-    @Override
-    public void apply(Unit target) {}
-}
+    public void apply(Unit target) {target.takeDamage(damage);
+        // TODO: รอทำระบบ(AoE)}
+}}
