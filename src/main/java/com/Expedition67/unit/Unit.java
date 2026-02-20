@@ -3,6 +3,7 @@ package com.Expedition67.unit;
 import com.Expedition67.core.SpriteRenderer;
 import com.Expedition67.model.Animator;
 import com.Expedition67.ui.GameText;
+
 import java.awt.*;
 
 public class Unit {
@@ -16,8 +17,15 @@ public class Unit {
     protected final SpriteRenderer spriteRenderer;
     protected final UnitType unitType;
 
+    protected GameText nameText;
     protected GameText hpText;
     protected GameText apText;
+    protected GameText damageText;
+
+    protected int damageShowTimer;
+    protected final int damageShowDeley = 60;
+    protected boolean isTakeDamage;
+
 
     //for render damaged animation
     private int redFlashFrames = 0;
@@ -36,22 +44,33 @@ public class Unit {
         this.height = h;
         this.unitBrain.setOwner(this);
         this.spriteRenderer = new SpriteRenderer();
+        initNameText();
         initHpText();
         initApText();
+        initdamageText();
+    }
+
+    private void initNameText() {
+        nameText = new GameText(name, 0, y - 30, 18f, Color.white);
+        nameText.horizontallyCentering(x, width);
     }
 
     private void initHpText() {
         String hpStr = String.format("HP: %.2f/%.2f", unitStats.getHp(), unitStats.getMaxHp());
-        hpText = new GameText(hpStr, 0, y - 10, 18f, Color.WHITE);
+        hpText = new GameText(hpStr, 0, y - 10, 18f, Color.white);
         hpText.horizontallyCentering(x, width);
     }
 
     private void initApText() {
         if (getBrain() instanceof PlayerBrain pb) {
             String apStr = String.format("AP: %d", pb.getAP());
-            apText = new GameText(apStr, 0, y + 130, 18f, Color.WHITE);
+            apText = new GameText(apStr, 0, y + 30, 18f, Color.white);
             apText.horizontallyCentering(x, width);
         }
+    }
+    private void initdamageText(){
+        damageText = new GameText("0", 0, y - 50, 18f, Color.red);
+        damageText.setVisible(false);
     }
 
     //use when clone a unit
@@ -66,11 +85,17 @@ public class Unit {
     //handle take damage
     public void takeDamage(float amount) {
         unitBrain.takeDamage(amount);
+        damageText.setText("-"+ String.valueOf(amount));
+        damageText.horizontallyCentering(x, width);
+        isTakeDamage = true;
         triggerRedFlash();
     }
 
     public void takeTrueDamage(float amount) {
         unitBrain.takeTrueDamage(amount);
+        damageText.setText("-"+ String.valueOf(amount));
+        damageText.horizontallyCentering(x, width);
+        isTakeDamage = true;
         triggerRedFlash();
     }
 
@@ -94,14 +119,26 @@ public class Unit {
         if (getBrain() instanceof PlayerBrain pb) {
             apText.setText(String.format("AP: %d", pb.getAP()));
         }
+        if(isTakeDamage){
+            damageText.setVisible(true);
+            damageShowTimer ++;
+            if(damageShowTimer >= damageShowDeley){
+                damageShowTimer = 0;
+                isTakeDamage = false;
+                damageText.setVisible(false);
+
+            }
+        }
     }
 
     public void render(Graphics g) {
         spriteRenderer.unitRender((Graphics2D) g, this);
+        nameText.render(g);
         hpText.render(g);
         if (apText != null) {
             apText.render(g);
         }
+        damageText.render(g);
     }
 
     // --- Getter and Setter ---

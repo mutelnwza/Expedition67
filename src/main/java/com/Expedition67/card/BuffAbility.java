@@ -1,4 +1,5 @@
 package com.Expedition67.card;
+import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
 
 public class BuffAbility extends CardAbility {
@@ -10,5 +11,7 @@ public class BuffAbility extends CardAbility {
     @Override
     public void apply(Unit target) {
         //throw new UnsupportedOperationException("Not supported yet.");
+        CombatManager.Instance().addActionString(" empowers to " + target.getName()+ " = " + value);
     }
+  
 }

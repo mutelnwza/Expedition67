@@ -1,5 +1,6 @@
 package com.Expedition67.card;
 
+import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
 
 public abstract class RemoveableAbility extends CardAbility{
@@ -16,4 +17,7 @@ public abstract class RemoveableAbility extends CardAbility{
     private int turn;
     public void remove(Unit target){}
     public int getTurn(){return turn;}
+    public void apply(Unit target){
+        CombatManager.Instance().addActionString(" The lingering effect on " + target.getName()+ "for = " + value);
+    }
 }

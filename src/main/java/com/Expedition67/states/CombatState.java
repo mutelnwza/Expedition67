@@ -24,6 +24,7 @@ public class CombatState extends GameState {
     // Direct references for dynamic updates
     private GameText roomTimeTurnText;
     private GameText cardInfoText;
+    private GameText actionText;
 
     private List<Enemy> enemies;
     private Deck deck;
@@ -38,6 +39,9 @@ public class CombatState extends GameState {
         roomTimeTurnText = new GameText("Room: 0  Time: 00:00  Turn: 0", 0, 740, 24f, Color.white);
         gameComponents.add(roomTimeTurnText);
 
+        actionText = new GameText(" ---------------- ", 300, 360, 24f, Color.white);
+        gameComponents.add(actionText);
+
         // Lose (Temp)
         gameComponents.add(new GameButton("Lose", 24f, 50, 650, 100, 50, () -> {
             GameManager.Instance().setCurrentState(GameManager.RESULT_STATE, ResultState.LOSE);
@@ -49,20 +53,23 @@ public class CombatState extends GameState {
         }));
 
         // Card Info
-        gameComponents.add(new GameButton("Card Name :", 24f, 180, 770, 590, 110, null));
+        cardInfoText = new GameText("Placeholder", 0, 0, 24f, Color.white);
+        gameComponents.add(cardInfoText);
 
-        // Reshuffle
-        gameComponents.add(new GameButton("Reshuffle", 24f, 50, 770, 100, 50, () -> {
-            deck.reshuffle();
+        // Inventory
+        gameComponents.add(new GameButton("Inventory", 24f, 50, 770, 100, 50, () -> {
+            GameManager.Instance().setCurrentState(GameManager.INVENTORY_STATE, InventoryState.ENTER_FROM_COMBAT);
         }));
 
         // End Turn
         gameComponents.add(new GameButton("End Turn", 24f, 50, 830, 100, 50, () -> {
+            CombatManager.Instance().clearActionString();
             CombatManager.Instance().executeTurn();
         }));
 
         // Use Card
         gameComponents.add(new GameButton("Use Card", 24f, 800, 770, 100, 110, () -> {
+            CombatManager.Instance().clearActionString();
             CombatManager.Instance().onPlayerUseCard(deck.getSelectedCard(), CombatManager.Instance().getTarget());
         }));
     }
@@ -104,12 +111,19 @@ public class CombatState extends GameState {
         roomTimeTurnText.setText(String.format("Room: %d  Time: %s  Turn: %d", GameManager.Instance().getRoom(), GameManager.Instance().getTimeString(), CombatManager.Instance().getTurnCount()));
         roomTimeTurnText.horizontallyCentering(0, GameView.GAME_WIDTH);
 
+        setActionText(CombatManager.Instance().getActionString());
         CombatManager.Instance().update();
         GameManager.Instance().getPlayer().update();
         for (Enemy enemy : enemies) {
             enemy.update();
         }
         deck.update();
+
+        // Update card info text with current selected card
+        if (deck.getSelectedCard() != null) cardInfoText.setText(deck.getSelectedCard().toString());
+        else cardInfoText.setText("No card selected");
+        cardInfoText.horizontallyCentering(180, 590);
+        cardInfoText.verticallyCentering(770, 110);
 
         super.update();
     }
@@ -129,6 +143,10 @@ public class CombatState extends GameState {
         }
 
         deck.render(g);
+
+        // Card info border
+        g.setColor(Color.white);
+        g.drawRect(185, 770, 590, 110);
 
         // Draw components
         super.render(g);
@@ -158,5 +176,9 @@ public class CombatState extends GameState {
         deck.mouseMoved(e);
 
         super.mouseMoved(e);
+    }
+    public void setActionText(String action){
+        actionText.setText(action);
+        actionText.horizontallyCentering(0,GameView.GAME_WIDTH);
     }
 }

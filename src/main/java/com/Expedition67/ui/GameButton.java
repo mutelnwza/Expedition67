@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 public class GameButton implements GameComponent {
 
     private String label;
-    private float labelSize;
     private int x;
     private int y;
     private int width;
@@ -19,6 +18,7 @@ public class GameButton implements GameComponent {
     private GameText textComponent;
 
     // State
+    private boolean isVisible;
     private boolean mouseOver;
     private Runnable onClick;
 
@@ -35,13 +35,13 @@ public class GameButton implements GameComponent {
      */
     public GameButton(String label, float labelSize, int x, int y, int width, int height, Runnable onClick) {
         this.label = label;
-        this.labelSize = labelSize;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.bounds = new Rectangle(x, y, width, height);
         this.onClick = onClick;
+        this.isVisible = true;
 
         this.textComponent = new GameText(label, 0, 0, labelSize, Color.white);
         this.textComponent.horizontallyCentering(x, width);
@@ -53,6 +53,13 @@ public class GameButton implements GameComponent {
      */
     public void setOnClick(Runnable onClick) {
         this.onClick = onClick;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+        this.textComponent.setText(label);
+        this.textComponent.horizontallyCentering(x, width);
+        this.textComponent.verticallyCentering(y, height);
     }
 
     // --- GameComponent Implementation ---
@@ -77,6 +84,8 @@ public class GameButton implements GameComponent {
 
     @Override
     public void render(Graphics g) {
+        if (!isVisible) return;
+
         // Draw Background
         if (mouseOver) {
             g.setColor(Color.lightGray); // Hover
@@ -100,6 +109,8 @@ public class GameButton implements GameComponent {
 
     @Override
     public boolean mouseClicked(MouseEvent e) {
+        if (!isVisible) return false;
+
         if (isInside(e.getX(), e.getY())) {
             onClick.run();
             return true;
@@ -109,7 +120,14 @@ public class GameButton implements GameComponent {
 
     @Override
     public boolean mouseMoved(MouseEvent e) {
+        if (!isVisible) return false;
+
         this.mouseOver = isInside(e.getX(), e.getY());
         return mouseOver;
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }

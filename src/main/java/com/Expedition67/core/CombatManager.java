@@ -8,6 +8,7 @@ import com.Expedition67.unit.Enemy.Enemy;
 import com.Expedition67.unit.Enemy.EnemyBrain;
 import com.Expedition67.unit.PlayerBrain;
 import com.Expedition67.unit.Unit;
+
 import java.util.List;
 
 public class CombatManager {
@@ -18,12 +19,17 @@ public class CombatManager {
     private List<Enemy> enemies;
     private Enemy target;
     private Deck deck;
+    private String actionString = "";
 
-    private boolean isPlayerTurn = false;
+    private boolean isPlayerTurn = true;
     private boolean isCombatActive;
 
     private int turnCount;
     private int cardUsedCount;
+
+    private int actionTimer = 0;
+    private final int ACTION_DELAY = 50;
+    private int currentEnemyActionIndex = 0;
 
     private CombatManager() {
         isCombatActive = false;
@@ -44,7 +50,7 @@ public class CombatManager {
         this.player = GameManager.Instance().getPlayer();
         this.enemies = enemies;
         this.target = enemies.getFirst();
-        this.turnCount = 1;
+        this.turnCount = 0;
         this.cardUsedCount = 0;
 
         if (deck == null) {
@@ -54,13 +60,13 @@ public class CombatManager {
         // deck.addToHand();
 
         isCombatActive = true;
-        // isPlayerTurn = true;
+        isPlayerTurn = true;
 
         // player.getBrain().onTurnStarted();
-        // for(Enemy e : enemies){
-        //     ((EnemyBrain)e.getBrain()).calculateNextMove();
-        // }
-        executeTurn();
+        for (Enemy e : enemies) {
+            ((EnemyBrain) e.getBrain()).calculateNextMove();
+        }
+        startPlayerTurn();
     }
 
     public void executeTurn() {
@@ -72,19 +78,17 @@ public class CombatManager {
             player.getBrain().onTurnEnded();
             deck.addToHand();
             isPlayerTurn = false;
+            //
+            player.getBrain().onTurnEnded();
+                isPlayerTurn = false;
 
-            for (Unit enemy : enemies) {
-                EnemyBrain eb = (EnemyBrain) enemy.getBrain();
-                eb.onTurnStarted();
-                eb.getNextAction().apply(eb.getTarget());
-                eb.onTurnEnded();
-            }
+            currentEnemyActionIndex = 0;
+            actionTimer = ACTION_DELAY;
         }
-
-        startPlayerTurn();
     }
 
     private void startPlayerTurn() {
+        clearActionString();
         isPlayerTurn = true;
         if (player != null && player.getUnitStats().getHp() > 0) {
             turnCount++;
@@ -92,9 +96,9 @@ public class CombatManager {
             
             player.getBrain().onTurnStarted();
 
-            for(Enemy e : enemies){
-            ((EnemyBrain)e.getBrain()).calculateNextMove();
-        }
+            for (Enemy e : enemies) {
+                ((EnemyBrain) e.getBrain()).calculateNextMove();
+            }
         }
     }
 
@@ -105,14 +109,14 @@ public class CombatManager {
         if (card == null || target == null || pb.getAP() < card.getAP()) {
             return;
         }
+        actionString = player.getName();
         card.use(pb, target);
         //card.getAbility().apply(target, player);
-        
-        for(Enemy e : enemies){
-            EnemyBrain eb =  (EnemyBrain)e.getBrain();
+
+        for (Enemy e : enemies) {
+            EnemyBrain eb = (EnemyBrain) e.getBrain();
             eb.onPlayerUseCard(card);
         }
-
         pb.onUseCard(card.getAP());
         deck.useCard(card);
 
@@ -120,7 +124,30 @@ public class CombatManager {
     }
 
     public void update() {
+        if (!isCombatActive) return;
         checkWinCondition();
+
+        if (!isPlayerTurn) {
+            actionTimer--;
+
+            if (actionTimer <= 0) {
+                if (currentEnemyActionIndex < enemies.size()) {
+                    Enemy currentEnemy = enemies.get(currentEnemyActionIndex);
+
+                    if (currentEnemy.getUnitStats().getHp() > 0) {
+                        EnemyBrain eb = (EnemyBrain) currentEnemy.getBrain();
+                        eb.onTurnStarted();
+                        actionString = currentEnemy.getName();
+                        eb.getNextAction().apply(eb.getTarget());
+                        eb.onTurnEnded();
+                    }
+
+                    currentEnemyActionIndex++;
+                    actionTimer = ACTION_DELAY;
+                } else
+                    startPlayerTurn();
+            }
+        }
     }
 
     private void checkWinCondition() {
@@ -161,4 +188,13 @@ public class CombatManager {
     public int getTurnCount() {
         return turnCount;
     }
+    public String getActionString(){
+        return this.actionString;
+    }
+    public void addActionString(String action){
+        actionString += action;
+    }
+    public void clearActionString() {
+    actionString = "";
+}
 }

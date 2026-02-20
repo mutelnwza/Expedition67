@@ -1,4 +1,5 @@
 package com.Expedition67.card;
+import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
 
 public class VoidDragonAbility extends CardAbility {
@@ -10,5 +11,8 @@ public class VoidDragonAbility extends CardAbility {
     }
 
     @Override
-    public void apply(Unit target) {target.takeDamage(normalDamage);}
+    public void apply(Unit target) {
+        target.takeDamage(normalDamage);
+        CombatManager.Instance().addActionString("  void damage to " + target.getName()+ " = " + value);
+    }
 }
