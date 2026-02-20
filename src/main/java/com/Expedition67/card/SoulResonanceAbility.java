@@ -12,4 +12,5 @@ public class SoulResonanceAbility implements CardAbility {
     public void apply(Unit target) {
         // TODO: รอทำระบบ บวกดาเมจให้การ์ด Attack ทุกใบในมือ
     }
+
 }

@@ -24,6 +24,7 @@ public class CombatState extends GameState {
     // Direct references for dynamic updates
     private GameText roomTimeTurnText;
     private GameText cardInfoText;
+    private GameText actionText;
 
     private List<Enemy> enemies;
     private Deck deck;
@@ -39,6 +40,9 @@ public class CombatState extends GameState {
         // Info text
         roomTimeTurnText = new GameText("Room: 0  Time: 00:00  Turn: 0", 0, 740, 24f, Color.white);
         gameComponents.add(roomTimeTurnText);
+
+        actionText = new GameText(" ---------------- ", 300, 360, 24f, Color.white);
+        gameComponents.add(actionText);
 
         // Lose (Temp)
         gameComponents.add(new GameButton("Lose", 24f, 50, 650, 100, 50, () -> {
@@ -60,11 +64,13 @@ public class CombatState extends GameState {
 
         // End Turn
         gameComponents.add(new GameButton("End Turn" , 24f, 50, 830, 100, 50, () -> {
+            CombatManager.Instance().clearActionString();
             CombatManager.Instance().executeTurn();
         }));
 
         // Use Card
         gameComponents.add(new GameButton("Use Card", 24f, 800, 770, 100, 110, () -> {
+            CombatManager.Instance().clearActionString();
             CombatManager.Instance().onPlayerUseCard(deck.getSelectedCard(), CombatManager.Instance().getTarget());
         }));
     }
@@ -101,6 +107,7 @@ public class CombatState extends GameState {
         roomTimeTurnText.setText(String.format("Room: %d  Time: %s  Turn: %d", GameManager.Instance().getRoom(), GameManager.Instance().getTimeString(), CombatManager.Instance().getTurnCount()));
         roomTimeTurnText.horizontallyCentering(0, GameView.GAME_WIDTH);
 
+        setActionText(CombatManager.Instance().getActionString());
         CombatManager.Instance().update();
         GameManager.Instance().getPlayer().update();
         for (Enemy enemy : enemies) {
@@ -155,5 +162,9 @@ public class CombatState extends GameState {
         deck.mouseMoved(e);
 
         super.mouseMoved(e);
+    }
+    public void setActionText(String action){
+        actionText.setText(action);
+        actionText.horizontallyCentering(0,GameView.GAME_WIDTH);
     }
 }

@@ -1,4 +1,5 @@
 package com.Expedition67.card;
+import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
 
 public class DamageAbility implements CardAbility {
@@ -8,9 +9,9 @@ public class DamageAbility implements CardAbility {
         this.Damage = Damage;
     }
     @Override
-    public void apply(Unit target){
+    public void apply(Unit src, Unit target) {
         target.takeDamage(Damage);
-        System.out.println("DEAL DAMAGE TO "+target.getName()+" ="+Damage);
+        CombatManager.Instance().addActionString(src.getName() + " DEAL DAMAGE TO " + target.getName() + " = " + Damage);
     }
 
     public void setDamage(int newDmg){
@@ -18,5 +19,10 @@ public class DamageAbility implements CardAbility {
     }
     public int getDamage(){
         return Damage;
+    }
+    @Override
+    public void apply(Unit target) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'apply'");
     }
 }

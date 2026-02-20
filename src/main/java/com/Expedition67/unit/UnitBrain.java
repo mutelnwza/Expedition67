@@ -2,6 +2,8 @@ package com.Expedition67.unit;
 
 import com.Expedition67.card.CardAbility;
 import com.Expedition67.card.RemoveableAbility;
+import com.Expedition67.core.CombatManager;
+
 import java.util.ArrayList;
 
 public abstract class UnitBrain {
@@ -44,10 +46,12 @@ public abstract class UnitBrain {
     public abstract UnitBrain copy();
 
     public void applyCard(CardAbility ca, Unit src){
+        CombatManager.Instance().setActionString(src.getName());
         if(ca instanceof RemoveableAbility rb){
             currentBuff.add(new buffTracker(rb.getTurn(), rb));
         }
         ca.apply(this.owner);
+        
     }
 
     public void heal(float amount) {

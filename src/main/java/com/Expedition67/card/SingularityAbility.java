@@ -13,4 +13,5 @@ public class SingularityAbility implements CardAbility {
         target.getBrain().addDef(shield);
         // TODO: รอทำระบบ setNextCardFree(true) ทำให้การ์ดใบถัดไป Cost 0
     }
+
 }

@@ -15,4 +15,5 @@ public class ShieldHealAbility implements CardAbility {
         target.getBrain().addDef(shield); 
         target.getBrain().heal(heal);     
     }
+
 }
