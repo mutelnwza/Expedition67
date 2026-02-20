@@ -71,7 +71,7 @@ public class Deck implements GameComponent {
 
     public void removeFromHand(Card c) {
         hand.remove(c);
-        selectedCard = -1;
+        selectedCardIndex = -1;
         horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 

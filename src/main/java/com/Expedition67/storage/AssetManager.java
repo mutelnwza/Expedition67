@@ -40,7 +40,7 @@ public class AssetManager {
         // hard code เอานะจ๊ะ
         // register all sprites with load method
         // use this -> spriteDatabase.put("name", load(path,w,h))
-        spriteDatabase.put("Player", loadSpriteImage("/images/sprites/player.PNG", 500, 500));
+        spriteDatabase.put("Player", loadSpriteImage("/images/sprites/player.PNG", 2000, 2000)); // Should be w = 500, h = 500
         spriteDatabase.put("test", loadSpriteImage("/images/sprites/test.png",500,500));
         spriteDatabase.put("CryingSlime", loadSpriteImage("/images/sprites/CryingSlime.png",500,500));
         spriteDatabase.put("Lukchin", loadSpriteImage("/images/sprites/Lukchin.png",500,500));

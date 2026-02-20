@@ -4,8 +4,8 @@ import com.Expedition67.unit.*;
 
 public class Card {
 
-    public enum CardTier{
-        NORMAL,RARE,DEBUFF
+    public enum CardTier {
+        NORMAL, RARE, DEBUFF
     }
 
     private String name;
@@ -18,7 +18,7 @@ public class Card {
     private CardTier cardTier;
     private String description;
 
-    public Card(String name, int apCost, boolean isPermanant, int defaultUsesAmount, CardAbility ability, String description) {
+    public Card(String name, int apCost, boolean isPermanant, int defaultUsesAmount, CardAbility ability, CardTier cardTier, String description) {
         this.name = name;
         this.apCost = apCost; //for crad
         this.isPermanant = isPermanant;
@@ -30,19 +30,21 @@ public class Card {
     }
 
     public Card(Card c) {
-        this.name = c.getName();
-        this.apCost = c.getAP();
-        this.ability = c.getAbility();
-        this.defaultUsesAmount = c.getDefaultUsesAmount();
-        this.usesLeft = c.getUsesLeft();
-        this.isPermanant = c.getPerm();
+        this.name = c.name;
+        this.apCost = c.apCost;
+        this.isPermanant = c.isPermanant;
+        this.defaultUsesAmount = c.defaultUsesAmount;
+        this.usesLeft = c.usesLeft;
+        this.ability = c.ability;
+        this.cardTier = c.cardTier;
+        this.description = c.description;
     }
 
-    public void addCost(int cost){
+    public void addCost(int cost) {
         this.apCost += cost;
     }
 
-    public void use(Unit src,Unit target){
+    public void use(Unit src, Unit target) {
         target.getBrain().applyCard(ability, src);
     }
 
