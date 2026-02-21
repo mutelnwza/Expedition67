@@ -70,7 +70,6 @@ public class CombatState extends GameState {
 
         // Use Card
         gameComponents.add(new GameButton("Use Card", 24f, 800, 770, 100, 110, () -> {
-            CombatManager.Instance().clearActionString();
             CombatManager.Instance().onPlayerUseCard(deck.getSelectedCard(), CombatManager.Instance().getTarget());
         }));
     }

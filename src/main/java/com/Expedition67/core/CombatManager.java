@@ -1,6 +1,7 @@
 package com.Expedition67.core;
 
 import com.Expedition67.card.Card;
+import com.Expedition67.card.CardAbility;
 import com.Expedition67.states.CardDropState;
 import com.Expedition67.states.ResultState;
 import com.Expedition67.unit.Deck;
@@ -101,11 +102,15 @@ public class CombatManager {
         Unit player = GameManager.Instance().getPlayer();
         PlayerBrain pb = (PlayerBrain) player.getBrain();
 
-        if (card == null || target == null || pb.getAP() < card.getAP()) {
+        if (card == null || target == null) return;
+        if (pb.getAP() < card.getAP()) {
+            actionString = "Not enough AP";
             return;
         }
         actionString = player.getName().toString();
-        card.use(pb, target);
+        CardAbility.CardType cardType = card.getAbility().getCardType();
+        if (cardType == CardAbility.CardType.ATK || cardType == CardAbility.CardType.DEBUFF) card.use(pb, target);
+        else card.use(pb, player);
         //card.getAbility().apply(target, player);
 
         for (Enemy e : enemies) {
