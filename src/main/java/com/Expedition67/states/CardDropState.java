@@ -31,7 +31,7 @@ public class CardDropState extends GameState {
     private final int CARD_DROP_WIDTH = 400;
     private final int CARD_DROP_HEIGHT = 400;
     private final int CARD_DROP_X = (GameView.GAME_WIDTH - CARD_DROP_WIDTH) / 2;
-    private final int CARD_DROP_Y = 200;
+    private final int CARD_DROP_Y = 180;
 
     public CardDropState() {
         super();

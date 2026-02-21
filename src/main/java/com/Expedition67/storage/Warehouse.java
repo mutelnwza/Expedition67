@@ -47,7 +47,7 @@ public class Warehouse {
     }
 
     private void loadPlayer() {
-        player = new Unit(UnitName.PLAYER, new UnitStats(100, 1, 0), new PlayerBrain(), UnitType.PLAYER, 50, 50, 500, 500);
+        player = new Unit(UnitName.PLAYER, new UnitStats(100, 1, 0), new PlayerBrain(), UnitType.PLAYER, 50, 50, 300, 300);
         player.getAnimator().addAnimation("idle", 0, 20, 2);
     }
 
@@ -55,7 +55,7 @@ public class Warehouse {
         //* CRYING SLIME */
         EnemyData cryingSlime = new EnemyData(new Enemy(UnitName.CRYING_SLIME,
                 new UnitStats(75, 0, 0), new CryingSlimeBrain(),
-                UnitType.ENEMY, 0, 0, 200, 200));
+                UnitType.ENEMY, 0, 0, 250, 250));
         cryingSlime.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         cryingSlime.addActions("ATTACK", new DamageAbility(8, CardAbility.CardType.ATK));
         cryingSlime.addActions("DEF", new ShieldAbility(6, CardAbility.CardType.DEF));
@@ -64,28 +64,28 @@ public class Warehouse {
         /* LUKCHIN */
         EnemyData lukchin = new EnemyData(new Enemy(UnitName.LUKCHIN,
                 new UnitStats(67, 0, 0), new LukchinBrain(),
-                UnitType.ENEMY, 0, 0, 200, 200));
+                UnitType.ENEMY, 0, 0, 250, 250));
         lukchin.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         lukchin.addActions("ATTACK", new DamageAbility(8, CardAbility.CardType.ATK));
         unitFactory.put(UnitName.LUKCHIN, lukchin);
 
         /* VISION */
         EnemyData vision = new EnemyData(new Enemy(UnitName.VISION, new UnitStats(150, 0, 0),
-                new VisionBrain(), UnitType.MINIBOSS, 0, 0, 200, 200));
+                new VisionBrain(), UnitType.MINIBOSS, 0, 0, 300, 300));
         vision.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         vision.addActions("HEAL", new HealAbility(10, 18, CardAbility.CardType.HEAL));
         unitFactory.put(UnitName.VISION, vision);
 
         /* RED EYES */
         EnemyData redEyes = new EnemyData(new Enemy(UnitName.RED_EYES, new UnitStats(180, 0, 0),
-                new RedEyeBrain(), UnitType.MINIBOSS, 0, 0, 200, 200));
+                new RedEyeBrain(), UnitType.MINIBOSS, 0, 0, 300, 300));
         redEyes.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         redEyes.addActions("ATTACK", new DamageAbility(12, 15, CardAbility.CardType.ATK));
         unitFactory.put(UnitName.RED_EYES, redEyes);
 
         /* TILLY BIRD */
         EnemyData tillyBird = new EnemyData(new Enemy(UnitName.TILLY_THE_BIRD, new UnitStats(350, 0, 0),
-                new TillyTheBirdBrain(), UnitType.MINIBOSS, 0, 0, 200, 200));
+                new TillyTheBirdBrain(), UnitType.MINIBOSS, 0, 0, 300, 300));
         tillyBird.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         tillyBird.addActions("DEBUFF1", new CardModifyAbility(1, CardAbility.CardType.DEBUFF, CardAbility.CardType.ATK));
         tillyBird.addActions("NORMALATTACK", new DamageAbility(8, CardAbility.CardType.ATK));
@@ -97,7 +97,7 @@ public class Warehouse {
 
         /* SON AND DAD */
         EnemyData sonAndDad = new EnemyData(new Enemy(UnitName.SON_AND_DAD, new UnitStats(100, 0, 0),
-                new SonAndDadBrain(), UnitType.MINIBOSS, 0, 0, 200, 200));
+                new SonAndDadBrain(), UnitType.MINIBOSS, 0, 0, 300, 300));
         sonAndDad.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         sonAndDad.getUnit().getAnimator().addAnimation("dad_idle", 1, 20, 2);
         sonAndDad.addActions("DADATTACK", new DamageAbility(18, CardAbility.CardType.ATK));
@@ -109,7 +109,7 @@ public class Warehouse {
 
         /* BIG BAD BOSS */
         EnemyData bigBadBoss = new EnemyData(new Enemy(UnitName.BIG_BAD_BOSS, new UnitStats(500, 0, 0),
-                new BigBadBossBrain(), UnitType.BOSS, 0, 0, 200, 200));
+                new BigBadBossBrain(), UnitType.BOSS, 0, 0, 300, 300));
         bigBadBoss.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         bigBadBoss.addActions("ATTACK1", new VoidAttackAbility(15, CardAbility.CardType.ATK));
         bigBadBoss.addActions("ATTACK2", new MultiAttackAbility(4, CardAbility.CardType.ATK, 6));

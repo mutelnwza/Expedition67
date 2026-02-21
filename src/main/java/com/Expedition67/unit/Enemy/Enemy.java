@@ -54,7 +54,7 @@ public class Enemy extends Unit implements GameComponent {
 
     public void renderTarget(Graphics g) {
         int centerX = x + width / 2;
-        int y = this.y - 20;
+        int y = this.y - 30;
         int space = 60;
 
         g.setColor(Color.yellow);

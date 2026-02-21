@@ -51,25 +51,25 @@ public class Unit {
     }
 
     private void initNameText() {
-        nameText = new GameText(name.toString(), 0, y - 30, 18f, Color.white);
+        nameText = new GameText(name.toString(), 0, y - 50, 18f, Color.white);
         nameText.horizontallyCentering(x, width);
     }
 
     private void initHpText() {
         String hpStr = String.format("HP: %.2f/%.2f", unitStats.getHp(), unitStats.getMaxHp());
-        hpText = new GameText(hpStr, 0, y - 10, 18f, Color.white);
+        hpText = new GameText(hpStr, 0, y - 30, 18f, Color.white);
         hpText.horizontallyCentering(x, width);
     }
 
     private void initApText() {
         if (getBrain() instanceof PlayerBrain pb) {
             String apStr = String.format("AP: %d", pb.getAP());
-            apText = new GameText(apStr, 0, y + 30, 18f, Color.white);
+            apText = new GameText(apStr, 0, y - 10, 18f, Color.white);
             apText.horizontallyCentering(x, width);
         }
     }
     private void initdamageText(){
-        damageText = new GameText("0", 0, y - 50, 18f, Color.red);
+        damageText = new GameText("0", 0, y - 70, 18f, Color.red);
         damageText.setVisible(false);
     }
 
