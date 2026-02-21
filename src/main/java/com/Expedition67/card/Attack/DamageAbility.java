@@ -20,7 +20,7 @@ public class DamageAbility extends CardAbility {
     @Override
     public void apply(Unit target){
         target.takeDamage(calculateDamage());
-        System.out.println("DEAL DAMAGE TO "+target.getName()+" ="+value);
+        System.out.println(" deal damage to "+target.getName()+" ="+value);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class DamageAbility extends CardAbility {
             dmg*=1.5;
         }
         target.takeDamage(dmg);
-        System.out.println("DEAL DAMAGE TO "+target.getName()+" ="+value);
+        System.out.println(" deal damage to "+target.getName()+" ="+value);
     }
 
     protected int calculateDamage(){
