@@ -82,16 +82,16 @@ public class CombatState extends GameState {
         // Create an enemy based on the room type
         enemies = new ArrayList<>();
         if (id == FINAL_BOSS_ROOM) {
-            enemies.add(Warehouse.Instance().spawnEnemy(UnitName.BIG_BAD_BOSS,550, 360));
+            enemies.add(Warehouse.Instance().spawnEnemy(UnitName.BIG_BAD_BOSS,550, 460));
         } else {
             Random rand = new Random();
             int level = rand.nextInt(1, 2);
             if (level == 1) {
-                enemies.add(Warehouse.Instance().spawnRandomEnemy(UnitType.MINIBOSS,550, 360));
+                enemies.add(Warehouse.Instance().spawnRandomEnemy(UnitType.MINIBOSS,550, 460));
             } else {
                 int enemiesAmount = rand.nextInt(1, 4);
                 for (int i = 0; i < enemiesAmount; i++) {
-                    enemies.add(Warehouse.Instance().spawnRandomEnemy(UnitType.ENEMY, (i * 120) + 550, 360));
+                    enemies.add(Warehouse.Instance().spawnRandomEnemy(UnitType.ENEMY, (i * 120) + 550, 460));
                 }
             }
         }
