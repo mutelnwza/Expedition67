@@ -1,5 +1,6 @@
 package com.Expedition67.core;
 
+import com.Expedition67.card.CardName;
 import com.Expedition67.states.*;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.storage.Warehouse;
@@ -111,9 +112,9 @@ public class GameManager {
         CombatManager.initNew();
         CardInventory.Instance().emptyInventory();
         // Temp
-        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard("Remnant Hit"), 1);
-        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard("Spectral Veil"), 1);
-        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard("Ethereal Restoration"), 1);
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.REMNANT_HIT), 1);
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.SPECTRAL_VEIL), 1);
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.ETHEREAL_RESTORATION), 1);
     }
 
     /**

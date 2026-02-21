@@ -1,5 +1,6 @@
 package com.Expedition67.card.Attack;
 
+import com.Expedition67.card.CardName;
 import com.Expedition67.core.CombatManager;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.Deck;
@@ -16,6 +17,6 @@ public class VoidAttackAbility extends DamageAbility{
     public void apply(Unit target, Unit src){
         super.apply(target,src);
         Deck d = CombatManager.Instance().getDeck();
-        d.addCard(Warehouse.Instance().spawnCard("VOID"));
+        d.addCard(Warehouse.Instance().spawnCard(CardName.VOID));
     }
 }

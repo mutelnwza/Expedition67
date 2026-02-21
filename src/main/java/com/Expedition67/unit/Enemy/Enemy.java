@@ -3,10 +3,7 @@ package com.Expedition67.unit.Enemy;
 import com.Expedition67.core.CombatManager;
 import com.Expedition67.core.GameView;
 import com.Expedition67.ui.GameComponent;
-import com.Expedition67.unit.Unit;
-import com.Expedition67.unit.UnitBrain;
-import com.Expedition67.unit.UnitStats;
-import com.Expedition67.unit.UnitType;
+import com.Expedition67.unit.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -16,7 +13,7 @@ public class Enemy extends Unit implements GameComponent {
     private boolean isVisible;
     private boolean mouseOver;
 
-    public Enemy(String name, UnitStats unitStats, UnitBrain unitBrain, UnitType unitType, int x, int y, int w, int h) {
+    public Enemy(UnitName name, UnitStats unitStats, UnitBrain unitBrain, UnitType unitType, int x, int y, int w, int h) {
         super(name, unitStats, unitBrain, unitType, x, y, w, h);
         this.isVisible = true;
     }

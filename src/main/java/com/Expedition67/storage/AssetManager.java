@@ -1,5 +1,8 @@
 package com.Expedition67.storage;
 
+import com.Expedition67.card.CardName;
+import com.Expedition67.unit.UnitName;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -12,14 +15,14 @@ public class AssetManager {
     access point for everywhere) */
 
     private static AssetManager instance;
-    private HashMap<String, BufferedImage[][]> spriteDatabase = new HashMap<>();
-    private HashMap<String, BufferedImage> cardDatabase = new HashMap<>();
+    private HashMap<UnitName, BufferedImage[][]> spriteDatabase = new HashMap<>();
+    private HashMap<CardName, BufferedImage> cardDatabase = new HashMap<>();
     private Font gameFont;
 
     // make it private to prevent other class from creating this
     private AssetManager() {
-         loadSprite();
-         loadCard();
+        loadSprite();
+        loadCard();
         gameFont = loadFont("/fonts/Jersey10-Regular.ttf");
     }
 
@@ -31,7 +34,7 @@ public class AssetManager {
         return instance;
     }
 
-    public void invoke(){
+    public void invoke() {
         loadSprite();
         loadCard();
     }
@@ -40,41 +43,38 @@ public class AssetManager {
         // hard code เอานะจ๊ะ
         // register all sprites with load method
         // use this -> spriteDatabase.put("name", load(path,w,h))
-        spriteDatabase.put("Player", loadSpriteImage("/images/sprites/player.png", 2000, 2000)); // Should be w = 500, h = 500
-        spriteDatabase.put("CryingSlime", loadSpriteImage("/images/sprites/crying_slime.png",500,500));
-        spriteDatabase.put("Lukchin", loadSpriteImage("/images/sprites/luk_chin.png",500,500));
-        spriteDatabase.put("Vision", loadSpriteImage("/images/sprites/vision.png",500,500));
-        spriteDatabase.put("Dad", loadSpriteImage("/images/sprites/dadteerawat.png",500,500));
-        spriteDatabase.put("Son", loadSpriteImage("/images/sprites/child.png",500,500));
-        spriteDatabase.put("BigBadBoss", loadSpriteImage("/images/sprites/big_bad_boss.png",500,500));
-        spriteDatabase.put("TillyTheBird", loadSpriteImage("/images/sprites/tilly_the_bird.png",500,500));
-        spriteDatabase.put("RedEye", loadSpriteImage("/images/sprites/red_eyes.png",500,500));
+        spriteDatabase.put(UnitName.BIG_BAD_BOSS, loadSpriteImage("/images/sprites/Big_Bad_Boss.png", 500, 500));
+        spriteDatabase.put(UnitName.CRYING_SLIME, loadSpriteImage("/images/sprites/Crying_Slime.png", 500, 500));
+        spriteDatabase.put(UnitName.LUKCHIN, loadSpriteImage("/images/sprites/Lukchin.png", 500, 500));
+        spriteDatabase.put(UnitName.PLAYER, loadSpriteImage("/images/sprites/Player.png", 500, 500));
+        spriteDatabase.put(UnitName.RED_EYES, loadSpriteImage("/images/sprites/Red_Eyes.png", 500, 500));
+        spriteDatabase.put(UnitName.SON_AND_DAD, loadSpriteImage("/images/sprites/Son_And_Dad.png", 500, 500));
+        spriteDatabase.put(UnitName.TILLY_THE_BIRD, loadSpriteImage("/images/sprites/Tilly_The_Bird.png", 500, 500));
+        spriteDatabase.put(UnitName.VISION, loadSpriteImage("/images/sprites/Vision.png", 500, 500));
     }
 
-    private void loadCard(){
-        cardDatabase.put("Remnant Hit", loadCardImage("/images/cards/remnant_hit.png"));
-        cardDatabase.put("Celestial Singularity", loadCardImage("/images/cards/celestial_singularity.png"));
-        cardDatabase.put("Echoing Strike", loadCardImage("/images/cards/echoing_strike.png"));
-        cardDatabase.put("Eternal Soul Rebirth", loadCardImage("/images/cards/eternal_soul_rebirth.png"));
-        cardDatabase.put("Ethereal Restoration", loadCardImage("/images/cards/ethereal_restoration.png"));
-        cardDatabase.put("Event Horizon", loadCardImage("/images/cards/event_horizon.png"));
-        cardDatabase.put("Harmonic Resonance", loadCardImage("/images/cards/harmonic_resonance.png"));
-        cardDatabase.put("Soul Aegis", loadCardImage("/images/cards/soul_aegis.png"));
-        cardDatabase.put("Soul Flicker", loadCardImage("/images/cards/soul_flicker.png"));
-        cardDatabase.put("Soul Resonance", loadCardImage("/images/cards/soul_resonance.png"));
-        cardDatabase.put("Sovereign's Overdrive", loadCardImage("/images/cards/sovereign_is_overdrive.png"));
-        cardDatabase.put("Spectral Veil", loadCardImage("/images/cards/spectral_veil.png"));
-        cardDatabase.put("Void Dragon", loadCardImage("/images/cards/void_dragon.png"));
-
+    private void loadCard() {
+        cardDatabase.put(CardName.CELESTIAL_SINGULARITY, loadCardImage("/images/cards/Celestial_Singularity.png"));
+        cardDatabase.put(CardName.ECHOING_STRIKE, loadCardImage("/images/cards/Echoing_Strike.png"));
+        cardDatabase.put(CardName.ETERNAL_SOUL_REBIRTH, loadCardImage("/images/cards/Eternal_Soul_Rebirth.png"));
+        cardDatabase.put(CardName.ETHEREAL_RESTORATION, loadCardImage("/images/cards/Ethereal_Restoration.png"));
+        cardDatabase.put(CardName.EVENT_HORIZON, loadCardImage("/images/cards/Event_Horizon.png"));
+        cardDatabase.put(CardName.HARMONIC_RESONANCE, loadCardImage("/images/cards/Harmonic_Resonance.png"));
+        cardDatabase.put(CardName.REMNANT_HIT, loadCardImage("/images/cards/Remnant_Hit.png"));
+        cardDatabase.put(CardName.SOUL_AEGIS, loadCardImage("/images/cards/Soul_Aegis.png"));
+        cardDatabase.put(CardName.SOUL_FLICKER, loadCardImage("/images/cards/Soul_Flicker.png"));
+        cardDatabase.put(CardName.SOUL_RESONANCE, loadCardImage("/images/cards/Soul_Resonance.png"));
+        cardDatabase.put(CardName.SOVEREIGNS_OVERDRIVE, loadCardImage("/images/cards/Sovereigns_Overdrive.png"));
+        cardDatabase.put(CardName.SPECTRAL_VEIL, loadCardImage("/images/cards/Spectral_Veil.png"));
+        cardDatabase.put(CardName.VOID_DRAGON, loadCardImage("/images/cards/Void_Dragon.png"));
     }
 
-    private BufferedImage loadCardImage(String path){
-        try{
+    private BufferedImage loadCardImage(String path) {
+        try {
             BufferedImage img = ImageIO.read(getClass().getResourceAsStream(path));
             return img;
-        }
-        catch(Exception e){
-            System.err.println("error loading "+path);
+        } catch (Exception e) {
+            System.err.println("error loading " + path);
             e.printStackTrace();
             return null;
         }
@@ -100,12 +100,11 @@ public class AssetManager {
         }
     }
 
-    public BufferedImage getSprite(String key, int row, int index) {
+    public BufferedImage getSprite(UnitName key, int row, int index) {
         return spriteDatabase.get(key)[row][index];
-        
     }
 
-    public BufferedImage getCard(String key) {
+    public BufferedImage getCard(CardName key) {
         return cardDatabase.get(key);
     }
 

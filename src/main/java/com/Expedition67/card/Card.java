@@ -8,7 +8,7 @@ public class Card {
         NORMAL, RARE, DEBUFF
     }
 
-    private String name;
+    private CardName name;
     private int apCost;
     private boolean isPermanant;
     private int defaultUsesAmount;
@@ -18,7 +18,7 @@ public class Card {
     private CardTier cardTier;
     private String description;
 
-    public Card(String name, int apCost, boolean isPermanant, int defaultUsesAmount, CardAbility ability, CardTier cardTier, String description) {
+    public Card(CardName name, int apCost, boolean isPermanant, int defaultUsesAmount, CardAbility ability, CardTier cardTier, String description) {
         this.name = name;
         this.apCost = apCost; //for crad
         this.isPermanant = isPermanant;
@@ -65,7 +65,7 @@ public class Card {
         return locked;
     }
 
-    public String getName() {
+    public CardName getName() {
         return this.name;
     }
 

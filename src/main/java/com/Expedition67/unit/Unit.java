@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class Unit {
 
-    protected final String name;
+    protected final UnitName name;
     protected final int width, height; //position in canvas and size
     protected int x, y;
     protected final UnitStats unitStats;
@@ -32,7 +32,7 @@ public class Unit {
     private final int FLASH_DURATION = 30;
 
     //each unit will be create once in a warehouse
-    public Unit(String name, UnitStats unitStats, UnitBrain unitBrain, UnitType unitType, int x, int y, int w, int h) {
+    public Unit(UnitName name, UnitStats unitStats, UnitBrain unitBrain, UnitType unitType, int x, int y, int w, int h) {
         this.name = name;
         this.unitBrain = unitBrain;
         this.unitStats = unitStats;
@@ -51,7 +51,7 @@ public class Unit {
     }
 
     private void initNameText() {
-        nameText = new GameText(name, 0, y - 30, 18f, Color.white);
+        nameText = new GameText(name.toString(), 0, y - 30, 18f, Color.white);
         nameText.horizontallyCentering(x, width);
     }
 
@@ -158,7 +158,7 @@ public class Unit {
         return animator;
     }
 
-    public String getName() {
+    public UnitName getName() {
         return name;
     }
 

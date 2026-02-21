@@ -104,7 +104,7 @@ public class CombatManager {
         if (card == null || target == null || pb.getAP() < card.getAP()) {
             return;
         }
-        actionString = player.getName();
+        actionString = player.getName().toString();
         card.use(pb, target);
         //card.getAbility().apply(target, player);
 
@@ -132,7 +132,7 @@ public class CombatManager {
                     if (currentEnemy.getUnitStats().getHp() > 0) {
                         EnemyBrain eb = (EnemyBrain) currentEnemy.getBrain();
                         eb.onTurnStarted();
-                        actionString = currentEnemy.getName();
+                        actionString = currentEnemy.getName().toString();
                         eb.getNextAction().apply(eb.getTarget());
                         eb.onTurnEnded();
                     }

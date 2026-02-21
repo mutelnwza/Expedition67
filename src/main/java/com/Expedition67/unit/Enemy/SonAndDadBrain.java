@@ -58,7 +58,7 @@ public class SonAndDadBrain extends EnemyBrain {
         isDad = true;
         owner.getUnitStats().setMaxHp(220);
         heal(500);
-        owner.getAnimator().play("dadidle");
+        owner.getAnimator().play("dad_idle");
         if (isRage) {
             addStr(5);
         }
