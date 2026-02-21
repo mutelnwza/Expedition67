@@ -26,10 +26,10 @@ public class Deck implements GameComponent {
 
     private int[][] handPos;
 
-    private final int CARD_Y = 80;
+    private final int CARD_Y = 40;
     private final int CARD_WIDTH = 200;
     private final int CARD_HEIGHT = 200;
-    private final int CARD_SPACING = -30;
+    private final int CARD_SPACING = 0;
 
     private boolean isVisible;
 
