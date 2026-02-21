@@ -2,10 +2,10 @@ package com.Expedition67.states;
 
 import com.Expedition67.card.Card;
 import com.Expedition67.core.GameManager;
+import com.Expedition67.core.GameRandom;
 import com.Expedition67.core.GameView;
 import com.Expedition67.storage.AssetManager;
 import com.Expedition67.storage.CardInventory;
-import com.Expedition67.storage.Warehouse;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
 
@@ -13,8 +13,9 @@ import java.awt.*;
 
 public class CardDropState extends GameState {
 
-    public static final int MONSTER_DROP = 0;
-    public static final int TREASURE_ROOM = 1;
+    public static final int NORMAL_DROP = 0;
+    public static final int MINIBOSS_DROP = 1;
+    public static final int TREASURE_ROOM = 2;
 
     private Card cardDrop;
 
@@ -28,7 +29,7 @@ public class CardDropState extends GameState {
 
     private boolean isNextRoomState;
 
-    private final int CARD_DROP_WIDTH = 400;
+    private final int CARD_DROP_WIDTH = 300;
     private final int CARD_DROP_HEIGHT = 400;
     private final int CARD_DROP_X = (GameView.GAME_WIDTH - CARD_DROP_WIDTH) / 2;
     private final int CARD_DROP_Y = 180;
@@ -73,15 +74,18 @@ public class CardDropState extends GameState {
 
     @Override
     public void enter(int id) {
-        if (id == MONSTER_DROP) {
-            messageText.setText("Monster drop you...");
-        } else {
-            // Enter a treasure room counts as a new room visit
+        if (id == TREASURE_ROOM) {
             GameManager.Instance().setRoom(GameManager.Instance().getRoom() + 1);
+
             messageText.setText("Lucky! You found the Treasure Room. You got...");
+            cardDrop = GameRandom.Instance().getRandomCard(null);
+        } else {
+            messageText.setText("Monster drop you...");
+            if (id == NORMAL_DROP) cardDrop = GameRandom.Instance().getRandomCard(Card.CardTier.NORMAL);
+            else cardDrop = GameRandom.Instance().getRandomCard(Card.CardTier.RARE);
         }
+
         messageText.horizontallyCentering(0, GameView.GAME_WIDTH);
-        cardDrop = Warehouse.Instance().spawnRandomCard();
         setGetCardUI();
     }
 
@@ -157,18 +161,9 @@ public class CardDropState extends GameState {
         nextActionText.setVisible(true);
 
         leftButton.setLabel("Go into next room");
-        leftButton.setOnClick(this::nextRoom);
+        leftButton.setOnClick(GameRandom.Instance()::enterRandomRoom);
 
         rightButton.setLabel("Challenge the boss");
-        rightButton.setOnClick(this::nextRoom);
-    }
-
-    private void nextRoom() {
-        // 15% chance to find a Treasure Room
-        if (Math.random() > 0.15) {
-            GameManager.Instance().setCurrentState(GameManager.COMBAT_STATE, CombatState.MONSTER_ROOM);
-        } else {
-            GameManager.Instance().setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.TREASURE_ROOM);
-        }
+        rightButton.setOnClick(() -> GameManager.Instance().setCurrentState(GameManager.COMBAT_STATE, CombatState.BOSS_ROOM));
     }
 }

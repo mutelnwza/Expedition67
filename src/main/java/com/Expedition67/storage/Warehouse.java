@@ -26,12 +26,15 @@ import java.util.*;
 public class Warehouse {
 
     private static Warehouse instance;
-    private Unit player;
-    private HashMap<UnitName, EnemyData> unitFactory = new HashMap<>();
-    private HashMap<CardName, Card> cardFactory = new HashMap<>();
 
+    private Unit player;
+
+    private HashMap<UnitName, EnemyData> enemyFactory;
     private List<EnemyData> normalEnemies;
     private List<EnemyData> miniBosses;
+    private EnemyData boss;
+
+    private HashMap<CardName, Card> cardFactory;
 
     private Warehouse() {
         loadPlayer();
@@ -52,6 +55,8 @@ public class Warehouse {
     }
 
     private void loadEnemy() {
+        enemyFactory = new HashMap<>();
+
         //* CRYING SLIME */
         EnemyData cryingSlime = new EnemyData(new Enemy(UnitName.CRYING_SLIME,
                 new UnitStats(75, 0, 0), new CryingSlimeBrain(),
@@ -59,7 +64,7 @@ public class Warehouse {
         cryingSlime.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         cryingSlime.addActions("ATTACK", new DamageAbility(8, CardAbility.CardType.ATK));
         cryingSlime.addActions("DEF", new ShieldAbility(6, CardAbility.CardType.DEF));
-        unitFactory.put(UnitName.CRYING_SLIME, cryingSlime);
+        enemyFactory.put(UnitName.CRYING_SLIME, cryingSlime);
 
         /* LUKCHIN */
         EnemyData lukchin = new EnemyData(new Enemy(UnitName.LUKCHIN,
@@ -67,33 +72,33 @@ public class Warehouse {
                 UnitType.ENEMY, 0, 0, 150, 150));
         lukchin.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         lukchin.addActions("ATTACK", new DamageAbility(8, CardAbility.CardType.ATK));
-        unitFactory.put(UnitName.LUKCHIN, lukchin);
+        enemyFactory.put(UnitName.LUKCHIN, lukchin);
 
         /* VISION */
         EnemyData vision = new EnemyData(new Enemy(UnitName.VISION, new UnitStats(150, 0, 0),
                 new VisionBrain(), UnitType.MINIBOSS, 0, 0, 150, 150));
         vision.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         vision.addActions("HEAL", new HealAbility(10, 18, CardAbility.CardType.HEAL));
-        unitFactory.put(UnitName.VISION, vision);
+        enemyFactory.put(UnitName.VISION, vision);
 
         /* RED EYES */
         EnemyData redEyes = new EnemyData(new Enemy(UnitName.RED_EYES, new UnitStats(180, 0, 0),
                 new RedEyeBrain(), UnitType.MINIBOSS, 0, 0, 150, 150));
         redEyes.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         redEyes.addActions("ATTACK", new DamageAbility(12, 15, CardAbility.CardType.ATK));
-        unitFactory.put(UnitName.RED_EYES, redEyes);
+        enemyFactory.put(UnitName.RED_EYES, redEyes);
 
         /* TILLY BIRD */
-        EnemyData tillyBird = new EnemyData(new Enemy(UnitName.TILLY_THE_BIRD, new UnitStats(350, 0, 0),
+        EnemyData tillyTheBird = new EnemyData(new Enemy(UnitName.TILLY_THE_BIRD, new UnitStats(350, 0, 0),
                 new TillyTheBirdBrain(), UnitType.MINIBOSS, 0, 0, 150, 150));
-        tillyBird.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
-        tillyBird.addActions("DEBUFF1", new CardModifyAbility(1, CardAbility.CardType.DEBUFF, CardAbility.CardType.ATK));
-        tillyBird.addActions("NORMALATTACK", new DamageAbility(8, CardAbility.CardType.ATK));
-        tillyBird.addActions("MULTIATTACK", new MultiAttackAbility(4, CardAbility.CardType.ATK, 5));
-        tillyBird.addActions("DISCARD", new AttackAndDiscardAbility(6, CardAbility.CardType.ATK));
-        tillyBird.addActions("HEAVYATTACK", new AttackAndStealHPAbility(24, 2, CardAbility.CardType.ATK));
-        tillyBird.addActions("NERF", new NerfStatsAbility(-1, 3, CardAbility.CardType.DEBUFF));
-        unitFactory.put(UnitName.TILLY_THE_BIRD, tillyBird);
+        tillyTheBird.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
+        tillyTheBird.addActions("DEBUFF1", new CardModifyAbility(1, CardAbility.CardType.DEBUFF, CardAbility.CardType.ATK));
+        tillyTheBird.addActions("NORMALATTACK", new DamageAbility(8, CardAbility.CardType.ATK));
+        tillyTheBird.addActions("MULTIATTACK", new MultiAttackAbility(4, CardAbility.CardType.ATK, 5));
+        tillyTheBird.addActions("DISCARD", new AttackAndDiscardAbility(6, CardAbility.CardType.ATK));
+        tillyTheBird.addActions("HEAVYATTACK", new AttackAndStealHPAbility(24, 2, CardAbility.CardType.ATK));
+        tillyTheBird.addActions("NERF", new NerfStatsAbility(-1, 3, CardAbility.CardType.DEBUFF));
+        enemyFactory.put(UnitName.TILLY_THE_BIRD, tillyTheBird);
 
         /* SON AND DAD */
         EnemyData sonAndDad = new EnemyData(new Enemy(UnitName.SON_AND_DAD, new UnitStats(100, 0, 0),
@@ -105,24 +110,26 @@ public class Warehouse {
         sonAndDad.addActions("DADDEFENSE", new ShieldAbility(6, 15, CardAbility.CardType.DEF));
         sonAndDad.addActions("POISON", new PoisonAbility(3, 5, CardAbility.CardType.ATK));
         sonAndDad.addActions("NERF", new NerfStatsAbility(3, 4, CardAbility.CardType.DEBUFF));
-        unitFactory.put(UnitName.SON_AND_DAD, sonAndDad);
+        enemyFactory.put(UnitName.SON_AND_DAD, sonAndDad);
 
         /* BIG BAD BOSS */
-        EnemyData bigBadBoss = new EnemyData(new Enemy(UnitName.BIG_BAD_BOSS, new UnitStats(500, 0, 0),
+        boss = new EnemyData(new Enemy(UnitName.BIG_BAD_BOSS, new UnitStats(500, 0, 0),
                 new BigBadBossBrain(), UnitType.BOSS, 0, 0, 150, 150));
-        bigBadBoss.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
-        bigBadBoss.addActions("ATTACK1", new VoidAttackAbility(15, CardAbility.CardType.ATK));
-        bigBadBoss.addActions("ATTACK2", new MultiAttackAbility(4, CardAbility.CardType.ATK, 6));
-        bigBadBoss.addActions("ATTACK3", new StackAttackAbility(10, 2, CardAbility.CardType.ATK));
-        bigBadBoss.addActions("DEFENSE", new ShieldAbility(8, 19, CardAbility.CardType.DEF));
-        bigBadBoss.addActions("LOCK", new LockCardAbility(1, 2, CardAbility.CardType.DEBUFF));
-        bigBadBoss.addActions("MIMIC", new MimicAbility(CardAbility.CardType.ATK));
+        boss.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
+        boss.addActions("ATTACK1", new VoidAttackAbility(15, CardAbility.CardType.ATK));
+        boss.addActions("ATTACK2", new MultiAttackAbility(4, CardAbility.CardType.ATK, 6));
+        boss.addActions("ATTACK3", new StackAttackAbility(10, 2, CardAbility.CardType.ATK));
+        boss.addActions("DEFENSE", new ShieldAbility(8, 19, CardAbility.CardType.DEF));
+        boss.addActions("LOCK", new LockCardAbility(1, 2, CardAbility.CardType.DEBUFF));
+        boss.addActions("MIMIC", new MimicAbility(CardAbility.CardType.ATK));
 
-        normalEnemies = unitFactory.values().stream().filter(u -> u.getUnit().getType() == UnitType.ENEMY).toList();
-        miniBosses = unitFactory.values().stream().filter(u -> u.getUnit().getType() == UnitType.MINIBOSS).toList();
+        normalEnemies = enemyFactory.values().stream().filter(u -> u.getUnit().getType() == UnitType.ENEMY).toList();
+        miniBosses = enemyFactory.values().stream().filter(u -> u.getUnit().getType() == UnitType.MINIBOSS).toList();
     }
 
     private void loadCard() {
+        cardFactory = new HashMap<>();
+
         // Void
         cardFactory.put(CardName.VOID, new Card(CardName.VOID, 1, true, -1, new VoidCard(CardAbility.CardType.VOID), Card.CardTier.DEBUFF, "GET VOID"));
 
@@ -154,62 +161,38 @@ public class Warehouse {
         return clone;
     }
 
-    public Enemy spawnEnemy(UnitName name, int x, int y) {
-        Enemy master = (Enemy) unitFactory.get(name).getUnit();
-        if (master != null) {
-            Enemy clone = master.copy(x, y);
-            clone.getAnimator().play("idle");
-            return clone;
-        } else return null;
+    public Enemy spawnBoss(int x, int y) {
+        Enemy clone = boss.getUnit().copy(x, y);
+        clone.getAnimator().play("idle");
+        return clone;
     }
 
     public Card spawnCard(CardName name) {
         return cardFactory.get(name).copy();
     }
 
-    public Enemy spawnRandomEnemy(int x, int y) {
-        Random rand = new Random();
-        int randIndex = rand.nextInt(unitFactory.size());
-
-        List<EnemyData> unitList = new ArrayList<>(unitFactory.values());
-        Enemy randEnemy = (Enemy) unitList.get(randIndex).getUnit();
-        Enemy clone = randEnemy.copy(x, y);
-        clone.getAnimator().play("idle");
-        return clone;
-    }
-
-    public Enemy spawnRandomEnemy(UnitType type, int x, int y) {
-        Random rand = new Random();
-        int randIndex;
-        Enemy randEnemy;
-        if (type == UnitType.MINIBOSS) {
-            randIndex = rand.nextInt(miniBosses.size());
-            randEnemy = (Enemy) miniBosses.get(randIndex).getUnit();
-        } else {
-            randIndex = rand.nextInt(normalEnemies.size());
-            randEnemy = (Enemy) normalEnemies.get(randIndex).getUnit();
-        }
-
-        Enemy clone = randEnemy.copy(x, y);
-        clone.getAnimator().play("idle");
-        return clone;
-    }
-
-    public Card spawnRandomCard() {
-        Random rand = new Random();
-        int randIndex = rand.nextInt(cardFactory.size());
-
-        List<Card> cardList = new ArrayList<>(cardFactory.values());
-        Card randCard = cardList.get(randIndex);
-        return randCard.copy();
-    }
-
     public CardAbility spawnAction(UnitName enemyName, String actionName) {
-        EnemyData master = unitFactory.get(enemyName);
+        EnemyData master = enemyFactory.get(enemyName);
         if (master != null) {
             return master.getAbility(actionName);
         }
         System.out.println("NULL");
         return null;
+    }
+
+    public List<Enemy> getNormalEnemies() {
+        return normalEnemies.stream().map(EnemyData::getUnit).toList();
+    }
+
+    public List<Enemy> getMinibosses() {
+        return miniBosses.stream().map(EnemyData::getUnit).toList();
+    }
+
+    public Enemy getBoss() {
+        return boss.getUnit();
+    }
+
+    public List<Card> getCards() {
+        return new ArrayList<>(cardFactory.values());
     }
 }

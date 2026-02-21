@@ -2,6 +2,7 @@ package com.Expedition67.states;
 
 import com.Expedition67.core.CombatManager;
 import com.Expedition67.core.GameManager;
+import com.Expedition67.core.GameRandom;
 import com.Expedition67.core.GameView;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.ui.GameButton;
@@ -10,17 +11,16 @@ import com.Expedition67.unit.Deck;
 import com.Expedition67.unit.Enemy.Enemy;
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.UnitName;
-import com.Expedition67.unit.UnitType;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class CombatState extends GameState {
 
     public static final int MONSTER_ROOM = 0;
-    public static final int FINAL_BOSS_ROOM = 1;
+    public static final int BOSS_ROOM = 1;
 
     // Direct references for dynamic updates
     private GameText roomTimeTurnText;
@@ -40,17 +40,18 @@ public class CombatState extends GameState {
         roomTimeTurnText = new GameText("Room: 0  Time: 00:00  Turn: 0", 0, 740, 24f, Color.white);
         gameComponents.add(roomTimeTurnText);
 
-        actionText = new GameText(" ---------------- ", 300, 360, 24f, Color.white);
+        // Action Text
+        actionText = new GameText("Placeholder", 0, 270, 24f, Color.white);
         gameComponents.add(actionText);
 
         // Lose (Temp)
         gameComponents.add(new GameButton("Lose", 24f, 50, 650, 100, 50, () -> {
-            GameManager.Instance().setCurrentState(GameManager.RESULT_STATE, ResultState.LOSE);
+            GameManager.Instance().getPlayer().takeDamage(10000000);
         }));
 
         // Win (Temp)
         gameComponents.add(new GameButton("Win", 24f, 50, 710, 100, 50, () -> {
-            GameManager.Instance().setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.MONSTER_DROP);
+            CombatManager.Instance().clearEnemies();
         }));
 
         // Card Info
@@ -81,20 +82,10 @@ public class CombatState extends GameState {
 
         // Create an enemy based on the room type
         enemies = new ArrayList<>();
-        if (id == FINAL_BOSS_ROOM) {
-            enemies.add(Warehouse.Instance().spawnEnemy(UnitName.BIG_BAD_BOSS,550, 460));
-        } else {
-            Random rand = new Random();
-            int level = rand.nextInt(1, 2);
-            if (level == 1) {
-                enemies.add(Warehouse.Instance().spawnRandomEnemy(UnitType.MINIBOSS,550, 460));
-            } else {
-                int enemiesAmount = rand.nextInt(1, 4);
-                for (int i = 0; i < enemiesAmount; i++) {
-                    enemies.add(Warehouse.Instance().spawnRandomEnemy(UnitType.ENEMY, (i * 120) + 550, 460));
-                }
-            }
-        }
+        if (id == BOSS_ROOM) enemies.add(Warehouse.Instance().spawnBoss(555, 460));
+        else enemies = GameRandom.Instance().getRandomEnemies(630, 460);
+
+        GameManager.Instance().getPlayer().setX(enemies.getFirst().getX() - 300);
 
         CombatManager.Instance().startCombat(enemies);
         deck = CombatManager.Instance().getDeck();

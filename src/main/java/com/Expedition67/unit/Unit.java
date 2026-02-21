@@ -47,7 +47,7 @@ public class Unit {
         initNameText();
         initHpText();
         initApText();
-        initdamageText();
+        initDamageText();
     }
 
     private void initNameText() {
@@ -64,11 +64,11 @@ public class Unit {
     private void initApText() {
         if (getBrain() instanceof PlayerBrain pb) {
             String apStr = String.format("AP: %d", pb.getAP());
-            apText = new GameText(apStr, 0, y - 10, 18f, Color.white);
+            apText = new GameText(apStr, 0, y + height + 40, 18f, Color.white);
             apText.horizontallyCentering(x, width);
         }
     }
-    private void initdamageText(){
+    private void initDamageText(){
         damageText = new GameText("0", 0, y - 70, 18f, Color.red);
         damageText.setVisible(false);
     }
@@ -180,5 +180,14 @@ public class Unit {
 
     public int getFlashFrame(){
         return redFlashFrames;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+        nameText.horizontallyCentering(x, width);
+        hpText.horizontallyCentering(x, width);
+        if (apText != null) {
+            apText.horizontallyCentering(x, width);
+        }
     }
 }

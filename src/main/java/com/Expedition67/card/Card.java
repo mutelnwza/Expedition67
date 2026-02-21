@@ -93,6 +93,10 @@ public class Card {
         return this.ability;
     }
 
+    public CardTier getTier() {
+        return this.cardTier;
+    }
+
     public Card copy() {
         return new Card(this);
     }

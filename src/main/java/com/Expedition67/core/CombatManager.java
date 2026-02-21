@@ -9,6 +9,7 @@ import com.Expedition67.unit.Enemy.Enemy;
 import com.Expedition67.unit.Enemy.EnemyBrain;
 import com.Expedition67.unit.PlayerBrain;
 import com.Expedition67.unit.Unit;
+import com.Expedition67.unit.UnitType;
 
 import java.util.List;
 
@@ -18,8 +19,10 @@ public class CombatManager {
 
     private Unit player;
     private List<Enemy> enemies;
-    private Enemy target;
+    private UnitType enemyType;
     private Deck deck;
+
+    private Enemy target;
     private String actionString = "";
 
     private boolean isPlayerTurn = true;
@@ -50,10 +53,11 @@ public class CombatManager {
     public void startCombat(List<Enemy> enemies) {
         this.player = GameManager.Instance().getPlayer();
         this.enemies = enemies;
-        this.target = enemies.getFirst();
+        this.enemyType = enemies.getFirst().getType();
         this.turnCount = 0;
         this.cardUsedCount = 0;
 
+        this.target = enemies.getFirst();
         if (deck == null) {
             deck = new Deck();
         }
@@ -169,7 +173,12 @@ public class CombatManager {
 
         if (enemies.isEmpty()) {
             isCombatActive = false;
-            GameManager.Instance().setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.MONSTER_DROP);
+            if (enemyType == UnitType.ENEMY)
+                GameManager.Instance().setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.NORMAL_DROP);
+            else if (enemyType == UnitType.MINIBOSS)
+                GameManager.Instance().setCurrentState(GameManager.CARD_DROP_STATE, CardDropState.MINIBOSS_DROP);
+            else
+                GameManager.Instance().setCurrentState(GameManager.RESULT_STATE, ResultState.WIN);
         }
     }
 
@@ -199,5 +208,10 @@ public class CombatManager {
 
     public void clearActionString() {
         actionString = "";
+    }
+
+    // Temp
+    public void clearEnemies() {
+        enemies.clear();
     }
 }

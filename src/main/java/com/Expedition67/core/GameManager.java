@@ -108,7 +108,7 @@ public class GameManager {
         totalSeconds = 0;
         room = 0;
 
-        player = Warehouse.Instance().spawnPlayer(150, 460);
+        player = Warehouse.Instance().spawnPlayer(0, 460);
         CombatManager.initNew();
         CardInventory.Instance().emptyInventory();
         // Temp

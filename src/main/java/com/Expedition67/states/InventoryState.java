@@ -27,7 +27,7 @@ public class InventoryState extends GameState {
     private int showedCardIndex;
     private Card showedCard;
 
-    private final int CARD_WIDTH = 400;
+    private final int CARD_WIDTH = 300;
     private final int CARD_HEIGHT = 400;
     private final int CARD_X = (GameView.GAME_WIDTH - CARD_WIDTH) / 2;
     private final int CARD_Y = (GameView.GAME_HEIGHT - CARD_HEIGHT) / 2;
