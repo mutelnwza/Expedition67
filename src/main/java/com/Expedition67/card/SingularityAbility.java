@@ -11,7 +11,7 @@ public class SingularityAbility extends CardAbility {
     @Override
     public void apply(Unit target) {
         target.getBrain().addDef(value);
-        // TODO: รอทำระบบ setNextCardFree(true) ทำให้การ์ดใบถัดไป Cost 0
+        CombatManager.Instance().getDeck().setFreeCard(value);
         CombatManager.Instance().addActionString(" deal cosmic damage to " + target.getName()+ " = " + value);
     }
 

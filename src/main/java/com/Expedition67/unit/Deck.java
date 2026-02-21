@@ -6,7 +6,6 @@ import com.Expedition67.core.GameView;
 import com.Expedition67.storage.AssetManager;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.GameComponent;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ public class Deck implements GameComponent {
 
     private int selectedCardIndex = -1;
     private int mouseOverIndex = -1;
+    private int freeCardLeft = 0;
 
     private int[][] handPos;
 
@@ -79,6 +79,7 @@ public class Deck implements GameComponent {
     public void addToHand() {
         discardPile.addAll(hand);
         hand.clear();
+        freeCardLeft = 0;
 
         while (hand.size() < handSize) {
             if (drawPile.isEmpty()) {
@@ -143,8 +144,29 @@ public class Deck implements GameComponent {
     }
 
     public Card getSelectedCard() {
-        if (hand.isEmpty() || selectedCardIndex < 0 || selectedCardIndex >= hand.size()) return null;
+        if (hand.isEmpty() || selectedCardIndex < 0 || selectedCardIndex >= hand.size()) {
+            return null;
+        }
         return hand.get(selectedCardIndex);
+    }
+
+    public void setFreeCard(int times) {
+        freeCardLeft = times;
+
+        for (Card c : hand) {
+            c.setAP(0);
+        }
+    }
+
+    public void updateFreeCard() {
+        if(freeCardLeft==0) return;
+        
+        freeCardLeft = Math.max(0, freeCardLeft-1);
+        if (freeCardLeft == 0) {
+            for (Card c : hand) {
+                c.resetAP();
+            }
+        }
     }
 
     @Override
@@ -174,7 +196,9 @@ public class Deck implements GameComponent {
 
     @Override
     public void render(Graphics g) {
-        if (!isVisible) return;
+        if (!isVisible) {
+            return;
+        }
 
         for (int i = 0; i < hand.size(); i++) {
             Card card = hand.get(i);
@@ -227,7 +251,9 @@ public class Deck implements GameComponent {
 
     @Override
     public boolean mouseClicked(MouseEvent e) {
-        if (!isVisible) return false;
+        if (!isVisible) {
+            return false;
+        }
 
         for (int i = 0; i < hand.size(); i++) {
             if (isInside(e.getX(), e.getY(), i)) {
@@ -240,7 +266,9 @@ public class Deck implements GameComponent {
 
     @Override
     public boolean mouseMoved(MouseEvent e) {
-        if (!isVisible) return false;
+        if (!isVisible) {
+            return false;
+        }
 
         for (int i = 0; i < hand.size(); i++) {
             if (isInside(e.getX(), e.getY(), i)) {
