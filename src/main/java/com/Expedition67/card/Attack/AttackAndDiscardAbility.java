@@ -14,6 +14,7 @@ public class AttackAndDiscardAbility extends DamageAbility{
     public void apply(Unit target, Unit src){
         //use to player, for boss
         Card c = CombatManager.Instance().getDeck().getRandomCardFromHand();
+        CombatManager.Instance().addActionString(" deals " + value + " damage to " + target.getName());
         CombatManager.Instance().getDeck().useCard(c);
         for(int i=0;i<c.getAP();i++){
             super.apply(target,src);

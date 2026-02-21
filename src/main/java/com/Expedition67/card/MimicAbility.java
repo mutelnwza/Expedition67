@@ -13,6 +13,7 @@ public class MimicAbility extends CardAbility{
     public void apply(Unit target) {
         Card c = CombatManager.Instance().getDeck().getRandomCardFromHand(CardType.ATK);
         c.getAbility().apply(target);
+        CombatManager.Instance().addActionString("mimic copies " + c.getName());
     }
     
 }

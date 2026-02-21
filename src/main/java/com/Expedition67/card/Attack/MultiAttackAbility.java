@@ -2,6 +2,7 @@ package com.Expedition67.card.Attack;
 
 import com.Expedition67.card.CardAbility;
 import com.Expedition67.card.CardAbility.CardType;
+import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
 
 public class MultiAttackAbility extends DamageAbility {

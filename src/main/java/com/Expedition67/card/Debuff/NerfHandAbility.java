@@ -13,11 +13,14 @@ public class NerfHandAbility extends RemoveableAbility{
     @Override
     public void apply(Unit target) {
         CombatManager.Instance().getDeck().setHandSize(CombatManager.Instance().getDeck().getHandSize()-value);
+        CombatManager.Instance().addActionString(" hand size -" + value);
     }
+
 
     @Override
     public void remove(Unit target){
         CombatManager.Instance().getDeck().setHandSize(CombatManager.Instance().getDeck().getHandSize()+value);
+        CombatManager.Instance().addActionString(" hand size +" + value);
     }
     
 }

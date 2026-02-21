@@ -16,10 +16,13 @@ public class CardModifyAbility extends CardAbility{
     @Override
     public void apply(Unit target) {
         applyPlayerDebuff();
+        CombatManager.Instance().addActionString(" cost increases by " + value );
+
     }
 
     private void applyPlayerDebuff(){
         Card c = CombatManager.Instance().getDeck().getRandomCardFromHand(typeToModify);
         c.addCost(value);
+        
     }
 }

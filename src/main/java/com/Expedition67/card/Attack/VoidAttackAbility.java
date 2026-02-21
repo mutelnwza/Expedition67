@@ -18,5 +18,6 @@ public class VoidAttackAbility extends DamageAbility{
         super.apply(target,src);
         Deck d = CombatManager.Instance().getDeck();
         d.addCard(Warehouse.Instance().spawnCard(CardName.VOID));
+        CombatManager.Instance().addActionString(" adds a VOID card to the deck");
     }
 }

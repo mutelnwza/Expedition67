@@ -26,6 +26,7 @@ public class LockCardAbility extends RemoveableAbility {
             c.setLocked(true);
             lockedCard.add(c);
         }
+        CombatManager.Instance().addActionString(" locked " + lockedCard.size() + " card ");
     }
 
     @Override

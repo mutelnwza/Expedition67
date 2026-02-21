@@ -1,5 +1,6 @@
 package com.Expedition67.card.Attack;
 
+import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
 
 public class AttackAndStealHPAbility extends DamageAbility {
@@ -18,5 +19,6 @@ public class AttackAndStealHPAbility extends DamageAbility {
             src.getUnitStats().setMaxHp(src.getUnitStats().getHp()+steal);
         }
         super.apply(target,src);
+        CombatManager.Instance().addActionString(" steals " + steal + " HP from " + target.getName());
     }
 }   
