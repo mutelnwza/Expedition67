@@ -1,12 +1,12 @@
 package com.Expedition67.unit.enemy;
 
 import com.Expedition67.card.Card;
+import com.Expedition67.card.CardAbility;
 import com.Expedition67.core.GameManager;
 import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.core.util.GameRandom;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.UnitBrain;
-
 import java.util.ArrayList;
 
 public class SonAndDadBrain extends EnemyBrain {
@@ -66,7 +66,8 @@ public class SonAndDadBrain extends EnemyBrain {
         }
 
         CombatManager.Instance().executeTurn();
-        Warehouse.Instance().spawnAction(owner.getName(), "NERF").apply(target);
+        CardAbility nerf = Warehouse.Instance().spawnAction(owner.getName(), "NERF");
+        target.getBrain().applyCard(nerf, owner);
         returnCard();
     }
 
@@ -82,10 +83,12 @@ public class SonAndDadBrain extends EnemyBrain {
             nextAction = Warehouse.Instance().spawnAction(owner.getName(), "POISON");
         } else {
             int choice = (int) (Math.random() * (2)) + 1;
-            if (choice == 1)
-                nextAction = Warehouse.Instance().spawnAction(owner.getName(), "DADATTACK");
-            else
+            if (choice == 1) {
+                nextAction = Warehouse.Instance().spawnAction(owner.getName(), "DADATTACK"); 
+            }else {
                 nextAction = Warehouse.Instance().spawnAction(owner.getName(), "DADDEFENSE");
+                target = this.owner;
+            }
         }
     }
 

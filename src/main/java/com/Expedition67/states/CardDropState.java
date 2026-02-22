@@ -9,7 +9,6 @@ import com.Expedition67.storage.AssetManager;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
-
 import java.awt.*;
 
 public class CardDropState extends GameState {
@@ -124,14 +123,12 @@ public class CardDropState extends GameState {
     }
 
     private void obtainDropCard() {
-        Card alreadyOwnCard = CardInventory.Instance().getCardInventory().stream()
-                .filter(c -> c.getName().equals(cardDrop.getName()))
-                .findFirst()
-                .orElse(null);
-        if (alreadyOwnCard != null)
-            alreadyOwnCard.addUsesLeft(alreadyOwnCard.getDefaultUsesAmount());
-        else
-            CardInventory.Instance().addCard(cardDrop, 1);
+        // Card alreadyOwnCard = CardInventory.Instance().getCardInventory().stream()
+        //         .filter(c -> c.getName().equals(cardDrop.getName()))
+        //         .findFirst()
+        //         .orElse(null);
+        
+        CardInventory.Instance().addCard(cardDrop, 1);
         setNextActionUI();
     }
 

@@ -21,7 +21,7 @@ public class BigBadBossBrain extends EnemyBrain {
             phase++;
             if (phase == 2) {
                 NerfHandAbility nf = new NerfHandAbility(1, 1, CardAbility.CardType.DEBUFF);
-                nf.apply(target);
+                nf.apply(GameManager.Instance().getPlayer());
                 // animation or something to notify player that phase has changed
             } else {
                 // same
@@ -82,16 +82,24 @@ public class BigBadBossBrain extends EnemyBrain {
         switch (phase) {
             case 1:
                 switch (rnd) {
-                    case 1 -> nextAction = Warehouse.Instance().spawnAction(owner.getName(), "ATTACK1");
-                    case 2 -> nextAction = Warehouse.Instance().spawnAction(owner.getName(), "LOCK");
-                    default -> nextAction = Warehouse.Instance().spawnAction(owner.getName(), "DEFENSE");
+                    case 1:
+                        nextAction = Warehouse.Instance().spawnAction(owner.getName(), "ATTACK1");
+                    case 2:
+                        nextAction = Warehouse.Instance().spawnAction(owner.getName(), "LOCK");
+                    default :
+                        nextAction = Warehouse.Instance().spawnAction(owner.getName(), "DEFENSE");
+                        target = this.owner;
                 }
                 break;
             case 2:
                 switch (rnd) {
-                    case 1 -> nextAction = Warehouse.Instance().spawnAction(owner.getName(), "ATTACK2");
-                    case 2 -> nextAction = Warehouse.Instance().spawnAction(owner.getName(), "MIMIC");
-                    default -> nextAction = Warehouse.Instance().spawnAction(owner.getName(), "DEFENSE");
+                    case 1:
+                        nextAction = Warehouse.Instance().spawnAction(owner.getName(), "ATTACK2");
+                    case 2:
+                        nextAction = Warehouse.Instance().spawnAction(owner.getName(), "MIMIC");
+                    default:
+                        nextAction = Warehouse.Instance().spawnAction(owner.getName(), "DEFENSE");
+                        target = this.owner;
                 }
             default:
                 nextAction = Warehouse.Instance().spawnAction(owner.getName(), "ATTACK3");

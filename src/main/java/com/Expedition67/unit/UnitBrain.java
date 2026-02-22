@@ -4,7 +4,6 @@ import com.Expedition67.card.CardAbility;
 import com.Expedition67.card.RemovableAbility;
 import com.Expedition67.card.attack.DamageAbility;
 import com.Expedition67.ui.UnitUIHandler;
-
 import java.util.ArrayList;
 
 public abstract class UnitBrain {
@@ -96,5 +95,9 @@ public abstract class UnitBrain {
 
     public Unit getOwner() {
         return this.owner;
+    }
+
+    public BuffManager getBuffManager(){
+        return this.buffManager;
     }
 }

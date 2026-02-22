@@ -1,5 +1,6 @@
 package com.Expedition67.core.combat;
 
+import com.Expedition67.card.CardAbility;
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.enemy.Enemy;
 import com.Expedition67.unit.enemy.EnemyBrain;
@@ -17,7 +18,7 @@ public class TurnManager {
     public void startPlayerTurn(Unit player, List<Enemy> enemies, Deck deck) {
         CombatManager.Instance().clearActionString();
         isPlayerTurn = true;
-        deck.addToHand();
+
         if (player != null && player.getUnitStats().getHp() > 0) {
             turnCount++;
             player.getBrain().onTurnStarted();
@@ -27,14 +28,15 @@ public class TurnManager {
         }
     }
 
-    public void endPlayerTurn(Unit player) {
+    public void endPlayerTurn(Unit player, Deck deck) {
         if (isPlayerTurn) {
+            deck.addToHand();
             player.getBrain().onTurnEnded();
             isPlayerTurn = false;
             currentEnemyActionIndex = 0;
             actionTimer = ACTION_DELAY;
             CombatManager.Instance().getDeck().updateFreeCard(true);
-            
+
         }
     }
 
@@ -48,7 +50,13 @@ public class TurnManager {
                         EnemyBrain eb = (EnemyBrain) currentEnemy.getBrain();
                         eb.onTurnStarted();
                         CombatManager.Instance().setActionString(currentEnemy.getName().toString());
-                        eb.getNextAction().apply(eb.getTarget());
+                        CardAbility nextAction = eb.getNextAction();
+                        if (nextAction.getCardType() == CardAbility.CardType.ATK) {
+                            nextAction.apply(eb.getTarget(), eb.getOwner());
+                        }
+                        else{
+                            nextAction.apply(eb.getTarget());
+                        }
                         eb.onTurnEnded();
                     }
                     currentEnemyActionIndex++;

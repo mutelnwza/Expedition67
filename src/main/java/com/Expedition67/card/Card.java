@@ -1,5 +1,6 @@
 package com.Expedition67.card;
 
+import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.player.PlayerBrain;
 
@@ -47,6 +48,9 @@ public class Card {
 
     public void use(PlayerBrain playerBrain, Unit target) {
         target.getBrain().applyCard(ability, playerBrain.getOwner());
+        if(ability.getCardType()==CardAbility.CardType.VOID){
+            CombatManager.Instance().getDeck().removeFromDeck(this);
+        }
     }
 
     public boolean isLocked() {

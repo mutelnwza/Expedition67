@@ -47,7 +47,7 @@ public class Warehouse {
     }
 
     private void loadPlayer() {
-        player = new Unit(UnitName.PLAYER, new UnitStats(100, 1, 0), new PlayerBrain(), UnitType.PLAYER, 50, 50, 150, 150);
+        player = new Unit(UnitName.PLAYER, new UnitStats(100, 0, 0), new PlayerBrain(), UnitType.PLAYER, 50, 50, 150, 150);
         player.getAnimator().addAnimation("idle", 0, 20, 2);
     }
 
@@ -125,7 +125,7 @@ public class Warehouse {
 
     private void loadCard() {
         // Void
-        cardFactory.put(CardName.VOID, new Card(CardName.VOID, 1, true, -1, new VoidCard(CardAbility.CardType.VOID), Card.CardTier.DEBUFF, "GET VOID"));
+        cardFactory.put(CardName.VOID, new Card(CardName.VOID, 1, false, 1, new VoidCard(CardAbility.CardType.VOID), Card.CardTier.DEBUFF, "GET VOID"));
 
         // Attack
         cardFactory.put(CardName.SOUL_FLICKER, new Card(CardName.SOUL_FLICKER, 0, true, -1, new DamageAbility(6, CardAbility.CardType.ATK), Card.CardTier.NORMAL, "Deal 6 damage. A faint spark of soul energy."));
@@ -142,7 +142,7 @@ public class Warehouse {
         // Buff
         cardFactory.put(CardName.SOUL_RESONANCE, new Card(CardName.SOUL_RESONANCE, 1, true, -1, new SoulResonanceAbility(6, CardAbility.CardType.BUFF), Card.CardTier.NORMAL, "Attack cards in your hand gain +6 Damage this turn."));
         cardFactory.put(CardName.HARMONIC_RESONANCE, new Card(CardName.HARMONIC_RESONANCE, 2, true, -1, new HarmonicResonanceAbility(6,CardAbility.CardType.BUFF), Card.CardTier.NORMAL, "Whenever you play an Attack card this turn, gain 6 Block."));
-        cardFactory.put(CardName.SOVEREIGNS_OVERDRIVE, new Card(CardName.SOVEREIGNS_OVERDRIVE, 0, false, 2, new OverdriveAbility(1, 5, 1, CardAbility.CardType.BUFF), Card.CardTier.NORMAL, "Lose 5 HP. Your next attack has a 100% Critical Rate."));
+        cardFactory.put(CardName.SOVEREIGNS_OVERDRIVE, new Card(CardName.SOVEREIGNS_OVERDRIVE, 0, true, -1, new OverdriveAbility(1, 15, 1, CardAbility.CardType.BUFF), Card.CardTier.NORMAL, "Lose 15 HP. All your attacks this turn have a 100% Critical Rate."));
 
         // Heal
         cardFactory.put(CardName.ETHEREAL_RESTORATION, new Card(CardName.ETHEREAL_RESTORATION, 2, true, -1, new HealAndRemoveDebuffAbility(15, CardAbility.CardType.HEAL), Card.CardTier.NORMAL, "Heal 15 HP and remove all debuffs."));

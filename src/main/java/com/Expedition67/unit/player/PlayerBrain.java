@@ -21,7 +21,7 @@ public class PlayerBrain extends UnitBrain {
 
     public void onUseCard(Card c) {
         this.ap -= c.getAP();
-        System.out.println("Use");
+        //System.out.println("Use");
         if (c.getAbility().getCardType() == CardAbility.CardType.ATK && resonanceBlockAmount > 0) {
             this.addDef(resonanceBlockAmount);
             System.out.println("got def");

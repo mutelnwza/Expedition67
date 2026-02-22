@@ -3,7 +3,6 @@ package com.Expedition67.unit;
 import com.Expedition67.card.CardAbility;
 import com.Expedition67.card.RemovableAbility;
 import com.Expedition67.core.ITickable;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -34,6 +33,13 @@ public class BuffManager {
     public void removeBuff(RemovableAbility ability) {
         ability.remove(owner);
         currentBuffs.removeIf(bt -> bt.ability == ability);
+    }
+
+    public void resetBuffs(){
+        for(BuffTracker bt : currentBuffs){
+            if(bt.turnLeft>0)
+            removeBuff(bt.ability);
+        }
     }
 
     public void onTurnEnded() {

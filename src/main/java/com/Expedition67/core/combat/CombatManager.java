@@ -2,11 +2,10 @@ package com.Expedition67.core.combat;
 
 import com.Expedition67.card.Card;
 import com.Expedition67.core.GameManager;
-import com.Expedition67.unit.player.Deck;
-import com.Expedition67.unit.enemy.Enemy;
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.UnitType;
-
+import com.Expedition67.unit.enemy.Enemy;
+import com.Expedition67.unit.player.Deck;
 import java.util.List;
 
 public class CombatManager {
@@ -52,7 +51,7 @@ public class CombatManager {
             deck = new Deck();
         }
         deck.instantiate();
-
+        deck.addToHand();
         turnManager.reset();
         isCombatActive = true;
 
@@ -61,13 +60,15 @@ public class CombatManager {
 
     public void endCombat() {
         isCombatActive = false;
+        player.getBrain().onTurnEnded();
+        player.getBrain().getBuffManager().resetBuffs();
     }
 
     public void executeTurn() {
         if (!isCombatActive || player == null || enemies == null) {
             return;
         }
-        turnManager.endPlayerTurn(player);
+        turnManager.endPlayerTurn(player,deck);
     }
 
     public void onPlayerUseCard(Card card, Unit target) {

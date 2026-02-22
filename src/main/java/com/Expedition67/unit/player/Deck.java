@@ -118,6 +118,7 @@ public class Deck {
     }
 
     public void addCard(Card card) {
+        System.out.println("add card"+card.getName());
         drawPile.add(card);
         allCards.add(card);
     }
