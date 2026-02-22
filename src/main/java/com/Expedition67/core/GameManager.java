@@ -16,11 +16,13 @@ public class GameManager {
     private final GameStateManager gameStateManager;
     private final GameTimer gameTimer;
     private final GameData gameData;
+    private final SoundManager soundManager;
 
     private GameManager() {
         gameStateManager = new GameStateManager();
         gameTimer = new GameTimer();
         gameData = new GameData();
+        soundManager = new SoundManager();
     }
 
     public static GameManager Instance() {
@@ -34,6 +36,7 @@ public class GameManager {
         gameTimer.reset();
         gameTimer.start();
         gameData.reset();
+        soundManager.playBGM();
 
         gameData.setPlayer(Warehouse.Instance().spawnPlayer(0, 460));
         CombatManager.initNew();
@@ -44,7 +47,7 @@ public class GameManager {
         CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.ECHOING_STRIKE), 1);
         CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.SPECTRAL_VEIL), 3);
         CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.SOVEREIGNS_OVERDRIVE), 1);
-        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.ETHEREAL_RESTORATION), 1);   
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.ETHEREAL_RESTORATION), 1); 
     }
 
     public void update() {
