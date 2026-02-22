@@ -5,7 +5,6 @@ import com.Expedition67.unit.Unit;
 public class HealAbility extends CardAbility {
     private int minHeal;
     private int maxHeal;
-    private int healAmount;
     public HealAbility(int value, CardType cardType) {
         super(value, cardType);
     }

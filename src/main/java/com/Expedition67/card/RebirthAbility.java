@@ -5,37 +5,23 @@ import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.UnitStats;
 
 public class RebirthAbility extends ShieldHealAbility {
-
-    public RebirthAbility(CardType cardType) {
-        super(0, 0, cardType);
+    private final int maxShield;
+    public RebirthAbility(int shield, int maxshield, int heal, CardType cardType) {
+        super(shield, heal, cardType);
+        this.maxShield = maxshield;
     }
 
     @Override
     public void apply(Unit target) {
-        // 1. Calculate the 20% threshold
-        // Note: Assumes your Unit class has these getter methods.
-        UnitStats stats = target.getBrain().getStats();
-        float currentHp = stats.getHp();
-        float maxHp = stats.getMaxHp();
-        float hpPercent = (currentHp / maxHp) * 100;
-
-        int finalHeal = 28;
-        int finalDef;
+        UnitStats stats = target.getUnitStats();
+        float hpPercent = (stats.getHp() / stats.getMaxHp()) * 100;
 
         if (hpPercent < 20) {
-            finalDef = 30; 
+            super.setShieldValue(maxShield);
             CombatManager.Instance().addActionString(" [REBIRTH TRIGGERED] ");
-        } else {
-            finalDef = 10; 
         }
 
-        // 3. Apply the results to the unit
-        target.getBrain().heal(finalHeal);
-        target.getBrain().addDef(finalDef);
-
-        // 4. Log the result
-        String logMsg = String.format(" %s: Rebirth restored %d HP and %d Shield", 
-                                      target.getName(), finalHeal, finalDef);
-        CombatManager.Instance().addActionString(logMsg);
+        super.apply(target);
+        super.setShieldValue(shieldVal);
     }
 }

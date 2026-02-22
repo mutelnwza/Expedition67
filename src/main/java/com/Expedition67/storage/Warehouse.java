@@ -20,7 +20,6 @@ import com.Expedition67.unit.Enemy.RedEyeBrain;
 import com.Expedition67.unit.Enemy.SonAndDadBrain;
 import com.Expedition67.unit.Enemy.TillyTheBirdBrain;
 import com.Expedition67.unit.Enemy.VisionBrain;
-
 import java.util.*;
 
 public class Warehouse {
@@ -134,25 +133,39 @@ public class Warehouse {
         cardFactory.put(CardName.VOID, new Card(CardName.VOID, 1, true, -1, new VoidCard(CardAbility.CardType.VOID), Card.CardTier.DEBUFF, "GET VOID"));
 
         // Attack
-        cardFactory.put(CardName.SOUL_FLICKER, new Card(CardName.SOUL_FLICKER, 0, true, -1, new DamageAbility(6, CardAbility.CardType.ATK), Card.CardTier.NORMAL, "Deal 6 damage. A faint spark of soul energy."));
-        cardFactory.put(CardName.REMNANT_HIT, new Card(CardName.REMNANT_HIT, 1, true, -1, new DamageAbility(12, CardAbility.CardType.ATK), Card.CardTier.NORMAL, "Deal 12 damage. A precise strike fueled by lingering soul fragments."));
-        cardFactory.put(CardName.ECHOING_STRIKE, new Card(CardName.ECHOING_STRIKE, 2, true, -1, new DamageAbility(30, CardAbility.CardType.ATK), Card.CardTier.RARE, "Deal 30 damage to all enemies. A strong condensed of your spirit"));
-        cardFactory.put(CardName.VOID_DRAGON, new Card(CardName.VOID_DRAGON, 4, true, -1, new DamageAbility(45, CardAbility.CardType.ATK), Card.CardTier.RARE, "Deal 45 damage. If target's HP < 50%, deal 80 damage instead."));
+        cardFactory.put(CardName.SOUL_FLICKER, new Card(CardName.SOUL_FLICKER, 0,
+            true, -1, new DamageAbility(6, CardAbility.CardType.ATK),
+            Card.CardTier.NORMAL, "Deal 6 damage. A faint spark of soul energy."));
+        
+        cardFactory.put(CardName.REMNANT_HIT, new Card(CardName.REMNANT_HIT, 1, true, -1,
+            new DamageAbility(12, CardAbility.CardType.ATK), Card.CardTier.NORMAL,
+            "Deal 12 damage. A precise strike fueled by lingering soul fragments."));
+        
+        cardFactory.put(CardName.ECHOING_STRIKE, new Card(CardName.ECHOING_STRIKE, 2,
+        true, -1, new DamageAbility(30, CardAbility.CardType.ATK),
+        Card.CardTier.RARE, "Deal 30 damage to all enemies. A strong condensed of your spirit"));
+        
+        cardFactory.put(CardName.VOID_DRAGON, new Card(CardName.VOID_DRAGON, 4, true, -1,
+            new DamageAbility(45, CardAbility.CardType.ATK), Card.CardTier.RARE,
+            "Deal 45 damage. If target's HP < 50%, deal 80 damage instead."));
 
         // Defense
-        cardFactory.put(CardName.SPECTRAL_VEIL, new Card(CardName.SPECTRAL_VEIL, 1, true, -1, new ShieldAbility(10, CardAbility.CardType.DEF), Card.CardTier.NORMAL, "Gain 10 Block. A thin veil of shattered souls to absorb impacts."));
+        cardFactory.put(CardName.SPECTRAL_VEIL, new Card(CardName.SPECTRAL_VEIL, 1, true, -1,
+            new ShieldAbility(10, CardAbility.CardType.DEF), Card.CardTier.NORMAL,
+            "Gain 10 Block. A thin veil of shattered souls to absorb impacts."));
+
         cardFactory.put(CardName.SOUL_AEGIS, new Card(CardName.SOUL_AEGIS, 2, true, -1, new ShieldHealAbility(20,10, CardAbility.CardType.DEF), Card.CardTier.NORMAL, "Gain 20 Block and heal 10 HP. Converts kinetic force into life energy."));
         cardFactory.put(CardName.CELESTIAL_SINGULARITY, new Card(CardName.CELESTIAL_SINGULARITY, 3, true, -1, new ShieldAbility(35, CardAbility.CardType.DEF), Card.CardTier.NORMAL, "Gain 35 Block. The next card played costs 0 AP."));
         cardFactory.put(CardName.EVENT_HORIZON, new Card(CardName.EVENT_HORIZON, 4, true, -1, new ShieldAbility(70, CardAbility.CardType.DEF), Card.CardTier.RARE, "Gain 70 Block. Incoming strikes vanish into the void."));
 
         // Buff
         cardFactory.put(CardName.SOUL_RESONANCE, new Card(CardName.SOUL_RESONANCE, 1, true, -1, new SoulResonanceAbility(CardAbility.CardType.BUFF), Card.CardTier.NORMAL, "Attack cards in your hand gain +6 Damage this turn."));
-      //cardFactory.put(CardName.HARMONIC_RESONANCE, new Card(CardName.HARMONIC_RESONANCE, 2, true, -1, new BuffAbility(4), Card.CardTier.NORMAL, "Whenever you play an Attack card this turn, gain 6 Block."));
+        cardFactory.put(CardName.HARMONIC_RESONANCE, new Card(CardName.HARMONIC_RESONANCE, 2, true, -1, new HarmonicResonanceAbility(6,CardAbility.CardType.BUFF),Card.CardTier.NORMAL, "Whenever you play an Attack card this turn, gain 6 Block."));
         cardFactory.put(CardName.SOVEREIGNS_OVERDRIVE, new Card(CardName.SOVEREIGNS_OVERDRIVE, 0, false, 2, new OverdriveAbility(1, 5, 1, CardAbility.CardType.BUFF), Card.CardTier.NORMAL, "Lose 5 HP. Your next attack has a 100% Critical Rate."));
 
         // Heal
         cardFactory.put(CardName.ETHEREAL_RESTORATION, new Card(CardName.ETHEREAL_RESTORATION, 2, true, -1, new HealAbility(8, CardAbility.CardType.HEAL), Card.CardTier.NORMAL, "Heal 15 HP and remove all debuffs."));
-        cardFactory.put(CardName.ETERNAL_SOUL_REBIRTH, new Card(CardName.ETERNAL_SOUL_REBIRTH, 3, true, -1, new RebirthAbility(18, CardAbility.CardType.HEAL), Card.CardTier.RARE, "Heal 28 HP and gain 10 Block. If HP < 20%, gain 30 Block."));
+        cardFactory.put(CardName.ETERNAL_SOUL_REBIRTH, new Card(CardName.ETERNAL_SOUL_REBIRTH, 3, true, -1, new RebirthAbility(18,30,28, CardAbility.CardType.HEAL), Card.CardTier.RARE, "Heal 28 HP and gain 10 Block. If HP < 20%, gain 30 Block."));
     }
 
     public Unit spawnPlayer(int x, int y) {
