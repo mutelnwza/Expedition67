@@ -3,7 +3,7 @@ package com.Expedition67.unit;
 public class UnitStats {
 
     //only for stats tracking
-    protected float maxHp, hp, str, critRate, critDmg, def, crit;
+    protected float maxHp, hp, str, def, crit;
 
     public UnitStats(float maxHp, float str, float def) {
         this.maxHp = maxHp;
@@ -17,23 +17,23 @@ public class UnitStats {
         return this.hp;
     }
 
-    public void setMaxHp(float hp){
-        maxHp=hp;
+    public void setMaxHp(float hp) {
+        maxHp = hp;
     }
 
     public float getMaxHp() {
         return this.maxHp;
     }
 
-    public float getCrit(){
+    public float getCrit() {
         return this.crit;
     }
 
-    public float getDef(){
+    public float getDef() {
         return def;
     }
 
-    public float getStr(){
+    public float getStr() {
         return str;
     }
 

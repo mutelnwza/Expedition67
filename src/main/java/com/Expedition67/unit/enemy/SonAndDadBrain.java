@@ -1,11 +1,12 @@
-package com.Expedition67.unit.Enemy;
+package com.Expedition67.unit.enemy;
 
 import com.Expedition67.card.Card;
-import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.core.GameManager;
+import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.core.util.GameRandom;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.UnitBrain;
+
 import java.util.ArrayList;
 
 public class SonAndDadBrain extends EnemyBrain {
@@ -26,7 +27,7 @@ public class SonAndDadBrain extends EnemyBrain {
     @Override
     public void onTurnStarted() {
         super.onTurnStarted();
-        if(!isDad){
+        if (!isDad) {
             Card c = GameRandom.Instance().getRandomCardFromHand(null);
             CombatManager.Instance().getDeck().removeFromHand(c);
             stolenCards.add(c);
@@ -80,11 +81,11 @@ public class SonAndDadBrain extends EnemyBrain {
         if (CombatManager.Instance().getTurnCount() == 5) {
             nextAction = Warehouse.Instance().spawnAction(owner.getName(), "POISON");
         } else {
-            int choice = (int)(Math.random() * (2)) + 1;
-            nextAction = switch (choice) {
-                case 1 -> Warehouse.Instance().spawnAction(owner.getName(), "DADATTACK");
-                default -> Warehouse.Instance().spawnAction(owner.getName(), "DADDEFENSE");
-            };
+            int choice = (int) (Math.random() * (2)) + 1;
+            if (choice == 1)
+                nextAction = Warehouse.Instance().spawnAction(owner.getName(), "DADATTACK");
+            else
+                nextAction = Warehouse.Instance().spawnAction(owner.getName(), "DADDEFENSE");
         }
     }
 

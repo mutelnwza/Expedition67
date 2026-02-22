@@ -1,12 +1,12 @@
-package com.Expedition67.unit.Enemy;
+package com.Expedition67.unit.enemy;
 
-import com.Expedition67.card.attack.DamageAbility;
 import com.Expedition67.card.Card;
+import com.Expedition67.card.attack.DamageAbility;
 import com.Expedition67.core.GameManager;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.UnitBrain;
 
-public class LukchinBrain extends EnemyBrain{
+public class LukchinBrain extends EnemyBrain {
 
     @Override
     public void calculateNextMove() {
@@ -15,12 +15,11 @@ public class LukchinBrain extends EnemyBrain{
     }
 
     @Override
-    public void calculateNextMove(Card c){
+    public void calculateNextMove(Card c) {
         nextAction = c.getAbility();
-        if(nextAction instanceof DamageAbility){
+        if (nextAction instanceof DamageAbility) {
             target = GameManager.Instance().getPlayer();
-        }
-        else{
+        } else {
             target = this.owner;
         }
     }
@@ -29,5 +28,5 @@ public class LukchinBrain extends EnemyBrain{
     public UnitBrain copy() {
         return new LukchinBrain();
     }
-    
+
 }

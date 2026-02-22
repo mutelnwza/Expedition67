@@ -4,7 +4,7 @@ import com.Expedition67.core.GameManager;
 import com.Expedition67.core.GameStateManager;
 import com.Expedition67.states.CardDropState;
 import com.Expedition67.states.ResultState;
-import com.Expedition67.unit.Enemy.Enemy;
+import com.Expedition67.unit.enemy.Enemy;
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.UnitType;
 

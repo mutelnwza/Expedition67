@@ -4,7 +4,7 @@ import com.Expedition67.card.Card;
 import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.storage.Warehouse;
-import com.Expedition67.unit.PlayerBrain;
+import com.Expedition67.unit.player.PlayerBrain;
 import com.Expedition67.unit.Unit;
 
 import java.awt.*;

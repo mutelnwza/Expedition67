@@ -3,7 +3,7 @@ package com.Expedition67.card.attack;
 import com.Expedition67.card.Card;
 import com.Expedition67.card.CardAbility;
 import com.Expedition67.core.combat.CombatManager;
-import com.Expedition67.unit.Deck;
+import com.Expedition67.unit.player.Deck;
 import com.Expedition67.unit.Unit;
 
 import java.util.ArrayList;

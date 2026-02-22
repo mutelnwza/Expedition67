@@ -1,8 +1,8 @@
-package com.Expedition67.unit.Enemy;
+package com.Expedition67.unit.enemy;
 
-import com.Expedition67.card.attack.DamageAbility;
 import com.Expedition67.card.Card;
 import com.Expedition67.card.CardAbility;
+import com.Expedition67.card.attack.DamageAbility;
 import com.Expedition67.core.GameManager;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.UnitBrain;
@@ -12,7 +12,7 @@ import java.util.Objects;
 public class VisionBrain extends EnemyBrain {
 
     int dmgStack = 0;
-    private final DamageAbility counterAbility = new DamageAbility(0,CardAbility.CardType.ATK);
+    private final DamageAbility counterAbility = new DamageAbility(0, CardAbility.CardType.ATK);
 
     @Override
     public void onPlayerUseCard(Card c) {

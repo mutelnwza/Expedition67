@@ -1,8 +1,8 @@
-package com.Expedition67.unit.Enemy;
+package com.Expedition67.unit.enemy;
 
 import com.Expedition67.card.CardAbility;
-import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.core.GameManager;
+import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.UnitBrain;
 
@@ -23,12 +23,10 @@ public class TillyTheBirdBrain extends EnemyBrain {
     public void calculateNextMove() {
         target = GameManager.Instance().getPlayer();
         int choice = (int) (Math.random() * 3) + 1;
-        switch (phase) {
-            case 2 ->
-                phase2(choice);
-            default ->
-                phase1(choice);
-        }
+        if (phase == 2)
+            phase2(choice);
+        else
+            phase1(choice);
     }
 
     @Override

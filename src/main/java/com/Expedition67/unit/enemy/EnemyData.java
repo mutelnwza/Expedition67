@@ -1,10 +1,11 @@
-package com.Expedition67.unit.Enemy;
+package com.Expedition67.unit.enemy;
 
 import com.Expedition67.card.CardAbility;
 
 import java.util.HashMap;
 
 public class EnemyData {
+
     private final Enemy unit;
     private final HashMap<String, CardAbility> actions;
 

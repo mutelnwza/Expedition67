@@ -1,8 +1,8 @@
 package com.Expedition67.core.combat;
 
-import com.Expedition67.unit.Deck;
-import com.Expedition67.unit.Enemy.Enemy;
-import com.Expedition67.unit.Enemy.EnemyBrain;
+import com.Expedition67.unit.player.Deck;
+import com.Expedition67.unit.enemy.Enemy;
+import com.Expedition67.unit.enemy.EnemyBrain;
 import com.Expedition67.unit.Unit;
 
 import java.util.List;

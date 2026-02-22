@@ -9,7 +9,7 @@ import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.states.CardDropState;
 import com.Expedition67.states.CombatState;
 import com.Expedition67.storage.Warehouse;
-import com.Expedition67.unit.Enemy.Enemy;
+import com.Expedition67.unit.enemy.Enemy;
 
 import java.util.ArrayList;
 import java.util.List;

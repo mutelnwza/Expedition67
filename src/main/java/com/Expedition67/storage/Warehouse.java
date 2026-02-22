@@ -18,7 +18,8 @@ import com.Expedition67.card.defense.*;
 import com.Expedition67.card.heal.*;
 import com.Expedition67.card.special.*;
 import com.Expedition67.unit.*;
-import com.Expedition67.unit.Enemy.*;
+import com.Expedition67.unit.enemy.*;
+import com.Expedition67.unit.player.PlayerBrain;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package com.Expedition67.unit.Enemy;
+package com.Expedition67.unit.enemy;
 
 import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.core.graphics.GameView;

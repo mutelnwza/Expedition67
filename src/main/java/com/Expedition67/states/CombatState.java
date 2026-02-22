@@ -8,8 +8,8 @@ import com.Expedition67.core.util.GameRandom;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
-import com.Expedition67.unit.Deck;
-import com.Expedition67.unit.Enemy.Enemy;
+import com.Expedition67.unit.player.Deck;
+import com.Expedition67.unit.enemy.Enemy;
 import com.Expedition67.unit.Unit;
 
 import java.awt.*;
@@ -112,7 +112,8 @@ public class CombatState extends GameState {
         for (Enemy enemy : enemies) {
             enemy.update();
         }
-        deck.update();
+
+        deck.getHandUI().update();
 
         // Update card info text with current selected card
         if (deck.getSelectedCard() != null) cardInfoText.setText(deck.getSelectedCard().toString());
@@ -137,7 +138,7 @@ public class CombatState extends GameState {
             CombatManager.Instance().getTarget().renderTarget(g);
         }
 
-        deck.render(g);
+        deck.getHandUI().render(g);
 
         // Card info border
         g.setColor(Color.white);
@@ -155,7 +156,7 @@ public class CombatState extends GameState {
             }
         }
 
-        deck.mouseClicked(e);
+        deck.getHandUI().mouseClicked(e);
 
         super.mouseClicked(e);
     }
@@ -168,7 +169,7 @@ public class CombatState extends GameState {
             }
         }
 
-        deck.mouseMoved(e);
+        deck.getHandUI().mouseMoved(e);
 
         super.mouseMoved(e);
     }

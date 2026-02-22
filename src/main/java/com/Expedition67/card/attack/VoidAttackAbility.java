@@ -4,7 +4,7 @@ import com.Expedition67.card.CardAbility;
 import com.Expedition67.card.CardName;
 import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.storage.Warehouse;
-import com.Expedition67.unit.Deck;
+import com.Expedition67.unit.player.Deck;
 import com.Expedition67.unit.Unit;
 
 public class VoidAttackAbility extends DamageAbility {

@@ -1,33 +1,33 @@
-package com.Expedition67.unit;
+package com.Expedition67.unit.player;
 
 import com.Expedition67.card.Card;
 import com.Expedition67.card.CardAbility;
+import com.Expedition67.unit.UnitBrain;
 
-public class PlayerBrain extends UnitBrain{
+public class PlayerBrain extends UnitBrain {
 
     private int ap;
     private final int MAX_AP = 4;
     private int resonanceBlockAmount = 0;
 
-    public PlayerBrain(){
+    public PlayerBrain() {
         ap = MAX_AP;
     }
 
-    public void applyResonance(int amount){
+    public void applyResonance(int amount) {
         resonanceBlockAmount += amount;
     }
 
-    public void onUseCard(Card c){
+    public void onUseCard(Card c) {
         this.ap -= c.getAP();
-        if( c.getAbility().getCardType()==CardAbility.CardType.ATK && resonanceBlockAmount > 0){
+        if (c.getAbility().getCardType() == CardAbility.CardType.ATK && resonanceBlockAmount > 0) {
             this.addDef(resonanceBlockAmount);
         }
     }
 
     @Override
     public float takeDamage(float amount) {
-        float d = super.takeDamage(amount);
-        return d;
+        return super.takeDamage(amount);
     }
 
     @Override
@@ -40,6 +40,8 @@ public class PlayerBrain extends UnitBrain{
     public UnitBrain copy() {
         return new PlayerBrain();
     }
-    
-    public int getAP(){return this.ap;}
+
+    public int getAP() {
+        return this.ap;
+    }
 }
