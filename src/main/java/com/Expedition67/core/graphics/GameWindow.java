@@ -1,12 +1,10 @@
-package com.Expedition67.core;
+package com.Expedition67.core.graphics;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 public class GameWindow {
 
     private final GameView gameView;
-    private final JFrame jFrame;
 
     /**
      * Constructor: Creates the main application window and embeds the GameView.
@@ -16,7 +14,7 @@ public class GameWindow {
         gameView = new GameView();
 
         // Configure the Window Frame
-        jFrame = new JFrame();
+        JFrame jFrame = new JFrame();
         jFrame.setTitle("Expedition 67");
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.setResizable(false);

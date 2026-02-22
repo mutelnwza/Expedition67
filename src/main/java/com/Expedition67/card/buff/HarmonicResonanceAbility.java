@@ -2,7 +2,7 @@ package com.Expedition67.card.buff;
 
 import com.Expedition67.card.CardAbility;
 import com.Expedition67.card.RemovableAbility;
-import com.Expedition67.core.CombatManager;
+import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.core.GameManager;
 import com.Expedition67.unit.Unit;
 

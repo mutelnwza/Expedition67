@@ -1,6 +1,6 @@
 package com.Expedition67.unit;
 
-import com.Expedition67.core.SpriteRenderer;
+import com.Expedition67.core.graphics.SpriteRenderer;
 import com.Expedition67.model.Animator;
 import com.Expedition67.ui.GameText;
 
@@ -100,12 +100,15 @@ public class Unit {
     }
 
     public void triggerRedFlash() {
-        redFlashFrames = FLASH_DURATION;
+        if (unitStats.getHp() <= 0)
+            redFlashFrames = FLASH_DURATION * 2;
+        else
+            redFlashFrames = FLASH_DURATION;
     }
 
     // --- GameComponent Implementation ---
     public void update() {
-        if (unitStats.getHp() <= 0) {
+        if (unitStats.getHp() <= 0 && redFlashFrames <= 0) {
             return;
         }
         unitBrain.update();

@@ -1,7 +1,8 @@
 package com.Expedition67.states;
 
 import com.Expedition67.core.GameManager;
-import com.Expedition67.core.GameView;
+import com.Expedition67.core.GameStateManager;
+import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
 
@@ -35,7 +36,7 @@ public class CreditsState extends GameState {
 
         // Back Button
         gameComponents.add(new GameButton("Back to Main Menu", 24f, 0, 800, 250, 50, () -> {
-            GameManager.Instance().setCurrentState(GameManager.MENU_STATE, 0);
+            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.MENU_STATE, 0);
         }));
         gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
     }

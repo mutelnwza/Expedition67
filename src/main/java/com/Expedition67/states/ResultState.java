@@ -1,7 +1,8 @@
 package com.Expedition67.states;
 
 import com.Expedition67.core.GameManager;
-import com.Expedition67.core.GameView;
+import com.Expedition67.core.GameStateManager;
+import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
 
@@ -36,7 +37,7 @@ public class ResultState extends GameState {
 
         // Back Button
         gameComponents.add(new GameButton("Back to Main Menu", 24f, 0, 610, 250, 50, () -> {
-            GameManager.Instance().setCurrentState(GameManager.MENU_STATE, 0);
+            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.MENU_STATE, 0);
         }));
         gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
     }
@@ -44,13 +45,13 @@ public class ResultState extends GameState {
     @Override
     public void enter(int id) {
         // Stop the timer
-        GameManager.Instance().setTimeCounter(false);
+        GameManager.Instance().getGameTimer().stop();
 
         // Set Header Text
         if (id == WIN) {
             resultHeader.setText("You Won!");
         } else {
-            GameManager.Instance().setRoom(GameManager.Instance().getRoom() - 1);
+            GameManager.Instance().getGameData().decrementRoom();
             resultHeader.setText("You Lost!");
         }
         resultHeader.horizontallyCentering(0, GameView.GAME_WIDTH);

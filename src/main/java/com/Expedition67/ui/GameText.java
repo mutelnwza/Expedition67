@@ -1,12 +1,10 @@
 package com.Expedition67.ui;
 
-import com.Expedition67.core.GameView;
-import com.Expedition67.storage.AssetManager;
+import com.Expedition67.core.graphics.GameView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 public class GameText implements GameComponent {
 

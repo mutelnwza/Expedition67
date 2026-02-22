@@ -1,7 +1,7 @@
 package com.Expedition67.card.defense;
 
 import com.Expedition67.card.CardAbility;
-import com.Expedition67.core.CombatManager;
+import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.unit.Unit;
 
 public class ShieldAbility extends CardAbility {
@@ -21,11 +21,23 @@ public class ShieldAbility extends CardAbility {
 
     @Override
     public void apply(Unit target) {
-        int def = value;
+        int blockAmount = getBlockAmount();
+        target.getBrain().addDef(blockAmount);
+        CombatManager.Instance().addActionString(String.format(" gains %d block!", blockAmount));
+    }
+
+    @Override
+    public void apply(Unit target, Unit src) {
+        super.apply(target, src);
+        int blockAmount = getBlockAmount();
+        target.getBrain().addDef(blockAmount);
+        CombatManager.Instance().addActionString(String.format(" gains %d block!", blockAmount));
+    }
+
+    private int getBlockAmount() {
         if (max > 0 && min > 0)
-            def = (int) (Math.random() * (max - min + 1)) + min;
-        target.getBrain().addDef(def);
-        CombatManager.Instance().addActionString(String.format(" add %d shield to %s!", value, target.getName()));
+            return (int) (min + (Math.random() * (max - min + 1)));
+        return value;
     }
 
     @Override

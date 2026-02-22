@@ -1,7 +1,8 @@
 package com.Expedition67.states;
 
 import com.Expedition67.core.GameManager;
-import com.Expedition67.core.GameView;
+import com.Expedition67.core.GameStateManager;
+import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameComponent;
 import com.Expedition67.ui.GameText;
@@ -23,12 +24,12 @@ public class MenuState extends GameState {
         // Start Game Button
         gameComponents.add(new GameButton("START GAME", 24f, 0, 470, 300, 50, () -> {
             GameManager.Instance().newGame();
-            GameManager.Instance().setCurrentState(GameManager.COMBAT_STATE, CombatState.MONSTER_ROOM);
+            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.COMBAT_STATE, CombatState.MONSTER_ROOM);
         }));
 
         // Credits Button
         gameComponents.add(new GameButton("CREDITS", 24f, 0, 540, 300, 50, () -> {
-            GameManager.Instance().setCurrentState(GameManager.CREDITS_STATE, 0);
+            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.CREDITS_STATE, 0);
         }));
 
         // Exit Buttons

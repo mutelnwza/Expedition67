@@ -1,7 +1,7 @@
 package com.Expedition67.card.heal;
 
 import com.Expedition67.card.RemovableAbility;
-import com.Expedition67.core.CombatManager;
+import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.unit.Unit;
 
 import java.util.ArrayList;

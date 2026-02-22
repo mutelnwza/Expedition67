@@ -2,7 +2,7 @@ package com.Expedition67.card.defense;
 
 import com.Expedition67.card.CardAbility;
 import com.Expedition67.card.heal.HealAbility;
-import com.Expedition67.core.CombatManager;
+import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.unit.Unit;
 
 public class ShieldHealAbility extends CardAbility {

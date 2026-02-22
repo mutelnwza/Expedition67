@@ -1,10 +1,9 @@
-package com.Expedition67.core;
+package com.Expedition67.core.graphics;
 
 import com.Expedition67.storage.AssetManager;
 import com.Expedition67.unit.Unit;
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics2D;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class SpriteRenderer {

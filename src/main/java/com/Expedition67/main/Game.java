@@ -1,7 +1,7 @@
 package com.Expedition67.main;
 
 import com.Expedition67.core.GameManager;
-import com.Expedition67.core.GameWindow;
+import com.Expedition67.core.graphics.GameWindow;
 
 public class Game implements Runnable {
 

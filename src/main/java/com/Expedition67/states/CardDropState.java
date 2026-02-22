@@ -2,8 +2,9 @@ package com.Expedition67.states;
 
 import com.Expedition67.card.Card;
 import com.Expedition67.core.GameManager;
-import com.Expedition67.core.GameRandom;
-import com.Expedition67.core.GameView;
+import com.Expedition67.core.util.GameRandom;
+import com.Expedition67.core.GameStateManager;
+import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.storage.AssetManager;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.GameButton;
@@ -67,7 +68,7 @@ public class CardDropState extends GameState {
 
         // Inventory
         gameComponents.add(new GameButton("Inventory", 24f, 0, 820, 200, 50, () -> {
-            GameManager.Instance().setCurrentState(GameManager.INVENTORY_STATE, InventoryState.ENTER_FROM_DROP);
+            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.INVENTORY_STATE, InventoryState.ENTER_FROM_DROP);
         }));
         gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
     }
@@ -75,7 +76,7 @@ public class CardDropState extends GameState {
     @Override
     public void enter(int id) {
         if (id == TREASURE_ROOM) {
-            GameManager.Instance().setRoom(GameManager.Instance().getRoom() + 1);
+            GameManager.Instance().getGameData().incrementRoom();
 
             messageText.setText("Lucky! You found the Treasure Room. You got...");
             cardDrop = GameRandom.Instance().getRandomCard(null);
@@ -164,6 +165,6 @@ public class CardDropState extends GameState {
         leftButton.setOnClick(GameRandom.Instance()::enterRandomRoom);
 
         rightButton.setLabel("Challenge the boss");
-        rightButton.setOnClick(() -> GameManager.Instance().setCurrentState(GameManager.COMBAT_STATE, CombatState.BOSS_ROOM));
+        rightButton.setOnClick(() -> GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.COMBAT_STATE, CombatState.BOSS_ROOM));
     }
 }

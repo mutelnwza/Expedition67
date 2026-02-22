@@ -2,8 +2,8 @@ package com.Expedition67.card.debuff;
 
 import com.Expedition67.card.Card;
 import com.Expedition67.card.CardAbility;
-import com.Expedition67.core.CombatManager;
-import com.Expedition67.core.GameRandom;
+import com.Expedition67.core.combat.CombatManager;
+import com.Expedition67.core.util.GameRandom;
 import com.Expedition67.unit.Unit;
 
 public class CardModifyAbility extends CardAbility {

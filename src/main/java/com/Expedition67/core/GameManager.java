@@ -1,49 +1,27 @@
 package com.Expedition67.core;
 
 import com.Expedition67.card.Card;
-import com.Expedition67.card.CardName;
-import com.Expedition67.states.*;
+import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.PlayerBrain;
 import com.Expedition67.unit.Unit;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameManager {
 
-    // --- Constants for Game States ---
-    public static final int MENU_STATE = 0;
-    public static final int COMBAT_STATE = 1;
-    public static final int CARD_DROP_STATE = 2;
-    public static final int RESULT_STATE = 3;
-    public static final int CREDITS_STATE = 4;
-    public static final int INVENTORY_STATE = 5;
-
-    // --- Fields ---
     private static GameManager instance;
 
-    private GameState currentState;
-    private List<GameState> gameStates;
+    private final GameStateManager gameStateManager;
+    private final GameTimer gameTimer;
+    private final GameData gameData;
 
-    private boolean isTimeCounter;
-    private int ticks;
-    private int totalSeconds;
-    private int room;
-
-    private Unit player;
-    private PlayerBrain playerBrain;
-
-    /**
-     * Constructor: Initializes the game states and sets the starting state.
-     */
     private GameManager() {
-        loadGameStates();
-        // Start the game with the Menu State
-        currentState = gameStates.get(MENU_STATE);
+        gameStateManager = new GameStateManager();
+        gameTimer = new GameTimer();
+        gameData = new GameData();
     }
 
     public static GameManager Instance() {
@@ -53,134 +31,62 @@ public class GameManager {
         return instance;
     }
 
-    /**
-     * Creates instances of all game states and adds to the list.
-     */
-    private void loadGameStates() {
-        gameStates = new ArrayList<>();
-        gameStates.add(new MenuState());
-        gameStates.add(new CombatState());
-        gameStates.add(new CardDropState());
-        gameStates.add(new ResultState());
-        gameStates.add(new CreditsState());
-        gameStates.add(new InventoryState());
-    }
-
-    /**
-     * Switches the current game state.
-     *
-     * @param state The index of the new state (use constants)
-     * @param id    An optional identifier to pass to the new state
-     */
-    public void setCurrentState(int state, int id) {
-        if (currentState instanceof InventoryState) {
-            currentState = gameStates.get(state);
-            return;
-        }
-        if (currentState != null && state != INVENTORY_STATE) {
-            currentState.exit();
-        }
-        currentState = gameStates.get(state);
-        currentState.enter(id);
-    }
-
-    /**
-     * Enables or disables the game timer.
-     */
-    public void setTimeCounter(boolean timeCounter) {
-        isTimeCounter = timeCounter;
-    }
-
-    /**
-     * Returns the formatted time string (MM:SS)
-     */
-    public String getTimeString() {
-        int min = totalSeconds / 60;
-        int sec = totalSeconds % 60;
-        return String.format("%02d:%02d", min, sec);
-    }
-
-    /**
-     * Resets game variables
-     */
     public void newGame() {
-        isTimeCounter = true;
-        ticks = 0;
-        totalSeconds = 0;
-        room = 0;
+        gameTimer.reset();
+        gameTimer.start();
+        gameData.reset();
 
-        player = Warehouse.Instance().spawnPlayer(0, 460);
+        gameData.setPlayer(Warehouse.Instance().spawnPlayer(0, 460));
         CombatManager.initNew();
         CardInventory.Instance().emptyInventory();
-        // Temp
-//        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.REMNANT_HIT), 1);
-//        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.SPECTRAL_VEIL), 1);
-//        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.ETHEREAL_RESTORATION), 1);
         for (Card c : Warehouse.Instance().getCards())
             CardInventory.Instance().addCard(c, 1);
     }
 
-    /**
-     * The main update loop. Handles state updates and time counting.
-     */
     public void update() {
-        if (currentState != null) {
-            currentState.update();
-        }
-
-        // Handle the time counter
-        if (isTimeCounter) {
-            ticks++;
-            // FPS = 30
-            if (ticks >= 30) {
-                ticks = 0;
-                totalSeconds++;
-            }
-        }
+        gameStateManager.update();
+        gameTimer.update();
     }
 
-    /**
-     * Delegates rendering to the current game state.
-     */
     public void render(Graphics g) {
-        if (currentState != null) {
-            currentState.render(g);
-        }
+        gameStateManager.render(g);
     }
 
-    /**
-     * Passes mouse click events to the current game state.
-     */
     public void mouseClicked(MouseEvent e) {
-        if (currentState != null) {
-            currentState.mouseClicked(e);
-        }
+        gameStateManager.mouseClicked(e);
     }
 
-    /**
-     * Passes mouse movement events to the current game state.
-     */
     public void mouseMoved(MouseEvent e) {
-        if (currentState != null) {
-            currentState.mouseMoved(e);
-        }
+        gameStateManager.mouseMoved(e);
     }
 
-    // --- Getters and Setters ---
+    // --- Getters ---
+
+    public GameStateManager getGameStateManager() {
+        return gameStateManager;
+    }
+
+    public GameTimer getGameTimer() {
+        return gameTimer;
+    }
+
+    public GameData getGameData() {
+        return gameData;
+    }
 
     public Unit getPlayer() {
-        return player;
+        return gameData.getPlayer();
     }
 
     public PlayerBrain getPlayerBrain() {
-        return playerBrain;
+        return gameData.getPlayerBrain();
     }
 
     public int getRoom() {
-        return room;
+        return gameData.getRoom();
     }
 
-    public void setRoom(int room) {
-        this.room = room;
+    public String getTimeString() {
+        return gameTimer.getTimeString();
     }
 }

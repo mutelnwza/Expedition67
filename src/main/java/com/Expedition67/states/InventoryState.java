@@ -2,10 +2,10 @@ package com.Expedition67.states;
 
 import com.Expedition67.card.Card;
 import com.Expedition67.core.GameManager;
-import com.Expedition67.core.GameView;
+import com.Expedition67.core.GameStateManager;
+import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.storage.AssetManager;
 import com.Expedition67.storage.CardInventory;
-import com.Expedition67.storage.Warehouse;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
 
@@ -54,16 +54,16 @@ public class InventoryState extends GameState {
 
         // Back
         gameComponents.add(new GameButton("Back", 24f, 20, 20, 60, 40, () -> {
-            GameManager.Instance().setCurrentState(previousState, 0);
+            GameManager.Instance().getGameStateManager().setCurrentState(previousState, 0);
         }));
     }
 
     @Override
     public void enter(int id) {
         if (id == ENTER_FROM_COMBAT)
-            previousState = GameManager.COMBAT_STATE;
+            previousState = GameStateManager.COMBAT_STATE;
         else
-            previousState = GameManager.CARD_DROP_STATE;
+            previousState = GameStateManager.CARD_DROP_STATE;
 
         inventory = CardInventory.Instance().getCardInventory();
         showedCardIndex = 0;

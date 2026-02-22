@@ -1,7 +1,7 @@
 package com.Expedition67.unit;
 
 import com.Expedition67.card.Card;
-import com.Expedition67.core.GameView;
+import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.storage.AssetManager;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.GameComponent;

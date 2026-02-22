@@ -1,16 +1,16 @@
 package com.Expedition67.states;
 
-import com.Expedition67.core.CombatManager;
+import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.core.GameManager;
-import com.Expedition67.core.GameRandom;
-import com.Expedition67.core.GameView;
+import com.Expedition67.core.util.GameRandom;
+import com.Expedition67.core.GameStateManager;
+import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
 import com.Expedition67.unit.Deck;
 import com.Expedition67.unit.Enemy.Enemy;
 import com.Expedition67.unit.Unit;
-import com.Expedition67.unit.UnitName;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -65,7 +65,7 @@ public class CombatState extends GameState {
 
         // Inventory
         gameComponents.add(new GameButton("Inventory", 24f, 50, 770, 100, 50, () -> {
-            GameManager.Instance().setCurrentState(GameManager.INVENTORY_STATE, InventoryState.ENTER_FROM_COMBAT);
+            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.INVENTORY_STATE, InventoryState.ENTER_FROM_COMBAT);
         }));
 
         // End Turn
@@ -83,7 +83,7 @@ public class CombatState extends GameState {
     @Override
     public void enter(int id) {
         // Increment room count
-        GameManager.Instance().setRoom(GameManager.Instance().getRoom() + 1);
+        GameManager.Instance().getGameData().incrementRoom();
 
         // Create an enemy based on the room type
         enemies = new ArrayList<>();

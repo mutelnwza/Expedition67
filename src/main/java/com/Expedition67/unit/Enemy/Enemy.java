@@ -1,7 +1,7 @@
 package com.Expedition67.unit.Enemy;
 
-import com.Expedition67.core.CombatManager;
-import com.Expedition67.core.GameView;
+import com.Expedition67.core.combat.CombatManager;
+import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.ui.GameComponent;
 import com.Expedition67.unit.*;
 
@@ -66,7 +66,7 @@ public class Enemy extends Unit implements GameComponent {
 
     @Override
     public boolean mouseClicked(MouseEvent e) {
-        if (!isVisible) return false;
+        if (!isVisible || getUnitStats().getHp() <= 0) return false;
 
         if (isInside(e.getX(), e.getY())) {
             CombatManager.Instance().setTarget(this);
