@@ -1,27 +1,27 @@
 package com.Expedition67.card;
+
 import com.Expedition67.core.CombatManager;
 import com.Expedition67.unit.Unit;
+import com.Expedition67.unit.UnitStats;
 
-public class RebirthAbility extends CardAbility {
-    private int healAmount;
-    private int normalShield;
-    private int boostShield;
-
-    public RebirthAbility(int healAmount, int normalShield, int boostShield, CardType cardType) {
-        super(cardType);
-        this.healAmount = healAmount;
-        this.normalShield = normalShield;
-        this.boostShield = boostShield;
+public class RebirthAbility extends ShieldHealAbility {
+    private final int maxShield;
+    public RebirthAbility(int shield, int maxshield, int heal, CardType cardType) {
+        super(shield, heal, cardType);
+        this.maxShield = maxshield;
     }
 
     @Override
     public void apply(Unit target) {
-        target.getBrain().heal(healAmount);
-        target.getBrain().addDef(normalShield); 
-        CombatManager.Instance().addActionString(" revive " + target.getName()+ " = " + healAmount);
-        // TODO: รอดึงค่า MaxHP ได้ ค่อยทำเงื่อนไข เลือด < 20% เพื่อให้เกราะบูสต์
-    }
-    public void apply(Unit target, Unit src){
-        target.getBrain().applyCard(this,src);
+        UnitStats stats = target.getUnitStats();
+        float hpPercent = (stats.getHp() / stats.getMaxHp()) * 100;
+
+        if (hpPercent < 20) {
+            super.setShieldValue(maxShield);
+            CombatManager.Instance().addActionString(" [REBIRTH TRIGGERED] ");
+        }
+
+        super.apply(target);
+        super.setShieldValue(shieldVal);
     }
 }

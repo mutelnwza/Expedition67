@@ -9,6 +9,7 @@ public class Card {
     }
 
     private CardName name;
+    private int baseAP;
     private int apCost;
     private boolean isPermanant;
     private int defaultUsesAmount;
@@ -20,6 +21,7 @@ public class Card {
 
     public Card(CardName name, int apCost, boolean isPermanant, int defaultUsesAmount, CardAbility ability, CardTier cardTier, String description) {
         this.name = name;
+        this.baseAP = apCost;
         this.apCost = apCost; //for crad
         this.isPermanant = isPermanant;
         this.defaultUsesAmount = defaultUsesAmount;
@@ -31,6 +33,7 @@ public class Card {
 
     public Card(Card c) {
         this.name = c.name;
+        this.baseAP = apCost;
         this.apCost = c.apCost;
         this.isPermanant = c.isPermanant;
         this.defaultUsesAmount = c.defaultUsesAmount;
@@ -71,6 +74,14 @@ public class Card {
 
     public int getAP() {
         return this.apCost;
+    }
+
+    public void setAP(int newAP){
+        apCost = newAP;
+    }
+
+    public void resetAP(){
+        apCost = baseAP;
     }
 
     public boolean getPerm() {

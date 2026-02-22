@@ -10,7 +10,6 @@ import com.Expedition67.unit.Enemy.EnemyBrain;
 import com.Expedition67.unit.PlayerBrain;
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.UnitType;
-
 import java.util.List;
 
 public class CombatManager {
@@ -121,8 +120,9 @@ public class CombatManager {
             EnemyBrain eb = (EnemyBrain) e.getBrain();
             eb.onPlayerUseCard(card);
         }
-        pb.onUseCard(card.getAP());
+        pb.onUseCard(card);
         deck.useCard(card);
+        deck.updateFreeCard();
 
         cardUsedCount++;
     }
@@ -214,4 +214,6 @@ public class CombatManager {
     public void clearEnemies() {
         enemies.clear();
     }
+
+    public List<Enemy> getEnemies(){return enemies;}
 }

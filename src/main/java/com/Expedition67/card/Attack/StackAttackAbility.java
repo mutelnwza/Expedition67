@@ -15,7 +15,7 @@ public class StackAttackAbility extends DamageAbility {
         super.apply(target,src);
         float afterHp = target.getUnitStats().getHp();
         if(prevHp>afterHp){
-            super.setDamage(value+2);
+            super.setValue(value+2);
             CombatManager.Instance().addActionString("'s attack power increases");
         }
     }

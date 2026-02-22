@@ -15,7 +15,7 @@ public class OverdriveAbility extends RemoveableAbility {
     @Override
     public void apply(Unit target) {
         target.takeDamage(selfDamage);
-        target.getBrain().addCrit(crit); 
+        target.getBrain().addCrit(crit);
         CombatManager.Instance().addActionString(" overdrive +" + crit + " crit (-" + selfDamage + " hp)");
     }
 

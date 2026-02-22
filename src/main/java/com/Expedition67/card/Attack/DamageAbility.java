@@ -34,16 +34,19 @@ public class DamageAbility extends CardAbility {
         CombatManager.Instance().addActionString(" deal damage to "+target.getName()+" ="+value);
     }
 
+    public void apply(Unit target, Unit src, int val){
+        super.apply(target,src);
+        int dmg = (int)(value *(1+(src.getUnitStats().getStr()/10)));
+        if(Math.random() <= src.getUnitStats().getCrit()){
+            dmg*=1.5;
+        }
+        target.takeDamage(dmg);
+        CombatManager.Instance().addActionString(" deal damage to "+target.getName()+" ="+value);
+    }
+
     protected int calculateDamage(){
         int dmg = value;
         if(maxDmg>0 && minDmg>0) dmg= (int)(Math.random() * (maxDmg - minDmg + 1)) + minDmg;
         return dmg;
-    }
-
-    public void setDamage(int newDmg){
-        this.value=newDmg;
-    }
-    public int getDamage(){
-        return value;
     }
 }

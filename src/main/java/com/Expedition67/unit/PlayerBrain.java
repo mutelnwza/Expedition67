@@ -1,16 +1,27 @@
 package com.Expedition67.unit;
 
+import com.Expedition67.card.Card;
+import com.Expedition67.card.CardAbility;
+
 public class PlayerBrain extends UnitBrain{
 
     private int ap;
     private final int MAX_AP = 4;
+    private boolean isApplyResonance = false;
 
     public PlayerBrain(){
         ap = MAX_AP;
     }
 
-    public void onUseCard(int ap){
-        this.ap -= ap;
+    public void applyResonance(boolean b){
+        isApplyResonance=b;
+    }
+
+    public void onUseCard(Card c){
+        this.ap -= c.getAP();
+        if( c.getAbility().getCardType()==CardAbility.CardType.ATK && isApplyResonance){
+            this.addDef(6);
+        }
     }
 
     @Override

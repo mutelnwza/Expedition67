@@ -28,8 +28,8 @@ public class VisionBrain extends EnemyBrain {
     public void calculateNextMove(Card c) {
         switch (c.getAbility()) {
             case DamageAbility d -> {
-                dmgStack += d.getDamage();
-                counterAbility.setDamage(dmgStack);
+                dmgStack += d.getValue();
+                counterAbility.setValue(dmgStack);
                 nextAction = counterAbility;
                 target = GameManager.Instance().getPlayer();
             }
@@ -52,6 +52,6 @@ public class VisionBrain extends EnemyBrain {
     public void onTurnEnded() {
         super.onTurnEnded();
         dmgStack = 0;
-        counterAbility.setDamage(0);
+        counterAbility.setValue(0);
     }
 }
