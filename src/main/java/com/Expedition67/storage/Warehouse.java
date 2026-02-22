@@ -146,8 +146,8 @@ public class Warehouse {
         cardFactory.put(CardName.EVENT_HORIZON, new Card(CardName.EVENT_HORIZON, 4, true, -1, new ShieldAbility(70, CardAbility.CardType.DEF), Card.CardTier.RARE, "Gain 70 Block. Incoming strikes vanish into the void."));
 
         // Buff
-//        cardFactory.put(CardName.SOUL_RESONANCE, new Card(CardName.SOUL_RESONANCE, 1, true, -1, new BuffAbility(2), Card.CardTier.NORMAL, "Attack cards in your hand gain +6 Damage this turn."));
-//        cardFactory.put(CardName.HARMONIC_RESONANCE, new Card(CardName.HARMONIC_RESONANCE, 2, true, -1, new BuffAbility(4), Card.CardTier.NORMAL, "Whenever you play an Attack card this turn, gain 6 Block."));
+        cardFactory.put(CardName.SOUL_RESONANCE, new Card(CardName.SOUL_RESONANCE, 1, true, -1, new SoulResonanceAbility(CardAbility.CardType.BUFF), Card.CardTier.NORMAL, "Attack cards in your hand gain +6 Damage this turn."));
+      //cardFactory.put(CardName.HARMONIC_RESONANCE, new Card(CardName.HARMONIC_RESONANCE, 2, true, -1, new BuffAbility(4), Card.CardTier.NORMAL, "Whenever you play an Attack card this turn, gain 6 Block."));
         cardFactory.put(CardName.SOVEREIGNS_OVERDRIVE, new Card(CardName.SOVEREIGNS_OVERDRIVE, 0, false, 2, new OverdriveAbility(1, 5, 1, CardAbility.CardType.BUFF), Card.CardTier.NORMAL, "Lose 5 HP. Your next attack has a 100% Critical Rate."));
 
         // Heal
