@@ -214,4 +214,6 @@ public class CombatManager {
     public void clearEnemies() {
         enemies.clear();
     }
+
+    public List<Enemy> getEnemies(){return enemies;}
 }

@@ -1,28 +1,23 @@
 package com.Expedition67.card.Attack;
-import com.Expedition67.card.CardAbility;
-import com.Expedition67.card.CardAbility.CardType;
+
 import com.Expedition67.core.CombatManager;
+import com.Expedition67.unit.Enemy.Enemy;
 import com.Expedition67.unit.Unit;
+import java.util.List;
 
-public class AoEDamageAbility extends CardAbility {
+public class AoEDamageAbility extends DamageAbility {
 
-    public AoEDamageAbility(CardType cardType) {
-        super(cardType);
-        //TODO Auto-generated constructor stub
+    public AoEDamageAbility(int value, CardType cardType) {
+        super(value, cardType);
     }
 
     @Override
-    public void apply(Unit target) {
-        CombatManager.Instance().addActionString (" deals " + value + " damage to ALL enemies");
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'apply'");
+    public void apply(Unit target, Unit src) {
+        CombatManager.Instance().addActionString(" deals " + value + " damage to ALL enemies");
+        List<Enemy> enemies = CombatManager.Instance().getEnemies();
+        for(Enemy e : enemies){
+            super.apply(e, src);
+        }
     }
-    // public AoEDamageAbility(int value, CardType cardType) {
-    //     super(value, cardType);
-    //     //TODO Auto-generated constructor stub
-    // }
-    // private float damage;
-    // @Override
-    // public void apply(Unit target) {target.takeDamage(damage);
-    //     // TODO: รอทำระบบ(AoE)}
+
 }

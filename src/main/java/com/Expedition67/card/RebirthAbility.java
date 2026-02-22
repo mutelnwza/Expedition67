@@ -21,7 +21,4 @@ public class RebirthAbility extends CardAbility {
         CombatManager.Instance().addActionString(" revive " + target.getName()+ " = " + healAmount);
         // TODO: รอดึงค่า MaxHP ได้ ค่อยทำเงื่อนไข เลือด < 20% เพื่อให้เกราะบูสต์
     }
-    public void apply(Unit target, Unit src){
-        target.getBrain().applyCard(this,src);
-    }
 }

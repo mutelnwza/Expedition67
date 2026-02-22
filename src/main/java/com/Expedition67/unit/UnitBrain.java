@@ -46,9 +46,11 @@ public abstract class UnitBrain {
         }
         return dmgDealt;
     }
+
     public void takeTrueDamage(float amount) {
         owner.getUnitStats().hp = Math.max(0, amount);
     }
+
     public abstract UnitBrain copy();
 
     public void applyCard(CardAbility ca, Unit src) {
@@ -95,6 +97,27 @@ public abstract class UnitBrain {
             if (bf.turnLeft == 0) {
                 bf.rb.remove(owner);
                 currentBuff.remove(bf);
+            }
+        }
+    }
+
+    public ArrayList<RemoveableAbility> getCurrentDebuffs() {
+        ArrayList<RemoveableAbility> debuffs = new ArrayList<>();
+
+        for (buffTracker bf : currentBuff) {
+            if (bf.rb.getCardType() == CardAbility.CardType.DEBUFF) {
+                debuffs.add(bf.rb);
+            }
+        }
+        return debuffs;
+    }
+
+    public void removeBuffs(RemoveableAbility ra){
+        ra.remove(owner);
+        for(buffTracker bt : currentBuff){
+            if(bt.rb==ra){
+                currentBuff.remove(bt);
+            System.out.println("Successfully removed a debuff");
             }
         }
     }

@@ -73,6 +73,19 @@ public class Deck implements GameComponent {
         addToHand();
     }
 
+    public void removeFromDeck(Card c){
+        allCards.remove(c);
+        if(hand.contains(c)){
+            removeFromHand(c);
+        }
+        else if(discardPile.contains(c)){
+            discardPile.remove(c);
+        }
+        else{
+            drawPile.remove(c);
+        }
+    }
+
     public void removeFromHand(Card c) {
         hand.remove(c);
         selectedCardIndex = -1;
