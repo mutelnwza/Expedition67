@@ -106,8 +106,12 @@ public class CombatManager {
         PlayerBrain pb = (PlayerBrain) player.getBrain();
 
         if (card == null || target == null) return;
+        if (card.isLocked()) {
+            actionString = "Card is locked!";
+            return;
+        }
         if (pb.getAP() < card.getAP()) {
-            actionString = "Not enough AP";
+            actionString = "Not enough AP!";
             return;
         }
         actionString = player.getName().toString();
@@ -216,4 +220,8 @@ public class CombatManager {
     }
 
     public List<Enemy> getEnemies(){return enemies;}
+
+    public void setActionString(String actionString) {
+        this.actionString = actionString;
+    }
 }

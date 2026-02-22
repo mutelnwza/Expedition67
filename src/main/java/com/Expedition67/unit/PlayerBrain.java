@@ -7,20 +7,20 @@ public class PlayerBrain extends UnitBrain{
 
     private int ap;
     private final int MAX_AP = 4;
-    private boolean isApplyResonance = false;
+    private int resonanceBlockAmount = 0;
 
     public PlayerBrain(){
         ap = MAX_AP;
     }
 
-    public void applyResonance(boolean b){
-        isApplyResonance=b;
+    public void applyResonance(int amount){
+        resonanceBlockAmount += amount;
     }
 
     public void onUseCard(Card c){
         this.ap -= c.getAP();
-        if( c.getAbility().getCardType()==CardAbility.CardType.ATK && isApplyResonance){
-            this.addDef(6);
+        if( c.getAbility().getCardType()==CardAbility.CardType.ATK && resonanceBlockAmount > 0){
+            this.addDef(resonanceBlockAmount);
         }
     }
 

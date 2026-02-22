@@ -1,5 +1,6 @@
 package com.Expedition67.core;
 
+import com.Expedition67.card.CardAbility;
 import com.Expedition67.states.CardDropState;
 import com.Expedition67.states.CombatState;
 import com.Expedition67.storage.Warehouse;
@@ -83,6 +84,15 @@ public class GameRandom {
 
         Card randomCard = getRandomElement(cards);
         return randomCard.copy();
+    }
+
+    public Card getRandomCardFromHand(CardAbility.CardType type) {
+        List<Card> handCards;
+
+        if (type == null) handCards = CombatManager.Instance().getDeck().getHand();
+        else handCards = CombatManager.Instance().getDeck().getHand().stream().filter(c -> c.getAbility().getCardType() == type).toList();
+
+        return getRandomElement(handCards);
     }
 
     public void enterRandomRoom() {

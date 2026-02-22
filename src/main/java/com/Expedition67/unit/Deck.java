@@ -1,11 +1,11 @@
 package com.Expedition67.unit;
 
 import com.Expedition67.card.Card;
-import com.Expedition67.card.CardAbility;
 import com.Expedition67.core.GameView;
 import com.Expedition67.storage.AssetManager;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.GameComponent;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -38,6 +38,7 @@ public class Deck implements GameComponent {
     }
 
     public void instantiate() {
+        allCards = new ArrayList<>();
         drawPile = new Stack<>();
         discardPile = new ArrayList<>();
         hand = new ArrayList<>();
@@ -59,6 +60,9 @@ public class Deck implements GameComponent {
     }
 
     public void reshuffle() {
+        resetCards(hand);
+        resetCards(discardPile);
+
         drawPile.addAll(hand);
         drawPile.addAll(discardPile);
 
@@ -73,26 +77,26 @@ public class Deck implements GameComponent {
         addToHand();
     }
 
-    public void removeFromDeck(Card c){
+    public void removeFromDeck(Card c) {
         allCards.remove(c);
-        if(hand.contains(c)){
+        if (hand.contains(c)) {
             removeFromHand(c);
-        }
-        else if(discardPile.contains(c)){
+        } else if (discardPile.contains(c)) {
             discardPile.remove(c);
-        }
-        else{
+        } else {
             drawPile.remove(c);
         }
     }
 
     public void removeFromHand(Card c) {
+        c.getAbility().resetValue();
         hand.remove(c);
         selectedCardIndex = -1;
         horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 
     public void addToHand() {
+        resetCards(hand);
         discardPile.addAll(hand);
         hand.clear();
         freeCardLeft = 0;
@@ -110,12 +114,14 @@ public class Deck implements GameComponent {
     }
 
     public void recycleDiscardPile() {
+        resetCards(discardPile);
         drawPile.addAll(discardPile);
         discardPile.clear();
         shuffle();
     }
 
     public void discardHand() {
+        resetCards(hand);
         discardPile.addAll(hand);
         hand.clear();
         selectedCardIndex = -1;
@@ -126,38 +132,21 @@ public class Deck implements GameComponent {
         if (hand.contains(card)) {
             hand.remove(card);
             discardPile.add(card);
+            freeCardLeft--;
             selectedCardIndex = -1;
             horizontallyCentering(0, GameView.GAME_WIDTH);
+        }
+    }
+
+    private void resetCards(List<Card> cards) {
+        for (Card c : cards) {
+            c.getAbility().resetValue();
         }
     }
 
     public void addCard(Card card) {
         drawPile.add(card);
         allCards.add(card);
-    }
-
-    public Card getRandomCardFromHand(CardAbility.CardType type) {
-        List<Card> matches = hand.stream()
-                .filter(c -> c.getAbility().getCardType() == type)
-                .toList();
-
-        if (matches.isEmpty()) {
-            return null;
-        }
-
-        return matches.get(new java.util.Random().nextInt(matches.size()));
-    }
-
-    public Card getRandomCardFromHand() {
-        List<Card> matches = hand.stream()
-                .filter(c -> c.isLocked() != true)
-                .toList();
-
-        if (matches.isEmpty()) {
-            return null;
-        }
-
-        return matches.get(new java.util.Random().nextInt(matches.size()));
     }
 
     public Card getSelectedCard() {
@@ -176,9 +165,9 @@ public class Deck implements GameComponent {
     }
 
     public void updateFreeCard() {
-        if(freeCardLeft==0) return;
-        
-        freeCardLeft = Math.max(0, freeCardLeft-1);
+        if (freeCardLeft == 0) return;
+
+        freeCardLeft = Math.max(0, freeCardLeft - 1);
         if (freeCardLeft == 0) {
             for (Card c : hand) {
                 c.resetAP();
@@ -314,7 +303,7 @@ public class Deck implements GameComponent {
         this.handSize = handSize;
     }
 
-    public ArrayList<Card> getAllCards(){
+    public ArrayList<Card> getAllCards() {
         return allCards;
     }
 }

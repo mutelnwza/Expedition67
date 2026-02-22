@@ -1,12 +1,13 @@
 package com.Expedition67.unit.Enemy;
 
-import com.Expedition67.card.Attack.DamageAbility;
-import com.Expedition67.card.BuffAbility;
+import com.Expedition67.card.attack.DamageAbility;
 import com.Expedition67.card.Card;
 import com.Expedition67.card.CardAbility;
 import com.Expedition67.core.GameManager;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.UnitBrain;
+
+import java.util.Objects;
 
 public class VisionBrain extends EnemyBrain {
 
@@ -26,20 +27,13 @@ public class VisionBrain extends EnemyBrain {
 
     @Override
     public void calculateNextMove(Card c) {
-        switch (c.getAbility()) {
-            case DamageAbility d -> {
-                dmgStack += d.getValue();
-                counterAbility.setValue(dmgStack);
-                nextAction = counterAbility;
-                target = GameManager.Instance().getPlayer();
-            }
-            case BuffAbility b -> {
-                nextAction = b;
-                target = this.owner;
-            }
-            default -> {
-                calculateNextMove();
-            }
+        if (Objects.requireNonNull(c.getAbility()) instanceof DamageAbility d) {
+            dmgStack += d.getValue();
+            counterAbility.setValue(dmgStack);
+            nextAction = counterAbility;
+            target = GameManager.Instance().getPlayer();
+        } else {
+            calculateNextMove();
         }
     }
 

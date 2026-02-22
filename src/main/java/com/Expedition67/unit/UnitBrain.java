@@ -1,8 +1,8 @@
 package com.Expedition67.unit;
 
-import com.Expedition67.card.Attack.DamageAbility;
+import com.Expedition67.card.attack.DamageAbility;
 import com.Expedition67.card.CardAbility;
-import com.Expedition67.card.RemoveableAbility;
+import com.Expedition67.card.RemovableAbility;
 import com.Expedition67.core.ITickable;
 import java.util.ArrayList;
 
@@ -11,12 +11,12 @@ public abstract class UnitBrain {
     //use to manage the logic of unit, both player and enemies
     protected class buffTracker {
 
-        protected buffTracker(int t, RemoveableAbility rb) {
+        protected buffTracker(int t, RemovableAbility rb) {
             turnLeft = t;
             this.rb = rb;
         }
         protected int turnLeft;
-        protected RemoveableAbility rb;
+        protected RemovableAbility rb;
     }
 
     protected Unit owner;
@@ -54,7 +54,7 @@ public abstract class UnitBrain {
     public abstract UnitBrain copy();
 
     public void applyCard(CardAbility ca, Unit src) {
-        if (ca instanceof RemoveableAbility rb) {
+        if (ca instanceof RemovableAbility rb) {
             currentBuff.add(new buffTracker(rb.getTurn(), rb));
         }
         if (ca instanceof DamageAbility d) {
@@ -101,8 +101,8 @@ public abstract class UnitBrain {
         }
     }
 
-    public ArrayList<RemoveableAbility> getCurrentDebuffs() {
-        ArrayList<RemoveableAbility> debuffs = new ArrayList<>();
+    public ArrayList<RemovableAbility> getCurrentDebuffs() {
+        ArrayList<RemovableAbility> debuffs = new ArrayList<>();
 
         for (buffTracker bf : currentBuff) {
             if (bf.rb.getCardType() == CardAbility.CardType.DEBUFF) {
@@ -112,7 +112,7 @@ public abstract class UnitBrain {
         return debuffs;
     }
 
-    public void removeBuffs(RemoveableAbility ra){
+    public void removeBuffs(RemovableAbility ra){
         ra.remove(owner);
         for(buffTracker bt : currentBuff){
             if(bt.rb==ra){

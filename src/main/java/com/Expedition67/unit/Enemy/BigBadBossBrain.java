@@ -1,7 +1,7 @@
 package com.Expedition67.unit.Enemy;
 
 import com.Expedition67.card.CardAbility;
-import com.Expedition67.card.Debuff.NerfHandAbility;
+import com.Expedition67.card.debuff.NerfHandAbility;
 import com.Expedition67.core.CombatManager;
 import com.Expedition67.core.GameManager;
 import com.Expedition67.storage.Warehouse;

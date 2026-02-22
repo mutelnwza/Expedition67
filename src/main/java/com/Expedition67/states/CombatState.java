@@ -44,6 +44,11 @@ public class CombatState extends GameState {
         actionText = new GameText("Placeholder", 0, 270, 24f, Color.white);
         gameComponents.add(actionText);
 
+        // Reshuffle (Temp)
+        gameComponents.add(new GameButton("Reshuffle", 24f, 50, 590, 100, 50, () -> {
+            deck.reshuffle();
+        }));
+
         // Lose (Temp)
         gameComponents.add(new GameButton("Lose", 24f, 50, 650, 100, 50, () -> {
             GameManager.Instance().getPlayer().takeDamage(10000000);
