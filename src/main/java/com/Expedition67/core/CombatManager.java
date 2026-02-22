@@ -9,11 +9,7 @@ import com.Expedition67.unit.Enemy.Enemy;
 import com.Expedition67.unit.Enemy.EnemyBrain;
 import com.Expedition67.unit.PlayerBrain;
 import com.Expedition67.unit.Unit;
-<<<<<<< Updated upstream
 import com.Expedition67.unit.UnitType;
-
-=======
->>>>>>> Stashed changes
 import java.util.List;
 
 public class CombatManager {
@@ -218,4 +214,6 @@ public class CombatManager {
     public void clearEnemies() {
         enemies.clear();
     }
+
+    public List<Enemy> getEnemies(){return enemies;}
 }

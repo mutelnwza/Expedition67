@@ -26,4 +26,5 @@ public abstract class CardAbility {
     
     public CardType getCardType(){return cardType;}
     public int getValue(){return value;}
+    public void setValue(int newValue){value=newValue;}
 }

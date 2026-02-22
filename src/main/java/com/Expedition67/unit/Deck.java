@@ -15,6 +15,7 @@ import java.util.Stack;
 
 public class Deck implements GameComponent {
 
+    private ArrayList<Card> allCards;
     private Stack<Card> drawPile;
     private ArrayList<Card> discardPile;
     private ArrayList<Card> hand;
@@ -42,7 +43,9 @@ public class Deck implements GameComponent {
         hand = new ArrayList<>();
 
         for (Card c : CardInventory.Instance().getCardInventory()) {
-            drawPile.add(c.copy());
+            Card newCard = c.copy();
+            drawPile.add(newCard);
+            allCards.add(newCard);
         }
 
         shuffle();
@@ -68,6 +71,19 @@ public class Deck implements GameComponent {
         mouseOverIndex = -1;
 
         addToHand();
+    }
+
+    public void removeFromDeck(Card c){
+        allCards.remove(c);
+        if(hand.contains(c)){
+            removeFromHand(c);
+        }
+        else if(discardPile.contains(c)){
+            discardPile.remove(c);
+        }
+        else{
+            drawPile.remove(c);
+        }
     }
 
     public void removeFromHand(Card c) {
@@ -117,6 +133,7 @@ public class Deck implements GameComponent {
 
     public void addCard(Card card) {
         drawPile.add(card);
+        allCards.add(card);
     }
 
     public Card getRandomCardFromHand(CardAbility.CardType type) {
@@ -295,5 +312,9 @@ public class Deck implements GameComponent {
 
     public void setHandSize(int handSize) {
         this.handSize = handSize;
+    }
+
+    public ArrayList<Card> getAllCards(){
+        return allCards;
     }
 }
