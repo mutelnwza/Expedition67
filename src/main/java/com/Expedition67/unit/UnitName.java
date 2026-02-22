@@ -7,7 +7,7 @@ public enum UnitName {
     BIG_BAD_BOSS, CRYING_SLIME, LUKCHIN, PLAYER, RED_EYES, SON_AND_DAD, TILLY_THE_BIRD, VISION;
 
     private String toCapitalize(String str) {
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
+        return str.charAt(0) + str.substring(1).toLowerCase();
     }
 
     @Override

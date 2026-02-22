@@ -10,7 +10,7 @@ public enum CardName {
     SPECTRAL_VEIL, VOID, VOID_DRAGON;
 
     private String toCapitalize(String str) {
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
+        return str.charAt(0) + str.substring(1).toLowerCase();
     }
 
     @Override

@@ -12,11 +12,12 @@ public class GameText implements GameComponent {
     private int x;
     private int y;
     private final Font font;
-    private final Color color;
+    private Color color;
     private boolean isVisible;
     private boolean isHorizontallyCentered = false;
     private int centeredX;
     private int centeredW;
+    private int width;
 
     /**
      * Constructor: Creates a text label
@@ -34,9 +35,10 @@ public class GameText implements GameComponent {
         this.font = GameView.MAIN_FONT.deriveFont(size);
         this.color = color;
         this.isVisible = true;
+        this.width = 0;
     }
 
-    // --- Setters ---
+    // --- Setters & Getters ---
 
     public void setText(String text) {
         this.text = text;
@@ -51,11 +53,24 @@ public class GameText implements GameComponent {
         this.y = y;
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
     // --- GameComponent Implementation ---
 
     @Override
     public void horizontallyCentering(int x, int w) {
         isHorizontallyCentered = true;
+        this.x = x;
         this.centeredX = x;
         this.centeredW = w;
     }
@@ -94,11 +109,11 @@ public class GameText implements GameComponent {
 
         for (int i = 0; i < lines.length; i++) {
             int currentX = this.x;
-            if (isHorizontallyCentered) {
-                FontMetrics fm = g.getFontMetrics(font);
+            FontMetrics fm = g.getFontMetrics(font);
+            if (isHorizontallyCentered)
                 currentX = centeredX + (centeredW - fm.stringWidth(lines[i])) / 2;
-            }
             g.drawString(lines[i], currentX, y + (i * lineHeight));
+            width = Math.max(width, fm.stringWidth(lines[i]));
         }
     }
 

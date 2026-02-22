@@ -10,7 +10,7 @@ public class UnitStats {
         this.hp = maxHp;
         this.str = str;
         this.def = def;
-        this.crit = 1;
+        this.crit = 0.4f;
     }
 
     public float getHp() {

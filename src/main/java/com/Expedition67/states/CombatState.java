@@ -8,9 +8,9 @@ import com.Expedition67.core.util.GameRandom;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
-import com.Expedition67.unit.player.Deck;
-import com.Expedition67.unit.enemy.Enemy;
 import com.Expedition67.unit.Unit;
+import com.Expedition67.unit.enemy.Enemy;
+import com.Expedition67.unit.player.Deck;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -113,13 +113,14 @@ public class CombatState extends GameState {
             enemy.update();
         }
 
-        deck.getHandUI().update();
-
-        // Update card info text with current selected card
-        if (deck.getSelectedCard() != null) cardInfoText.setText(deck.getSelectedCard().toString());
-        else cardInfoText.setText("No card selected");
-        cardInfoText.horizontallyCentering(180, 590);
-        cardInfoText.verticallyCentering(770, 110);
+        if (deck != null) {
+            deck.getHandUI().update();
+            if (deck.getSelectedCard() != null)
+                cardInfoText.setText(deck.getSelectedCard().toString());
+            else cardInfoText.setText("No card selected");
+            cardInfoText.horizontallyCentering(180, 590);
+            cardInfoText.verticallyCentering(770, 110);
+        }
 
         super.update();
     }
@@ -138,7 +139,8 @@ public class CombatState extends GameState {
             CombatManager.Instance().getTarget().renderTarget(g);
         }
 
-        deck.getHandUI().render(g);
+        if (deck != null)
+            deck.getHandUI().render(g);
 
         // Card info border
         g.setColor(Color.white);

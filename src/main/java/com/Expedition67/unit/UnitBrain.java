@@ -3,6 +3,7 @@ package com.Expedition67.unit;
 import com.Expedition67.card.CardAbility;
 import com.Expedition67.card.RemovableAbility;
 import com.Expedition67.card.attack.DamageAbility;
+import com.Expedition67.ui.UnitUIHandler;
 
 import java.util.ArrayList;
 
@@ -27,10 +28,12 @@ public abstract class UnitBrain {
         if (owner.getUnitStats().getDef() > 0) {
             float blocked = Math.min(owner.getUnitStats().getDef(), amount);
             owner.getUnitStats().def -= blocked;
+            owner.showStatus(-1 * blocked, UnitUIHandler.STATUS_SHIELD);
             dmgDealt -= blocked;
         }
         if (dmgDealt > 0) {
             owner.getUnitStats().hp = Math.max(0, owner.getUnitStats().hp - dmgDealt);
+            owner.showStatus(dmgDealt, UnitUIHandler.STATUS_DAMAGE);
         }
         return dmgDealt;
     }
@@ -57,18 +60,22 @@ public abstract class UnitBrain {
 
     public void heal(float amount) {
         owner.getUnitStats().hp = Math.min(owner.getUnitStats().maxHp, owner.getUnitStats().hp + amount);
+        owner.showStatus(amount, UnitUIHandler.STATUS_HEAL);
     }
 
     public void addDef(float amount) {
         owner.getUnitStats().def += amount;
+        owner.showStatus(amount, UnitUIHandler.STATUS_SHIELD);
     }
 
     public void addStr(float amount) {
         owner.getUnitStats().str += amount;
+        owner.showStatus(amount, UnitUIHandler.STATUS_STR);
     }
 
     public void addCrit(float amount) {
         owner.getUnitStats().crit += amount;
+        owner.showStatus(amount, UnitUIHandler.STATUS_CRIT);
     }
 
     public void onTurnStarted() {

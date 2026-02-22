@@ -26,7 +26,7 @@ public class OverdriveAbility extends RemovableAbility {
     @Override
     public void remove(Unit target) {
         target.getBrain().addCrit(crit * -1);
-        CombatManager.Instance().addActionString("overdrive has ended.");
+        CombatManager.Instance().setActionString("Overdrive has ended.");
     }
 
     @Override

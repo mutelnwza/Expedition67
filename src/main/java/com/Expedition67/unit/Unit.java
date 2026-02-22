@@ -49,13 +49,12 @@ public class Unit {
     //handle take damage
     public void takeDamage(float amount) {
         unitBrain.takeDamage(amount);
-        uiHandler.showDamage(amount);
         triggerRedFlash();
     }
 
 //    public void takeTrueDamage(float amount) {
 //        unitBrain.takeTrueDamage(amount);
-//        uiHandler.showDamage(amount);
+//        uiHandler.showStatus(amount);
 //        triggerRedFlash();
 //    }
 
@@ -65,6 +64,10 @@ public class Unit {
             redFlashFrames = FLASH_DURATION * 2;
         else
             redFlashFrames = FLASH_DURATION;
+    }
+
+    public void showStatus(float amount, int statusType) {
+        uiHandler.showStatus(amount, statusType);
     }
 
     // --- GameComponent Implementation ---
