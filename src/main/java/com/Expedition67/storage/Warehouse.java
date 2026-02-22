@@ -141,7 +141,7 @@ public class Warehouse {
 
         // Defense
         cardFactory.put(CardName.SPECTRAL_VEIL, new Card(CardName.SPECTRAL_VEIL, 1, true, -1, new ShieldAbility(10, CardAbility.CardType.DEF), Card.CardTier.NORMAL, "Gain 10 Block. A thin veil of shattered souls to absorb impacts."));
-        // cardFactory.put(CardName.SOUL_AEGIS, new Card(CardName.SOUL_AEGIS, 2, true, -1, new ShieldHealAbility(20, 10,CardAbility.CardType.DEF), Card.CardTier.NORMAL, "Gain 20 Block and heal 10 HP. Converts kinetic force into life energy."));
+        cardFactory.put(CardName.SOUL_AEGIS, new Card(CardName.SOUL_AEGIS, 2, true, -1, new ShieldHealAbility(20,10, CardAbility.CardType.DEF), Card.CardTier.NORMAL, "Gain 20 Block and heal 10 HP. Converts kinetic force into life energy."));
         cardFactory.put(CardName.CELESTIAL_SINGULARITY, new Card(CardName.CELESTIAL_SINGULARITY, 3, true, -1, new ShieldAbility(35, CardAbility.CardType.DEF), Card.CardTier.NORMAL, "Gain 35 Block. The next card played costs 0 AP."));
         cardFactory.put(CardName.EVENT_HORIZON, new Card(CardName.EVENT_HORIZON, 4, true, -1, new ShieldAbility(70, CardAbility.CardType.DEF), Card.CardTier.RARE, "Gain 70 Block. Incoming strikes vanish into the void."));
 
@@ -152,7 +152,7 @@ public class Warehouse {
 
         // Heal
         cardFactory.put(CardName.ETHEREAL_RESTORATION, new Card(CardName.ETHEREAL_RESTORATION, 2, true, -1, new HealAbility(8, CardAbility.CardType.HEAL), Card.CardTier.NORMAL, "Heal 15 HP and remove all debuffs."));
-        cardFactory.put(CardName.ETERNAL_SOUL_REBIRTH, new Card(CardName.ETERNAL_SOUL_REBIRTH, 3, true, -1, new HealAbility(18, CardAbility.CardType.HEAL), Card.CardTier.RARE, "Heal 28 HP and gain 10 Block. If HP < 20%, gain 30 Block."));
+        cardFactory.put(CardName.ETERNAL_SOUL_REBIRTH, new Card(CardName.ETERNAL_SOUL_REBIRTH, 3, true, -1, new RebirthAbility(18, CardAbility.CardType.HEAL), Card.CardTier.RARE, "Heal 28 HP and gain 10 Block. If HP < 20%, gain 30 Block."));
     }
 
     public Unit spawnPlayer(int x, int y) {
