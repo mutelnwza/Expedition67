@@ -11,7 +11,6 @@ import com.Expedition67.ui.GameText;
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.enemy.Enemy;
 import com.Expedition67.unit.player.Deck;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -45,19 +44,19 @@ public class CombatState extends GameState {
         gameComponents.add(actionText);
 
         // Reshuffle (Temp)
-        gameComponents.add(new GameButton("Reshuffle", 24f, 50, 590, 100, 50, () ->
-                deck.reshuffle()
-        ));
+        // gameComponents.add(new GameButton("Reshuffle", 24f, 50, 590, 100, 50, () ->
+        //         deck.reshuffle()
+        // ));
 
         // Lose (Temp)
-        gameComponents.add(new GameButton("Lose", 24f, 50, 650, 100, 50, () ->
-                GameManager.Instance().getPlayer().takeDamage(10000000)
-        ));
+        // gameComponents.add(new GameButton("Lose", 24f, 50, 650, 100, 50, () ->
+        //         GameManager.Instance().getPlayer().takeDamage(10000000)
+        // ));
 
         // Win (Temp)
-        gameComponents.add(new GameButton("Win", 24f, 50, 710, 100, 50, () ->
-                CombatManager.Instance().clearEnemies()
-        ));
+        // gameComponents.add(new GameButton("Win", 24f, 50, 710, 100, 50, () ->
+        //         CombatManager.Instance().clearEnemies()
+        // ));
 
         // Card Info
         cardInfoText = new GameText("Placeholder", 0, 0, 24f, Color.white);

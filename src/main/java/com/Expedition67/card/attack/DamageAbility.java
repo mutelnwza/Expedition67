@@ -21,7 +21,7 @@ public class DamageAbility extends CardAbility {
 
     @Override
     public void apply(Unit target) {
-        System.out.println("USE ATTACK TARGET");
+        // System.out.println("USE ATTACK TARGET");
         float dmg = calculateDamage(value);
         target.takeDamage(dmg);
         CombatManager.Instance().addActionString(String.format(" deals %.2f damage to %s", dmg, target.getName()));
@@ -29,7 +29,7 @@ public class DamageAbility extends CardAbility {
 
     @Override
     public void apply(Unit target, Unit src) {
-        System.out.println("USE ATTACK TARGET SRC");
+        // System.out.println("USE ATTACK TARGET SRC");
         super.apply(target, src);
         float dmg = calculateAndDealDamage(target, src, value);
         CombatManager.Instance().addActionString(String.format(" deals %.2f damage to %s", dmg, target.getName()));

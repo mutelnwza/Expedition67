@@ -8,22 +8,16 @@ public class Card {
 
     private final CardName name;
     private final int baseAP;
-    private final boolean isPermanent;
-    private final int defaultUsesAmount;
     private final CardAbility ability;
     private final CardTier cardTier;
     private final String description;
     private int apCost;
-    private int usesLeft;
     private boolean locked = false;
 
-    public Card(CardName name, int apCost, boolean isPermanent, int defaultUsesAmount, CardAbility ability, CardTier cardTier, String description) {
+    public Card(CardName name, int apCost, CardAbility ability, CardTier cardTier, String description) {
         this.name = name;
         this.baseAP = apCost;
         this.apCost = apCost;
-        this.isPermanent = isPermanent;
-        this.defaultUsesAmount = defaultUsesAmount;
-        this.usesLeft = defaultUsesAmount;
         this.ability = ability;
         this.cardTier = cardTier;
         this.description = description;
@@ -33,9 +27,6 @@ public class Card {
         this.name = c.name;
         this.baseAP = c.apCost;
         this.apCost = c.apCost;
-        this.isPermanent = c.isPermanent;
-        this.defaultUsesAmount = c.defaultUsesAmount;
-        this.usesLeft = c.usesLeft;
         this.ability = c.ability;
         this.cardTier = c.cardTier;
         this.description = c.description;
@@ -77,14 +68,6 @@ public class Card {
         apCost = baseAP;
     }
 
-    public int getDefaultUsesAmount() {
-        return this.defaultUsesAmount;
-    }
-
-    public void addUsesLeft(int usesLeft) {
-        this.usesLeft += usesLeft;
-    }
-
     public CardAbility getAbility() {
         return this.ability;
     }
@@ -101,8 +84,6 @@ public class Card {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Name: ").append(this.name);
-        if (this.isPermanent) sb.append(" (Permanent)");
-        else sb.append(" (").append(this.usesLeft).append(" uses)");
         if (this.locked) sb.append(" (Locked)");
         sb.append("\nAP: ").append(this.apCost).append("\n");
         sb.append(this.description);

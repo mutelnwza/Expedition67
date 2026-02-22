@@ -15,13 +15,13 @@ public class HarmonicResonanceAbility extends RemovableAbility {
     @Override
     public void apply(Unit target) {
         GameManager.Instance().getPlayerBrain().applyResonance(value);
-        System.out.println("value ="+value);
+        // System.out.println("value ="+value);
         CombatManager.Instance().addActionString(String.format(" creates a harmonic shield that grants %d Block whenever an attack is played this turn.", value));
     }
 
     @Override
     public void remove(Unit target) {
-        System.out.println("removed");
+        // System.out.println("removed");
         GameManager.Instance().getPlayerBrain().applyResonance(-value);
     }
 
