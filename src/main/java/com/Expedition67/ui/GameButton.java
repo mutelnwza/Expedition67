@@ -1,8 +1,6 @@
 package com.Expedition67.ui;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class GameButton implements GameComponent {
@@ -10,12 +8,12 @@ public class GameButton implements GameComponent {
     private String label;
     private int x;
     private int y;
-    private int width;
-    private int height;
-    private Rectangle bounds;
+    private final int width;
+    private final int height;
+    private final Rectangle bounds;
 
     // The visual text inside the button
-    private GameText textComponent;
+    private final GameText textComponent;
 
     // State
     private boolean isVisible;

@@ -11,10 +11,12 @@ public class GameText implements GameComponent {
     private String text;
     private int x;
     private int y;
-    private float size;
     private final Font font;
     private final Color color;
     private boolean isVisible;
+    private boolean isHorizontallyCentered = false;
+    private int centeredX;
+    private int centeredW;
 
     /**
      * Constructor: Creates a text label
@@ -29,7 +31,6 @@ public class GameText implements GameComponent {
         this.text = text;
         this.x = x;
         this.y = y;
-        this.size = size;
         this.font = GameView.MAIN_FONT.deriveFont(size);
         this.color = color;
         this.isVisible = true;
@@ -43,6 +44,7 @@ public class GameText implements GameComponent {
 
     public void setX(int x) {
         this.x = x;
+        isHorizontallyCentered = false;
     }
 
     public void setY(int y) {
@@ -53,21 +55,9 @@ public class GameText implements GameComponent {
 
     @Override
     public void horizontallyCentering(int x, int w) {
-        // Create a dummy image to get a Graphics context
-        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = img.createGraphics();
-
-        // Setup Font
-        g2d.setFont(font);
-        FontMetrics fm = g2d.getFontMetrics();
-
-        String[] lines = text.split("\n");
-        int maxWidth = 0;
-        for (String line : lines) maxWidth = Math.max(maxWidth, fm.stringWidth(line));
-
-        this.x = x + (w - maxWidth) / 2;
-
-        g2d.dispose();
+        isHorizontallyCentered = true;
+        this.centeredX = x;
+        this.centeredW = w;
     }
 
     @Override
@@ -101,8 +91,15 @@ public class GameText implements GameComponent {
 
         String[] lines = text.split("\n");
         int lineHeight = g.getFontMetrics(font).getHeight();
-        for (int i = 0; i < lines.length; i++)
-            g.drawString(lines[i], x, y + (i * lineHeight));
+
+        for (int i = 0; i < lines.length; i++) {
+            int currentX = this.x;
+            if (isHorizontallyCentered) {
+                FontMetrics fm = g.getFontMetrics(font);
+                currentX = centeredX + (centeredW - fm.stringWidth(lines[i])) / 2;
+            }
+            g.drawString(lines[i], currentX, y + (i * lineHeight));
+        }
     }
 
     @Override

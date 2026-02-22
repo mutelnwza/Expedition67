@@ -1,12 +1,13 @@
 package com.Expedition67.ui;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public interface GameComponent {
 
     /**
      * Centering component horizontally in bound.
+     *
      * @param x X of bound.
      * @param w Width of bound.
      */
@@ -14,6 +15,7 @@ public interface GameComponent {
 
     /**
      * Centering component vertically in bound.
+     *
      * @param y Y of bound.
      * @param h Height of bound.
      */
