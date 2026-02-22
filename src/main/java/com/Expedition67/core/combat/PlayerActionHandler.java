@@ -29,6 +29,7 @@ public class PlayerActionHandler {
         else {
             CombatManager.Instance().setActionString(player.getName().toString());
             CardAbility.CardType cardType = card.getAbility().getCardType();
+            deck.updateFreeCard(false);
             if (cardType == CardAbility.CardType.ATK) {
                 card.use(pb, target);
             } else {
@@ -41,7 +42,7 @@ public class PlayerActionHandler {
             }
             pb.onUseCard(card);
             deck.useCard(card);
-            deck.updateFreeCard(false);
+            
         }
     }
 }

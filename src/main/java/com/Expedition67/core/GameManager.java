@@ -1,12 +1,11 @@
 package com.Expedition67.core;
 
-import com.Expedition67.card.Card;
+import com.Expedition67.card.CardName;
 import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.storage.Warehouse;
-import com.Expedition67.unit.player.PlayerBrain;
 import com.Expedition67.unit.Unit;
-
+import com.Expedition67.unit.player.PlayerBrain;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -39,8 +38,13 @@ public class GameManager {
         gameData.setPlayer(Warehouse.Instance().spawnPlayer(0, 460));
         CombatManager.initNew();
         CardInventory.Instance().emptyInventory();
-        for (Card c : Warehouse.Instance().getCards())
-            CardInventory.Instance().addCard(c, 1);
+
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.SOUL_FLICKER), 1);
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.REMNANT_HIT), 3);
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.ECHOING_STRIKE), 1);
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.SPECTRAL_VEIL), 3);
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.SOVEREIGNS_OVERDRIVE), 1);
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.ETHEREAL_RESTORATION), 1);   
     }
 
     public void update() {

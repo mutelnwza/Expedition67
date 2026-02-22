@@ -13,7 +13,7 @@ public class SingularityAbility extends CardAbility {
     @Override
     public void apply(Unit target) {
         target.getBrain().addDef(value);
-        CombatManager.Instance().getDeck().setFreeCard(1);
+        CombatManager.Instance().getDeck().setFreeCard(2,this);
         CombatManager.Instance().addActionString(String.format(" creates a singularity, granting %d Block and making the next card has no AP cost!", value));
     }
 

@@ -1,6 +1,7 @@
 package com.Expedition67.unit.player;
 
 import com.Expedition67.card.Card;
+import com.Expedition67.card.CardAbility;
 import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.HandUIHandler;
@@ -127,17 +128,20 @@ public class Deck {
         return handUI.getSelectedCard();
     }
 
-    public void setFreeCard(int times) {
+    public void setFreeCard(int times, CardAbility current) {
         freeCardLeft = times;
 
         for (Card c : hand) {
+            if(c.getAbility()!=current)
             c.setAP(0);
         }
     }
 
     public void updateFreeCard(boolean isEndTurn) {
+        System.out.println("free leftffff"+freeCardLeft);
         if (freeCardLeft > 0 || isEndTurn) {
             freeCardLeft--;
+            System.out.println("free left"+freeCardLeft);
             if(isEndTurn) freeCardLeft = 0;
             if (freeCardLeft == 0) {
                 for (Card c : allCards) {
