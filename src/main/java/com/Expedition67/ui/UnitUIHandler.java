@@ -2,7 +2,6 @@ package com.Expedition67.ui;
 
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.player.PlayerBrain;
-
 import java.awt.*;
 
 public class UnitUIHandler {
@@ -38,7 +37,10 @@ public class UnitUIHandler {
     }
 
     private void initHpText() {
-        String hpStr = String.format("HP: %.2f/%.2f", unit.getUnitStats().getHp(), unit.getUnitStats().getMaxHp());
+        int hp = Math.round(unit.getUnitStats().getHp());
+        int maxhp = Math.round(unit.getUnitStats().getMaxHp());
+
+        String hpStr = String.format("HP: %d/%d", hp, maxhp);
         hpText = new GameText(hpStr, 0, unit.getY() - 30, 18f, Color.white);
         hpText.horizontallyCentering(unit.getX(), unit.getWidth());
     }
@@ -61,30 +63,32 @@ public class UnitUIHandler {
         statusText.setVisible(false);
     }
 
-    public void showStatus(float amount, int statusType) {
+    public void showStatus(float _amount, int statusType) {
+        int amount = Math.round(_amount);
+
         if (statusType == STATUS_DAMAGE) {
-            statusText.setText(String.format("- %.2f HP", amount));
+            statusText.setText(String.format("- %d HP", amount));
             statusText.setColor(Color.red);
         } else if (statusType == STATUS_HEAL) {
-            statusText.setText(String.format("+ %.2f HP", amount));
+            statusText.setText(String.format("+ %d HP", amount));
             statusText.setColor(Color.green);
         } else if (statusType == STATUS_SHIELD) {
             if (amount < 0)
-                statusText.setText(String.format("- %.2f DEF", amount));
+                statusText.setText(String.format("- %d DEF", amount));
             else
-                statusText.setText(String.format("+ %.2f DEF", amount));
+                statusText.setText(String.format("+ %d DEF", amount));
             statusText.setColor(Color.cyan);
         } else if (statusType == STATUS_STR) {
             if (amount < 0)
-                statusText.setText(String.format("- %.2f STR", amount));
+                statusText.setText(String.format("- %d STR", amount));
             else
-                statusText.setText(String.format("+ %.2f STR", amount));
+                statusText.setText(String.format("+ %d STR", amount));
             statusText.setColor(Color.yellow);
         } else {
             if (amount < 0)
-                statusText.setText(String.format("- %.2f CRIT", amount));
+                statusText.setText(String.format("- %d CRIT", amount));
             else
-                statusText.setText(String.format("+ %.2f CRIT", amount));
+                statusText.setText(String.format("+ %d CRIT", amount));
             statusText.setColor(Color.orange);
         }
         statusText.horizontallyCentering(unit.getX(), unit.getWidth());
@@ -93,11 +97,15 @@ public class UnitUIHandler {
     }
 
     public void update() {
-        hpText.setText(String.format("HP: %.2f/%.2f", unit.getUnitStats().getHp(), unit.getUnitStats().getMaxHp()));
+        int hp = Math.round(unit.getUnitStats().getHp());
+        int maxhp = Math.round(unit.getUnitStats().getMaxHp());
+        int d = Math.round(unit.getUnitStats().getDef());
 
-        if (unit.getUnitStats().getDef() > 0) {
+        hpText.setText(String.format("HP: %d/%d", hp, maxhp));
+
+        if (d > 0) {
             shieldText.setVisible(true);
-            shieldText.setText(String.format("+ %.2f", unit.getUnitStats().getDef()));
+            shieldText.setText(String.format("+ %d", d));
             shieldText.setX(hpText.getX() + hpText.getWidth() + 35);
         } else
             shieldText.setVisible(false);

@@ -1,7 +1,7 @@
 package com.Expedition67.card;
 
-import com.Expedition67.unit.player.PlayerBrain;
 import com.Expedition67.unit.Unit;
+import com.Expedition67.unit.player.PlayerBrain;
 
 public class Card {
 
@@ -30,7 +30,7 @@ public class Card {
 
     public Card(Card c) {
         this.name = c.name;
-        this.baseAP = apCost;
+        this.baseAP = c.apCost;
         this.apCost = c.apCost;
         this.isPermanent = c.isPermanent;
         this.defaultUsesAmount = c.defaultUsesAmount;

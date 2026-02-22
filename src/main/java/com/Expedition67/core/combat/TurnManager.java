@@ -1,10 +1,9 @@
 package com.Expedition67.core.combat;
 
-import com.Expedition67.unit.player.Deck;
+import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.enemy.Enemy;
 import com.Expedition67.unit.enemy.EnemyBrain;
-import com.Expedition67.unit.Unit;
-
+import com.Expedition67.unit.player.Deck;
 import java.util.List;
 
 public class TurnManager {
@@ -34,6 +33,8 @@ public class TurnManager {
             isPlayerTurn = false;
             currentEnemyActionIndex = 0;
             actionTimer = ACTION_DELAY;
+            CombatManager.Instance().getDeck().updateFreeCard(true);
+            
         }
     }
 

@@ -16,12 +16,15 @@ public class PlayerBrain extends UnitBrain {
 
     public void applyResonance(int amount) {
         resonanceBlockAmount += amount;
+        System.out.println("apply resonance: "+resonanceBlockAmount);
     }
 
     public void onUseCard(Card c) {
         this.ap -= c.getAP();
+        System.out.println("Use");
         if (c.getAbility().getCardType() == CardAbility.CardType.ATK && resonanceBlockAmount > 0) {
             this.addDef(resonanceBlockAmount);
+            System.out.println("got def");
         }
     }
 

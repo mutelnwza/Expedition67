@@ -1,6 +1,7 @@
 package com.Expedition67.storage;
 
 import com.Expedition67.card.*;
+import com.Expedition67.card.attack.AoEDamageAbility;
 import com.Expedition67.card.attack.AttackAndDiscardAbility;
 import com.Expedition67.card.attack.AttackAndStealHPAbility;
 import com.Expedition67.card.attack.DamageAbility;
@@ -8,7 +9,6 @@ import com.Expedition67.card.attack.MultiAttackAbility;
 import com.Expedition67.card.attack.PoisonAbility;
 import com.Expedition67.card.attack.StackAttackAbility;
 import com.Expedition67.card.attack.VoidAttackAbility;
-import com.Expedition67.card.attack.AoEDamageAbility;
 import com.Expedition67.card.attack.VoidDragonAbility;
 import com.Expedition67.card.buff.*;
 import com.Expedition67.card.debuff.CardModifyAbility;
@@ -20,7 +20,6 @@ import com.Expedition67.card.special.*;
 import com.Expedition67.unit.*;
 import com.Expedition67.unit.enemy.*;
 import com.Expedition67.unit.player.PlayerBrain;
-
 import java.util.*;
 
 public class Warehouse {
@@ -85,7 +84,7 @@ public class Warehouse {
         unitFactory.put(UnitName.RED_EYES, redEyes);
 
         /* TILLY BIRD */
-        EnemyData tillyTheBird = new EnemyData(new Enemy(UnitName.TILLY_THE_BIRD, new UnitStats(350, 0, 0),
+        EnemyData tillyTheBird = new EnemyData(new Enemy(UnitName.TILLY_THE_BIRD, new UnitStats(250, 0, 0),
                 new TillyTheBirdBrain(), UnitType.MINIBOSS, 0, 0, 150, 150));
         tillyTheBird.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         tillyTheBird.addActions("DEBUFF1", new CardModifyAbility(1, CardAbility.CardType.DEBUFF, CardAbility.CardType.ATK));
@@ -109,7 +108,7 @@ public class Warehouse {
         unitFactory.put(UnitName.SON_AND_DAD, sonAndDad);
 
         /* BIG BAD BOSS */
-        boss = new EnemyData(new Enemy(UnitName.BIG_BAD_BOSS, new UnitStats(500, 0, 0),
+        boss = new EnemyData(new Enemy(UnitName.BIG_BAD_BOSS, new UnitStats(400, 0, 0),
                 new BigBadBossBrain(), UnitType.BOSS, 0, 0, 150, 150));
         boss.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         boss.addActions("ATTACK1", new VoidAttackAbility(15, CardAbility.CardType.ATK));

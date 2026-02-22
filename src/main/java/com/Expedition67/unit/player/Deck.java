@@ -4,7 +4,6 @@ import com.Expedition67.card.Card;
 import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.HandUIHandler;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -135,11 +134,12 @@ public class Deck {
         }
     }
 
-    public void updateFreeCard() {
-        if (freeCardLeft > 0) {
+    public void updateFreeCard(boolean isEndTurn) {
+        if (freeCardLeft > 0 || isEndTurn) {
             freeCardLeft--;
+            if(isEndTurn) freeCardLeft = 0;
             if (freeCardLeft == 0) {
-                for (Card c : hand) {
+                for (Card c : allCards) {
                     c.resetAP();
                 }
             }
