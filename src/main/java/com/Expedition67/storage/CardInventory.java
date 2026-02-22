@@ -7,13 +7,11 @@ import java.util.ArrayList;
 public class CardInventory {
 
     private static CardInventory instance;
-    private ArrayList<Card> cards;
+    private final ArrayList<Card> cards;
 
     private CardInventory() {
         cards = new ArrayList<>();
     }
-
-    ;
 
     public static CardInventory Instance() {
         if (instance == null) {
@@ -26,16 +24,6 @@ public class CardInventory {
         for (int i = 0; i < amount; i++) cards.add(c.copy());
     }
 
-    public void removeCard(Card c) {
-        cards.remove(c);
-    }
-
-    public void removeCard(String c) {
-        for (Card card : cards) {
-            if (c.equals(card.getName())) removeCard(c);
-        }
-    }
-
     public void emptyInventory() {
         cards.clear();
     }
@@ -43,5 +31,4 @@ public class CardInventory {
     public ArrayList<Card> getCardInventory() {
         return cards;
     }
-
 }

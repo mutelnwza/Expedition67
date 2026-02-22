@@ -9,8 +9,7 @@ import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class InventoryState extends GameState {
@@ -26,11 +25,6 @@ public class InventoryState extends GameState {
     private ArrayList<Card> inventory;
     private int showedCardIndex;
     private Card showedCard;
-
-    private final int CARD_WIDTH = 300;
-    private final int CARD_HEIGHT = 400;
-    private final int CARD_X = (GameView.GAME_WIDTH - CARD_WIDTH) / 2;
-    private final int CARD_Y = (GameView.GAME_HEIGHT - CARD_HEIGHT) / 2;
 
     public InventoryState() {
         super();
@@ -53,9 +47,9 @@ public class InventoryState extends GameState {
         gameComponents.add(cardInfoText);
 
         // Back
-        gameComponents.add(new GameButton("Back", 24f, 20, 20, 60, 40, () -> {
-            GameManager.Instance().getGameStateManager().setCurrentState(previousState, 0);
-        }));
+        gameComponents.add(new GameButton("Back", 24f, 20, 20, 60, 40, () ->
+                GameManager.Instance().getGameStateManager().setCurrentState(previousState, 0)
+        ));
     }
 
     @Override
@@ -89,7 +83,11 @@ public class InventoryState extends GameState {
 
         // Draw Card
         if (showedCard != null) {
-            g.drawImage(AssetManager.Instance().getCard(showedCard.getName()), CARD_X, CARD_Y, CARD_WIDTH, CARD_HEIGHT, null);
+            int width = 300;
+            int height = 400;
+            int x = (GameView.GAME_WIDTH - width) / 2;
+            int y = (GameView.GAME_HEIGHT - height) / 2;
+            g.drawImage(AssetManager.Instance().getCard(showedCard.getName()), x, y, width, height, null);
         }
 
         // Card info border

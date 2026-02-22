@@ -7,8 +7,7 @@ import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameComponent;
 import com.Expedition67.ui.GameText;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class MenuState extends GameState {
 
@@ -28,14 +27,14 @@ public class MenuState extends GameState {
         }));
 
         // Credits Button
-        gameComponents.add(new GameButton("CREDITS", 24f, 0, 540, 300, 50, () -> {
-            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.CREDITS_STATE, 0);
-        }));
+        gameComponents.add(new GameButton("CREDITS", 24f, 0, 540, 300, 50, () ->
+                GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.CREDITS_STATE, 0)
+        ));
 
         // Exit Buttons
-        gameComponents.add(new GameButton("EXIT GAME", 24f, 0, 610, 300, 50, () -> {
-            System.exit(0);
-        }));
+        gameComponents.add(new GameButton("EXIT GAME", 24f, 0, 610, 300, 50, () ->
+                System.exit(0)
+        ));
 
         // Make all centered horizontally
         for (GameComponent gc : gameComponents) {

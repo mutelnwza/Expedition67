@@ -2,9 +2,9 @@ package com.Expedition67.states;
 
 import com.Expedition67.card.Card;
 import com.Expedition67.core.GameManager;
-import com.Expedition67.core.util.GameRandom;
 import com.Expedition67.core.GameStateManager;
 import com.Expedition67.core.graphics.GameView;
+import com.Expedition67.core.util.GameRandom;
 import com.Expedition67.storage.AssetManager;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.GameButton;
@@ -29,11 +29,6 @@ public class CardDropState extends GameState {
     private GameButton rightButton;
 
     private boolean isNextRoomState;
-
-    private final int CARD_DROP_WIDTH = 300;
-    private final int CARD_DROP_HEIGHT = 400;
-    private final int CARD_DROP_X = (GameView.GAME_WIDTH - CARD_DROP_WIDTH) / 2;
-    private final int CARD_DROP_Y = 180;
 
     public CardDropState() {
         super();
@@ -67,9 +62,9 @@ public class CardDropState extends GameState {
         gameComponents.add(rightButton);
 
         // Inventory
-        gameComponents.add(new GameButton("Inventory", 24f, 0, 820, 200, 50, () -> {
-            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.INVENTORY_STATE, InventoryState.ENTER_FROM_DROP);
-        }));
+        gameComponents.add(new GameButton("Inventory", 24f, 0, 820, 200, 50, () ->
+                GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.INVENTORY_STATE, InventoryState.ENTER_FROM_DROP)
+        ));
         gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 
@@ -111,7 +106,11 @@ public class CardDropState extends GameState {
 
         // Draw Card
         if (cardDrop != null) {
-            g.drawImage(AssetManager.Instance().getCard(cardDrop.getName()), CARD_DROP_X, CARD_DROP_Y, CARD_DROP_WIDTH, CARD_DROP_HEIGHT, null);
+            int width = 300;
+            int height = 400;
+            int x = (GameView.GAME_WIDTH - width) / 2;
+            int y = 180;
+            g.drawImage(AssetManager.Instance().getCard(cardDrop.getName()), x, y, width, height, null);
         }
 
         // Card info border

@@ -3,21 +3,22 @@ package com.Expedition67.storage;
 import com.Expedition67.card.CardName;
 import com.Expedition67.unit.UnitName;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
-import javax.imageio.ImageIO;
+import java.util.Objects;
 
 public class AssetManager {
 
     /* singleton pattern in short: design pattern to make sure that a class can
-    only have 1 instance (prevent other class to recreate. And have an global
+    only have 1 instance (prevent other class to recreate. And have a global
     access point for everywhere) */
 
     private static AssetManager instance;
-    private HashMap<UnitName, BufferedImage[][]> spriteDatabase = new HashMap<>();
-    private HashMap<CardName, BufferedImage> cardDatabase = new HashMap<>();
-    private Font gameFont;
+    private final HashMap<UnitName, BufferedImage[][]> spriteDatabase = new HashMap<>();
+    private final HashMap<CardName, BufferedImage> cardDatabase = new HashMap<>();
+    private final Font gameFont;
 
     // make it private to prevent other class from creating this
     private AssetManager() {
@@ -27,30 +28,25 @@ public class AssetManager {
     }
 
     public static AssetManager Instance() {
-        //  create an instance if its not created yet
+        //  create an instance if it's not created yet
         if (instance == null) {
             instance = new AssetManager();
         }
         return instance;
     }
 
-    public void invoke() {
-        loadSprite();
-        loadCard();
-    }
-
     private void loadSprite() {
         // hard code เอานะจ๊ะ
         // register all sprites with load method
         // use this -> spriteDatabase.put("name", load(path,w,h))
-        spriteDatabase.put(UnitName.BIG_BAD_BOSS, loadSpriteImage("/images/sprites/Big_Bad_Boss.png", 500, 500));
-        spriteDatabase.put(UnitName.CRYING_SLIME, loadSpriteImage("/images/sprites/Crying_Slime.png", 500, 500));
-        spriteDatabase.put(UnitName.LUKCHIN, loadSpriteImage("/images/sprites/Lukchin.png", 500, 500));
-        spriteDatabase.put(UnitName.PLAYER, loadSpriteImage("/images/sprites/Player.png", 500, 500));
-        spriteDatabase.put(UnitName.RED_EYES, loadSpriteImage("/images/sprites/Red_Eyes.png", 500, 500));
-        spriteDatabase.put(UnitName.SON_AND_DAD, loadSpriteImage("/images/sprites/Son_And_Dad.png", 500, 500));
-        spriteDatabase.put(UnitName.TILLY_THE_BIRD, loadSpriteImage("/images/sprites/Tilly_The_Bird.png", 500, 500));
-        spriteDatabase.put(UnitName.VISION, loadSpriteImage("/images/sprites/Vision.png", 500, 500));
+        spriteDatabase.put(UnitName.BIG_BAD_BOSS, loadSpriteImage("/images/sprites/Big_Bad_Boss.png"));
+        spriteDatabase.put(UnitName.CRYING_SLIME, loadSpriteImage("/images/sprites/Crying_Slime.png"));
+        spriteDatabase.put(UnitName.LUKCHIN, loadSpriteImage("/images/sprites/Lukchin.png"));
+        spriteDatabase.put(UnitName.PLAYER, loadSpriteImage("/images/sprites/Player.png"));
+        spriteDatabase.put(UnitName.RED_EYES, loadSpriteImage("/images/sprites/Red_Eyes.png"));
+        spriteDatabase.put(UnitName.SON_AND_DAD, loadSpriteImage("/images/sprites/Son_And_Dad.png"));
+        spriteDatabase.put(UnitName.TILLY_THE_BIRD, loadSpriteImage("/images/sprites/Tilly_The_Bird.png"));
+        spriteDatabase.put(UnitName.VISION, loadSpriteImage("/images/sprites/Vision.png"));
     }
 
     private void loadCard() {
@@ -71,8 +67,7 @@ public class AssetManager {
 
     private BufferedImage loadCardImage(String path) {
         try {
-            BufferedImage img = ImageIO.read(getClass().getResourceAsStream(path));
-            return img;
+            return ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
         } catch (Exception e) {
             System.err.println("error loading " + path);
             e.printStackTrace();
@@ -80,10 +75,12 @@ public class AssetManager {
         }
     }
 
-    // w and h is size per image (size for spliting)
-    private BufferedImage[][] loadSpriteImage(String path, int w, int h) {
+    // w and h is size per image (size for splitting)
+    private BufferedImage[][] loadSpriteImage(String path) {
         try {
-            BufferedImage sheet = ImageIO.read(getClass().getResourceAsStream(path));
+            BufferedImage sheet = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+            int w = 500;
+            int h = 500;
             int rows = sheet.getHeight() / h;
             int cols = sheet.getWidth() / w;
             BufferedImage[][] result = new BufferedImage[rows][cols];
@@ -110,7 +107,7 @@ public class AssetManager {
 
     public Font loadFont(String path) {
         try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream(path));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(getClass().getResourceAsStream(path)));
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(font);
             return font;

@@ -6,7 +6,6 @@ public class Animator {
 
     //config for each action
     public record AnimatorConfig(int row, int speed, int frameCount) {
-
     }
 
     //store all the actions available for this animator
@@ -22,26 +21,24 @@ public class Animator {
 
     //this will be called from unit when a unit state changes
     public void play(String name) {
-        if (currentAction.equals(name)) {
-            return; 
-        }else {
-            AnimatorConfig animatorConfig = animations.get(name);
-            if (animatorConfig != null) {
-                this.currentAction = name;
-                this.currentSpeed = animatorConfig.speed();
-                this.currentFrameCount = animatorConfig.frameCount();
-                this.currentRow = animatorConfig.row();
-                this.index = 0;
-                this.tick = 0;
-            } else {
-                System.err.println("Animation name not found");
-            }
+        if (currentAction.equals(name))
+            return;
+        AnimatorConfig animatorConfig = animations.get(name);
+        if (animatorConfig != null) {
+            this.currentAction = name;
+            this.currentSpeed = animatorConfig.speed();
+            this.currentFrameCount = animatorConfig.frameCount();
+            this.currentRow = animatorConfig.row();
+            this.index = 0;
+            this.tick = 0;
+        } else {
+            System.err.println("Animation name not found");
         }
     }
 
     /* update is call every frame from unit, for tracking the animation frames 
     if tick > animation speed, will change the animation index to the next frame.
-    mod by currentframecount to loop back to the beginning if reaches endpoint.
+    mod by current frame count to loop back to the beginning if reaches endpoint.
      */
     public void update() {
         if (currentAction.isEmpty()) {

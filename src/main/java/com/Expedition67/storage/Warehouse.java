@@ -18,14 +18,7 @@ import com.Expedition67.card.defense.*;
 import com.Expedition67.card.heal.*;
 import com.Expedition67.card.special.*;
 import com.Expedition67.unit.*;
-import com.Expedition67.unit.Enemy.BigBadBossBrain;
-import com.Expedition67.unit.Enemy.CryingSlimeBrain;
-import com.Expedition67.unit.Enemy.Enemy;
-import com.Expedition67.unit.Enemy.LukchinBrain;
-import com.Expedition67.unit.Enemy.RedEyeBrain;
-import com.Expedition67.unit.Enemy.SonAndDadBrain;
-import com.Expedition67.unit.Enemy.TillyTheBirdBrain;
-import com.Expedition67.unit.Enemy.VisionBrain;
+import com.Expedition67.unit.Enemy.*;
 
 import java.util.*;
 
@@ -33,8 +26,8 @@ public class Warehouse {
 
     private static Warehouse instance;
     private Unit player;
-    private HashMap<UnitName, EnemyData> unitFactory = new HashMap<>();
-    private HashMap<CardName, Card> cardFactory = new HashMap<>();
+    private final HashMap<UnitName, EnemyData> unitFactory = new HashMap<>();
+    private final HashMap<CardName, Card> cardFactory = new HashMap<>();
 
     private List<EnemyData> normalEnemies;
     private List<EnemyData> miniBosses;

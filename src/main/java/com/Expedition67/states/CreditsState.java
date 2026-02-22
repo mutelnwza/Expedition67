@@ -6,9 +6,7 @@ import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
 
-
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class CreditsState extends GameState {
     public CreditsState() {
@@ -29,15 +27,15 @@ public class CreditsState extends GameState {
         gameComponents.add(new GameText("68050306       Prangthip Utaivatcharanan", 255, 585, 30f, Color.white));
 
         // Special Thanks
-        gameComponents.add(new GameText("Special Thanks",0, 655, 30f, Color.white));
+        gameComponents.add(new GameText("Special Thanks", 0, 655, 30f, Color.white));
         gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
         gameComponents.add(new GameText("Gemini - Nano Banana Pro (Art)", 0, 705, 30f, Color.white));
         gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
 
         // Back Button
-        gameComponents.add(new GameButton("Back to Main Menu", 24f, 0, 800, 250, 50, () -> {
-            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.MENU_STATE, 0);
-        }));
+        gameComponents.add(new GameButton("Back to Main Menu", 24f, 0, 800, 250, 50, () ->
+                GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.MENU_STATE, 0)
+        ));
         gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 

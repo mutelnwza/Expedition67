@@ -6,8 +6,7 @@ import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class ResultState extends GameState {
 
@@ -36,9 +35,9 @@ public class ResultState extends GameState {
         gameComponents.add(finalTimeText);
 
         // Back Button
-        gameComponents.add(new GameButton("Back to Main Menu", 24f, 0, 610, 250, 50, () -> {
-            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.MENU_STATE, 0);
-        }));
+        gameComponents.add(new GameButton("Back to Main Menu", 24f, 0, 610, 250, 50, () ->
+                GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.MENU_STATE, 0)
+        ));
         gameComponents.getLast().horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 

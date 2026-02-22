@@ -1,10 +1,10 @@
 package com.Expedition67.states;
 
-import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.core.GameManager;
-import com.Expedition67.core.util.GameRandom;
 import com.Expedition67.core.GameStateManager;
+import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.core.graphics.GameView;
+import com.Expedition67.core.util.GameRandom;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.ui.GameButton;
 import com.Expedition67.ui.GameText;
@@ -45,39 +45,38 @@ public class CombatState extends GameState {
         gameComponents.add(actionText);
 
         // Reshuffle (Temp)
-        gameComponents.add(new GameButton("Reshuffle", 24f, 50, 590, 100, 50, () -> {
-            deck.reshuffle();
-        }));
+        gameComponents.add(new GameButton("Reshuffle", 24f, 50, 590, 100, 50, () ->
+                deck.reshuffle()
+        ));
 
         // Lose (Temp)
-        gameComponents.add(new GameButton("Lose", 24f, 50, 650, 100, 50, () -> {
-            GameManager.Instance().getPlayer().takeDamage(10000000);
-        }));
+        gameComponents.add(new GameButton("Lose", 24f, 50, 650, 100, 50, () ->
+                GameManager.Instance().getPlayer().takeDamage(10000000)
+        ));
 
         // Win (Temp)
-        gameComponents.add(new GameButton("Win", 24f, 50, 710, 100, 50, () -> {
-            CombatManager.Instance().clearEnemies();
-        }));
+        gameComponents.add(new GameButton("Win", 24f, 50, 710, 100, 50, () ->
+                CombatManager.Instance().clearEnemies()
+        ));
 
         // Card Info
         cardInfoText = new GameText("Placeholder", 0, 0, 24f, Color.white);
         gameComponents.add(cardInfoText);
 
         // Inventory
-        gameComponents.add(new GameButton("Inventory", 24f, 50, 770, 100, 50, () -> {
-            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.INVENTORY_STATE, InventoryState.ENTER_FROM_COMBAT);
-        }));
+        gameComponents.add(new GameButton("Inventory", 24f, 50, 770, 100, 50, () ->
+                GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.INVENTORY_STATE, InventoryState.ENTER_FROM_COMBAT)
+        ));
 
         // End Turn
-        gameComponents.add(new GameButton("End Turn", 24f, 50, 830, 100, 50, () -> {
-            CombatManager.Instance().clearActionString();
-            CombatManager.Instance().executeTurn();
-        }));
+        gameComponents.add(new GameButton("End Turn", 24f, 50, 830, 100, 50, () ->
+                CombatManager.Instance().executeTurn()
+        ));
 
         // Use Card
-        gameComponents.add(new GameButton("Use Card", 24f, 800, 770, 100, 110, () -> {
-            CombatManager.Instance().onPlayerUseCard(deck.getSelectedCard(), CombatManager.Instance().getTarget());
-        }));
+        gameComponents.add(new GameButton("Use Card", 24f, 800, 770, 100, 110, () ->
+                CombatManager.Instance().onPlayerUseCard(deck.getSelectedCard(), CombatManager.Instance().getTarget())
+        ));
     }
 
     @Override
@@ -173,8 +172,9 @@ public class CombatState extends GameState {
 
         super.mouseMoved(e);
     }
-    public void setActionText(String action){
+
+    public void setActionText(String action) {
         actionText.setText(action);
-        actionText.horizontallyCentering(0,GameView.GAME_WIDTH);
+        actionText.horizontallyCentering(0, GameView.GAME_WIDTH);
     }
 }
