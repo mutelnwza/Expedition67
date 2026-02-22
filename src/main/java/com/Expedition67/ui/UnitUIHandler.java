@@ -37,8 +37,8 @@ public class UnitUIHandler {
     }
 
     private void initHpText() {
-        int hp = Math.round(unit.getUnitStats().getHp());
-        int maxhp = Math.round(unit.getUnitStats().getMaxHp());
+        int hp = (int)Math.ceil(unit.getUnitStats().getHp());
+        int maxhp = (int)Math.ceil(unit.getUnitStats().getMaxHp());
 
         String hpStr = String.format("HP: %d/%d", hp, maxhp);
         hpText = new GameText(hpStr, 0, unit.getY() - 30, 18f, Color.white);
@@ -97,7 +97,7 @@ public class UnitUIHandler {
     }
 
     public void update() {
-        int hp = Math.round(unit.getUnitStats().getHp());
+        int hp = (int)Math.ceil(unit.getUnitStats().getHp());
         int maxhp = Math.round(unit.getUnitStats().getMaxHp());
         int d = Math.round(unit.getUnitStats().getDef());
 

@@ -10,7 +10,6 @@ import com.Expedition67.states.CardDropState;
 import com.Expedition67.states.CombatState;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.enemy.Enemy;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -40,8 +39,14 @@ public class GameRandom {
 
     public ArrayList<Enemy> getRandomEnemies(int centerX, int y) {
         ArrayList<Enemy> enemies = new ArrayList<>();
-
-        if (random.nextInt(100) < 15) { // 15% chance for a miniboss
+        int minibossChance = 20;
+        if(GameManager.Instance().getGameData().getRoom()>1){
+            minibossChance = 40;
+        }
+        else if(GameManager.Instance().getGameData().getRoom()>3){
+            minibossChance = 70;
+        }
+        if (random.nextInt(100) < minibossChance) { // 15% chance for a miniboss
             spawnMiniboss(enemies, centerX, y);
         } else {
             spawnNormalEnemies(enemies, centerX, y);

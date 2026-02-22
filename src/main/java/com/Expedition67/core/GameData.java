@@ -1,7 +1,7 @@
 package com.Expedition67.core;
 
-import com.Expedition67.unit.player.PlayerBrain;
 import com.Expedition67.unit.Unit;
+import com.Expedition67.unit.player.PlayerBrain;
 
 public class GameData {
 
