@@ -45,7 +45,7 @@ public class Deck implements GameComponent {
         for (Card c : CardInventory.Instance().getCardInventory()) {
             Card newCard = c.copy();
             drawPile.add(newCard);
-            allCard.add(newCard);
+            allCards.add(newCard);
         }
 
         shuffle();
