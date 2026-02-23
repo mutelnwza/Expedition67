@@ -68,8 +68,8 @@ public class Warehouse {
     private void loadEnemies() {
         loadCryingSlime();
         loadLukchin();
-        loadVision();
         loadRedEyes();
+        loadVision();
         loadTillyTheBird();
         loadSonAndDad();
         loadBigBadBoss();
@@ -159,18 +159,18 @@ public class Warehouse {
         unitFactory.put(UnitName.LUKCHIN, lukchin);
     }
 
+    private void loadRedEyes() {
+        EnemyData redEyes = new EnemyData(new Enemy(UnitName.RED_EYES, new UnitStats(69, 0, 0), new RedEyeBrain(), UnitType.ENEMY, 0, 0, 150, 150));
+        redEyes.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
+        redEyes.addActions("ATTACK", new DamageAbility(12, 15, CardAbility.CardType.ATK));
+        unitFactory.put(UnitName.RED_EYES, redEyes);
+    }
+
     private void loadVision() {
         EnemyData vision = new EnemyData(new Enemy(UnitName.VISION, new UnitStats(150, 0, 0), new VisionBrain(), UnitType.MINIBOSS, 0, 0, 150, 150));
         vision.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         vision.addActions("HEAL", new HealAbility(10, 18, CardAbility.CardType.HEAL));
         unitFactory.put(UnitName.VISION, vision);
-    }
-
-    private void loadRedEyes() {
-        EnemyData redEyes = new EnemyData(new Enemy(UnitName.RED_EYES, new UnitStats(180, 0, 0), new RedEyeBrain(), UnitType.MINIBOSS, 0, 0, 150, 150));
-        redEyes.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
-        redEyes.addActions("ATTACK", new DamageAbility(12, 15, CardAbility.CardType.ATK));
-        unitFactory.put(UnitName.RED_EYES, redEyes);
     }
 
     private void loadTillyTheBird() {
