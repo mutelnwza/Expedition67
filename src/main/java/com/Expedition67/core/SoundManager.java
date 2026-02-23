@@ -1,40 +1,66 @@
 package com.Expedition67.core;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
+import com.Expedition67.storage.AssetManager;
+
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import java.net.URL;
 
 /**
  * Manages the playback of sound effects and background music.
  */
 public class SoundManager {
 
+    private static SoundManager instance;
+
+    private SoundManager() {
+    }
+
+    /**
+     * Gets the single instance of the SoundManager.
+     *
+     * @return The single instance of SoundManager.
+     */
+    public static SoundManager Instance() {
+        if (instance == null) {
+            instance = new SoundManager();
+        }
+        return instance;
+    }
+
+    private void playSound(Clip clip, float volume, boolean loop) {
+        if (clip != null) {
+            if (clip.isRunning()) {
+                clip.stop();
+            }
+            clip.setFramePosition(0);
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(volume);
+            if (loop) {
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } else {
+                clip.start();
+            }
+        }
+    }
+
     /**
      * Plays the background music on a continuous loop.
      */
     public void playBGM() {
-        try {
-            URL bgmUrl = SoundManager.class.getResource("/song.wav");
+        playSound(AssetManager.Instance().getSound(AssetManager.SoundName.BGM), -10.0f, true);
+    }
 
-            if (bgmUrl == null) {
-                System.err.println("Sound file not found in resources: /song.wav");
-                return;
-            }
+    /**
+     * Plays the select sound effect once.
+     */
+    public void playSelectSound() {
+        playSound(AssetManager.Instance().getSound(AssetManager.SoundName.SELECT), -10.0f, false);
+    }
 
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(bgmUrl);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioIn);
-
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-10.0f);
-
-            clip.start();
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    /**
+     * Plays the take damage sound effect once.
+     */
+    public void playTakeDamageSound() {
+        playSound(AssetManager.Instance().getSound(AssetManager.SoundName.TAKE_DAMAGE), -18.0f, false);
     }
 }

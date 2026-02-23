@@ -94,7 +94,7 @@ public class CombatManager {
             return;
         }
 
-        turnManager.updateEnemyTurns(player, enemies, deck);
+        turnManager.updateEnemyTurns(player, enemies);
     }
 
     /**

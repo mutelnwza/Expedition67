@@ -20,13 +20,12 @@ public class GameManager {
     private final GameStateManager gameStateManager;
     private final GameTimer gameTimer;
     private final GameData gameData;
-    private final SoundManager soundManager;
 
     private GameManager() {
         this.gameStateManager = new GameStateManager();
         this.gameTimer = new GameTimer();
         this.gameData = new GameData();
-        this.soundManager = new SoundManager();
+        SoundManager.Instance().playBGM();
     }
 
     /**
@@ -48,7 +47,6 @@ public class GameManager {
         gameTimer.reset();
         gameTimer.start();
         gameData.reset();
-        soundManager.playBGM();
         CombatManager.initNew();
         CardInventory.Instance().emptyInventory();
 

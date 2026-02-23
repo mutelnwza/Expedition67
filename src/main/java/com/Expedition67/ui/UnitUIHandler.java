@@ -107,14 +107,21 @@ public class UnitUIHandler {
     }
 
     /**
-     * Updates the position of UI elements if the unit's x position changes.
+     * Updates the position of UI elements if the unit's position changes.
      */
-    public void updateXPosition() {
+    public void updatePosition() {
         nameText.horizontallyCentering(unit.getX(), unit.getWidth());
+        nameText.setY(unit.getY() - 70);
+
         hpText.horizontallyCentering(unit.getX(), unit.getWidth());
+        hpText.setY(unit.getY() - 50);
+
         strText.setX(unit.getX() + 20);
+        strText.setY(unit.getY() - 30);
+
         if (apText != null) {
             apText.horizontallyCentering(unit.getX(), unit.getWidth());
+            apText.setY(unit.getY() + unit.getHeight() + 40);
         }
     }
 

@@ -13,8 +13,8 @@ public class ShieldHealAbility extends CardAbility {
     private final ShieldAbility shield;
     private final HealAbility heal;
 
-    protected int shieldVal;
-    protected int healVal;
+    protected final int shieldVal;
+    protected final int healVal;
 
     /**
      * Constructs a Shield and Heal ability.

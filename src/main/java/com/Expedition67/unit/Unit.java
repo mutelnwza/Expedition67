@@ -1,5 +1,6 @@
 package com.Expedition67.unit;
 
+import com.Expedition67.core.SoundManager;
 import com.Expedition67.core.graphics.SpriteRenderer;
 import com.Expedition67.model.Animator;
 import com.Expedition67.ui.UnitUIHandler;
@@ -98,6 +99,7 @@ public class Unit {
      */
     public void takeDamage(float amount) {
         unitBrain.takeDamage(amount);
+        SoundManager.Instance().playTakeDamageSound();
         triggerRedFlash();
     }
 
@@ -165,6 +167,11 @@ public class Unit {
 
     public void setX(int x) {
         this.x = x;
-        uiHandler.updateXPosition();
+        uiHandler.updatePosition();
+    }
+
+    public void setY(int y) {
+        this.y = y;
+        uiHandler.updatePosition();
     }
 }

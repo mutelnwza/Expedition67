@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class SonAndDadBrain extends EnemyBrain {
 
     boolean isDad = false;
-    ArrayList<Card> stolenCards = new ArrayList<>();
+    final ArrayList<Card> stolenCards = new ArrayList<>();
 
     @Override
     public UnitBrain copy() {

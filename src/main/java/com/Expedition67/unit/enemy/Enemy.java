@@ -1,5 +1,6 @@
 package com.Expedition67.unit.enemy;
 
+import com.Expedition67.core.SoundManager;
 import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.ui.GameComponent;
@@ -58,6 +59,7 @@ public class Enemy extends Unit implements GameComponent {
 
         if (isInside(e.getX(), e.getY())) {
             CombatManager.Instance().setTarget(this);
+            SoundManager.Instance().playSelectSound();
             return true;
         }
         return false;

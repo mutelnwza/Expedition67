@@ -1,6 +1,7 @@
 package com.Expedition67.ui;
 
 import com.Expedition67.card.Card;
+import com.Expedition67.core.SoundManager;
 import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.storage.AssetManager;
 
@@ -58,6 +59,7 @@ public class HandUIHandler implements GameComponent {
         for (int i = 0; i < hand.size(); i++) {
             if (isInside(e.getX(), e.getY(), i)) {
                 selectedCardIndex = (selectedCardIndex == i) ? -1 : i;
+                SoundManager.Instance().playSelectSound();
                 return true;
             }
         }

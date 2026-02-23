@@ -4,9 +4,11 @@ import com.Expedition67.card.CardName;
 import com.Expedition67.unit.UnitName;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -18,11 +20,19 @@ public class AssetManager {
     private static AssetManager instance;
     private final HashMap<UnitName, BufferedImage[][]> spriteDatabase = new HashMap<>();
     private final HashMap<CardName, BufferedImage> cardDatabase = new HashMap<>();
+    private final HashMap<SoundName, Clip> soundDatabase = new HashMap<>();
     private final Font gameFont;
+
+    public enum SoundName {
+        BGM,
+        SELECT,
+        TAKE_DAMAGE
+    }
 
     private AssetManager() {
         loadAllSprites();
         loadAllCards();
+        loadAllSounds();
         gameFont = loadFont();
     }
 
@@ -65,6 +75,12 @@ public class AssetManager {
         cardDatabase.put(CardName.VOID_DRAGON, loadImage("/images/cards/Void_Dragon.png"));
     }
 
+    private void loadAllSounds() {
+        soundDatabase.put(SoundName.BGM, loadSound("/sound/BGM.wav"));
+        soundDatabase.put(SoundName.SELECT, loadSound("/sound/Select.wav"));
+        soundDatabase.put(SoundName.TAKE_DAMAGE, loadSound("/sound/Take_Damage.wav"));
+    }
+
     private BufferedImage loadImage(String path) {
         try {
             return ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
@@ -96,6 +112,24 @@ public class AssetManager {
         }
     }
 
+    private Clip loadSound(String path) {
+        try {
+            URL soundUrl = getClass().getResource(path);
+            if (soundUrl == null) {
+                System.err.println("Sound file not found: " + path);
+                return null;
+            }
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundUrl);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            return clip;
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            System.err.println("Error loading sound: " + path);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private Font loadFont() {
         try {
             Font font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(getClass().getResourceAsStream("/fonts/Jersey10-Regular.ttf")));
@@ -113,6 +147,10 @@ public class AssetManager {
 
     public BufferedImage getCard(CardName key) {
         return cardDatabase.get(key);
+    }
+
+    public Clip getSound(SoundName key) {
+        return soundDatabase.get(key);
     }
 
     public Font getGameFont() {

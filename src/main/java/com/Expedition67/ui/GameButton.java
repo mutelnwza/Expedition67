@@ -1,5 +1,7 @@
 package com.Expedition67.ui;
 
+import com.Expedition67.core.SoundManager;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -56,6 +58,7 @@ public class GameButton implements GameComponent {
             if (onClick != null) {
                 onClick.run();
             }
+            SoundManager.Instance().playSelectSound();
             return true;
         }
         return false;

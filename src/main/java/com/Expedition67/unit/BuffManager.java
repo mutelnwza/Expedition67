@@ -93,7 +93,7 @@ public class BuffManager {
      */
     private static class BuffTracker {
         int turnLeft;
-        RemovableAbility ability;
+        final RemovableAbility ability;
 
         BuffTracker(int turn, RemovableAbility ability) {
             this.turnLeft = turn;

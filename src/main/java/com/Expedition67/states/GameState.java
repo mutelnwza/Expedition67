@@ -12,7 +12,7 @@ import java.util.List;
  */
 public abstract class GameState {
 
-    protected List<GameComponent> gameComponents;
+    protected final List<GameComponent> gameComponents;
 
     /**
      * Constructs a new GameState and initializes its component list.
