@@ -6,7 +6,15 @@ import com.Expedition67.core.GameManager;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.UnitBrain;
 
+/**
+ * The AI for the Lukchin enemy.
+ */
 public class LukchinBrain extends EnemyBrain {
+
+    @Override
+    public UnitBrain copy() {
+        return new LukchinBrain();
+    }
 
     @Override
     public void calculateNextMove() {
@@ -23,10 +31,4 @@ public class LukchinBrain extends EnemyBrain {
             target = this.owner;
         }
     }
-
-    @Override
-    public UnitBrain copy() {
-        return new LukchinBrain();
-    }
-
 }

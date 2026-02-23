@@ -6,12 +6,19 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+/**
+ * Handles mouse input and forwards it to the GameManager.
+ */
 public class MouseInput implements MouseListener, MouseMotionListener {
 
-    // --- MouseListener Methods ---
     @Override
     public void mouseClicked(MouseEvent e) {
         GameManager.Instance().mouseClicked(e);
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        GameManager.Instance().mouseMoved(e);
     }
 
     @Override
@@ -30,13 +37,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
     public void mouseExited(MouseEvent e) {
     }
 
-    // --- MouseMotionListener Methods ---
     @Override
     public void mouseDragged(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        GameManager.Instance().mouseMoved(e);
     }
 }

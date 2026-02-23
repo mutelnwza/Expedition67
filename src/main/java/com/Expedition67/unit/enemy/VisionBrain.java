@@ -9,14 +9,17 @@ import com.Expedition67.unit.UnitBrain;
 
 import java.util.Objects;
 
+/**
+ * The AI for the Vision enemy.
+ */
 public class VisionBrain extends EnemyBrain {
 
-    int dmgStack = 0;
+    private int dmgStack = 0;
     private final DamageAbility counterAbility = new DamageAbility(0, CardAbility.CardType.ATK);
 
     @Override
-    public void onPlayerUseCard(Card c) {
-        super.onPlayerUseCard(c);
+    public UnitBrain copy() {
+        return new VisionBrain();
     }
 
     @Override
@@ -35,11 +38,6 @@ public class VisionBrain extends EnemyBrain {
         } else {
             calculateNextMove();
         }
-    }
-
-    @Override
-    public UnitBrain copy() {
-        return new VisionBrain();
     }
 
     @Override

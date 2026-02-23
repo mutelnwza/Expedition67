@@ -6,14 +6,26 @@ import com.Expedition67.unit.Unit;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * A utility class for rendering game sprites and visual effects.
+ */
 public class SpriteRenderer {
 
+    /**
+     * Renders a single unit, including its animation and visual effects like damage flashes.
+     *
+     * @param g    The Graphics2D context to draw with.
+     * @param unit The unit to be rendered.
+     */
     public void unitRender(Graphics2D g, Unit unit) {
         int row = unit.getAnimator().getRow();
         int index = unit.getAnimator().getIndex();
+
         BufferedImage image = AssetManager.Instance().getSprite(unit.getName(), row, index);
+
         if (image != null) {
             g.drawImage(image, unit.getX(), unit.getY(), unit.getWidth(), unit.getHeight(), null);
+
             if (unit.getFlashFrame() > 0 && unit.getFlashFrame() % 2 == 0) {
                 g.setComposite(AlphaComposite.SrcAtop);
                 g.setColor(new Color(255, 0, 0, 150));

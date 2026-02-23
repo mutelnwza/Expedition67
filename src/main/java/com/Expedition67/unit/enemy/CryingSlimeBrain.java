@@ -4,7 +4,15 @@ import com.Expedition67.core.GameManager;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.UnitBrain;
 
+/**
+ * The AI for the Crying Slime enemy.
+ */
 public class CryingSlimeBrain extends EnemyBrain {
+
+    @Override
+    public UnitBrain copy() {
+        return new CryingSlimeBrain();
+    }
 
     @Override
     public void calculateNextMove() {
@@ -17,10 +25,4 @@ public class CryingSlimeBrain extends EnemyBrain {
             target = this.owner;
         }
     }
-
-    @Override
-    public UnitBrain copy() {
-        return new CryingSlimeBrain();
-    }
-
 }

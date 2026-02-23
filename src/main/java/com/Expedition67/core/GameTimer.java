@@ -1,29 +1,47 @@
 package com.Expedition67.core;
 
+/**
+ * A simple timer to keep track of elapsed game time.
+ */
 public class GameTimer {
 
     private boolean isTimeCounter;
     private int ticks;
     private int totalSeconds;
 
+    /**
+     * Constructs a new GameTimer and initializes it.
+     */
     public GameTimer() {
         reset();
     }
 
+    /**
+     * Starts or resumes the timer.
+     */
     public void start() {
-        isTimeCounter = true;
+        this.isTimeCounter = true;
     }
 
+    /**
+     * Stops or pauses the timer.
+     */
     public void stop() {
-        isTimeCounter = false;
+        this.isTimeCounter = false;
     }
 
+    /**
+     * Resets the timer to zero.
+     */
     public void reset() {
-        isTimeCounter = false;
-        ticks = 0;
-        totalSeconds = 0;
+        this.isTimeCounter = false;
+        this.ticks = 0;
+        this.totalSeconds = 0;
     }
 
+    /**
+     * Updates the timer, called once per frame from the main game loop.
+     */
     public void update() {
         if (isTimeCounter) {
             ticks++;
@@ -34,6 +52,11 @@ public class GameTimer {
         }
     }
 
+    /**
+     * Formats the elapsed time into an "MM:SS" string.
+     *
+     * @return A formatted string of the current time.
+     */
     public String getTimeString() {
         int min = totalSeconds / 60;
         int sec = totalSeconds % 60;

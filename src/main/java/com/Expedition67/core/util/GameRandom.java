@@ -10,19 +10,28 @@ import com.Expedition67.states.CardDropState;
 import com.Expedition67.states.CombatState;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.enemy.Enemy;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * A utility class for handling all random events in the game.
+ */
 public class GameRandom {
 
     private static GameRandom instance;
     private final Random random;
 
     private GameRandom() {
-        random = new Random();
+        this.random = new Random();
     }
 
+    /**
+     * Gets the single instance of the GameRandom utility.
+     *
+     * @return The single instance of GameRandom.
+     */
     public static GameRandom Instance() {
         if (instance == null) {
             instance = new GameRandom();
@@ -30,29 +39,96 @@ public class GameRandom {
         return instance;
     }
 
+    /**
+     * Generates a list of enemies for a combat encounter.
+     *
+     * @param centerX The center x-coordinate for positioning the enemies.
+     * @param y       The y-coordinate for the enemies.
+     * @return An ArrayList of Enemy objects.
+     */
+    public ArrayList<Enemy> getRandomEnemies(int centerX, int y) {
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        int room = GameManager.Instance().getGameData().getRoom();
+        int minibossChance = 20;
+
+        if (room > 3) {
+            minibossChance = 70;
+        } else if (room > 1) {
+            minibossChance = 40;
+        }
+
+        if (random.nextInt(100) < minibossChance) {
+            spawnMiniboss(enemies, centerX, y);
+        } else {
+            spawnNormalEnemies(enemies, centerX, y);
+        }
+        return enemies;
+    }
+
+    /**
+     * Gets a random card from the warehouse.
+     *
+     * @param tier The desired tier of the card (NORMAL, RARE). If null, any tier is considered.
+     * @return A copy of a random card.
+     */
+    public Card getRandomCard(Card.CardTier tier) {
+        List<Card> allCards = Warehouse.Instance().getCards();
+        List<Card> cards;
+
+        if (tier == null) {
+            cards = allCards.stream()
+                    .filter(c -> c.getName() != CardName.VOID)
+                    .toList();
+        } else {
+            cards = allCards.stream()
+                    .filter(c -> c.getName() != CardName.VOID && c.getTier() == tier)
+                    .toList();
+        }
+
+        Card randomCard = getRandomElement(cards);
+        return (randomCard != null) ? randomCard.copy() : null;
+    }
+
+    /**
+     * Gets a random card from the player's current hand.
+     *
+     * @param cardType The desired type of card (ATK, DEF, etc.). If null, any card is considered.
+     * @return A card from the hand, or null if no matching card is found.
+     */
+    public Card getRandomCardFromHand(CardAbility.CardType cardType) {
+        List<Card> hand = CombatManager.Instance().getDeck().getHand();
+        if (hand == null || hand.isEmpty()) {
+            return null;
+        }
+
+        List<Card> filteredHand;
+        if (cardType == null) {
+            filteredHand = hand;
+        } else {
+            filteredHand = hand.stream()
+                    .filter(c -> c.getAbility().getCardType() == cardType)
+                    .toList();
+        }
+
+        return getRandomElement(filteredHand);
+    }
+
+    /**
+     * Determines the type of the next room and transitions the game state accordingly.
+     */
+    public void enterRandomRoom() {
+        if (random.nextInt(100) < 15) {
+            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.CARD_DROP_STATE, CardDropState.TREASURE_ROOM);
+        } else {
+            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.COMBAT_STATE, CombatState.MONSTER_ROOM);
+        }
+    }
+
     private <T> T getRandomElement(List<T> list) {
         if (list == null || list.isEmpty()) {
             return null;
         }
         return list.get(random.nextInt(list.size()));
-    }
-
-    public ArrayList<Enemy> getRandomEnemies(int centerX, int y) {
-        ArrayList<Enemy> enemies = new ArrayList<>();
-        int minibossChance = 20;
-        if(GameManager.Instance().getGameData().getRoom()>1){
-            minibossChance = 40;
-        }
-        else if(GameManager.Instance().getGameData().getRoom()>3){
-            minibossChance = 70;
-        }
-        if (random.nextInt(100) < minibossChance) { // 15% chance for a miniboss
-            spawnMiniboss(enemies, centerX, y);
-        } else {
-            spawnNormalEnemies(enemies, centerX, y);
-        }
-
-        return enemies;
     }
 
     private void spawnMiniboss(ArrayList<Enemy> enemies, int centerX, int y) {
@@ -67,7 +143,7 @@ public class GameRandom {
     private void spawnNormalEnemies(ArrayList<Enemy> enemies, int centerX, int y) {
         Enemy randomNormalEnemy = getRandomElement(Warehouse.Instance().getNormalEnemies());
         if (randomNormalEnemy != null) {
-            int amount = random.nextInt(3) + 1; // Spawn 1 to 3 enemies
+            int amount = random.nextInt(1, 4);
             int enemyWidth = randomNormalEnemy.getWidth();
             int spacing = 20;
             int totalGroupWidth = (amount * enemyWidth) + ((amount - 1) * spacing);
@@ -78,43 +154,6 @@ public class GameRandom {
                 enemies.add(randomNormalEnemy.copy(currentX, y));
                 enemies.getLast().getAnimator().play("idle");
             }
-        }
-    }
-
-    public Card getRandomCard(Card.CardTier tier) {
-        List<Card> cards;
-
-        if (tier == null)
-            cards = Warehouse.Instance().getCards().stream()
-                    .filter(c -> !c.getName().equals(CardName.VOID))
-                    .toList();
-        else
-            cards = Warehouse.Instance().getCards().stream()
-                    .filter(c -> !c.getName().equals(CardName.VOID))
-                    .filter(c -> c.getTier() == tier)
-                    .toList();
-
-        return getRandomElement(cards).copy();
-    }
-
-    public Card getRandomCardFromHand(CardAbility.CardType cardType) {
-        List<Card> handCards;
-
-        if (cardType == null)
-            handCards = CombatManager.Instance().getDeck().getHand();
-        else
-            handCards = CombatManager.Instance().getDeck().getHand().stream()
-                    .filter(c -> c.getAbility().getCardType() == cardType)
-                    .toList();
-
-        return getRandomElement(handCards);
-    }
-
-    public void enterRandomRoom() {
-        if (random.nextInt(100) < 15) { // 15% chance for a treasure room
-            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.CARD_DROP_STATE, CardDropState.TREASURE_ROOM);
-        } else {
-            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.COMBAT_STATE, CombatState.MONSTER_ROOM);
         }
     }
 }

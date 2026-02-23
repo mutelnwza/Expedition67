@@ -3,36 +3,30 @@ package com.Expedition67.ui;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+/**
+ * A clickable UI button component.
+ */
 public class GameButton implements GameComponent {
 
-    private String label;
-    private int x;
-    private int y;
-    private final int width;
-    private final int height;
+    private final int width, height;
     private final Rectangle bounds;
-
-    // The visual text inside the button
     private final GameText textComponent;
-
-    // State
-    private boolean isVisible;
-    private boolean mouseOver;
+    private int x, y;
+    private boolean isVisible, mouseOver;
     private Runnable onClick;
 
     /**
-     * Constructor: Creates a clickable button.
+     * Constructs a new GameButton.
      *
-     * @param label     The text on the button.
-     * @param labelSize The font size.
-     * @param x         X position.
-     * @param y         Y position.
-     * @param width     Width.
-     * @param height    Height.
-     * @param onClick   The method to run when clicked.
+     * @param label     The text to display on the button.
+     * @param labelSize The font size for the label.
+     * @param x         The x-coordinate of the button.
+     * @param y         The y-coordinate of the button.
+     * @param width     The width of the button.
+     * @param height    The height of the button.
+     * @param onClick   The action to perform when the button is clicked.
      */
     public GameButton(String label, float labelSize, int x, int y, int width, int height, Runnable onClick) {
-        this.label = label;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -40,77 +34,28 @@ public class GameButton implements GameComponent {
         this.bounds = new Rectangle(x, y, width, height);
         this.onClick = onClick;
         this.isVisible = true;
-
         this.textComponent = new GameText(label, 0, 0, labelSize, Color.white);
         this.textComponent.horizontallyCentering(x, width);
         this.textComponent.verticallyCentering(y, height);
-    }
-
-    /**
-     * Changes the action the button performs when clicked.
-     */
-    public void setOnClick(Runnable onClick) {
-        this.onClick = onClick;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-        this.textComponent.setText(label);
-        this.textComponent.horizontallyCentering(x, width);
-        this.textComponent.verticallyCentering(y, height);
-    }
-
-    // --- GameComponent Implementation ---
-
-    @Override
-    public void horizontallyCentering(int x, int w) {
-        this.x = x + (w - width) / 2;
-        bounds.setLocation(this.x, y);
-        textComponent.horizontallyCentering(this.x, width);
-    }
-
-    @Override
-    public void verticallyCentering(int y, int h) {
-        this.y = y + (h - height) / 2;
-        bounds.setLocation(x, this.y);
-        textComponent.verticallyCentering(this.y, height);
-    }
-
-    @Override
-    public void update() {
     }
 
     @Override
     public void render(Graphics g) {
         if (!isVisible) return;
 
-        // Draw Background
-        if (mouseOver) {
-            g.setColor(Color.lightGray); // Hover
-        } else {
-            g.setColor(Color.gray); // Normal
-        }
+        g.setColor(mouseOver ? Color.lightGray : Color.gray);
         g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-
-        // Draw Border
         g.setColor(Color.white);
         g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
-
-        // Draw label
         textComponent.render(g);
     }
 
     @Override
-    public boolean isInside(int x, int y) {
-        return bounds.contains(x, y);
-    }
-
-    @Override
     public boolean mouseClicked(MouseEvent e) {
-        if (!isVisible) return false;
-
         if (isInside(e.getX(), e.getY())) {
-            onClick.run();
+            if (onClick != null) {
+                onClick.run();
+            }
             return true;
         }
         return false;
@@ -119,13 +64,52 @@ public class GameButton implements GameComponent {
     @Override
     public boolean mouseMoved(MouseEvent e) {
         if (!isVisible) return false;
+        boolean isNowOver = isInside(e.getX(), e.getY());
+        if (isNowOver != this.mouseOver) {
+            this.mouseOver = isNowOver;
+            return true;
+        }
+        return false;
+    }
 
-        this.mouseOver = isInside(e.getX(), e.getY());
-        return mouseOver;
+    @Override
+    public void horizontallyCentering(int x, int w) {
+        this.x = x + (w - this.width) / 2;
+        this.bounds.setLocation(this.x, this.y);
+        this.textComponent.horizontallyCentering(this.x, this.width);
+    }
+
+    @Override
+    public void verticallyCentering(int y, int h) {
+        this.y = y + (h - this.height) / 2;
+        this.bounds.setLocation(this.x, this.y);
+        this.textComponent.verticallyCentering(this.y, this.height);
+    }
+
+    @Override
+    public boolean isInside(int x, int y) {
+        return isVisible && bounds.contains(x, y);
+    }
+
+    @Override
+    public void update() {
     }
 
     @Override
     public void setVisible(boolean visible) {
-        isVisible = visible;
+        this.isVisible = visible;
+        if (!visible) {
+            this.mouseOver = false;
+        }
+    }
+
+    public void setOnClick(Runnable onClick) {
+        this.onClick = onClick;
+    }
+
+    public void setLabel(String label) {
+        this.textComponent.setText(label);
+        this.textComponent.horizontallyCentering(x, width);
+        this.textComponent.verticallyCentering(y, height);
     }
 }

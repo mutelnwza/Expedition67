@@ -12,13 +12,15 @@ import com.Expedition67.ui.GameText;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * The game state for viewing the player's card inventory.
+ */
 public class InventoryState extends GameState {
 
     public static final int ENTER_FROM_COMBAT = 0;
     public static final int ENTER_FROM_DROP = 1;
 
-    private GameButton previousCard;
-    private GameButton nextCard;
+    private GameButton previousCardButton, nextCardButton;
     private GameText cardInfoText;
 
     private int previousState;
@@ -32,21 +34,17 @@ public class InventoryState extends GameState {
 
     @Override
     protected void loadComponents() {
-        // Previous Card
-        previousCard = new GameButton("<", 24f, 40, 0, 40, 40, this::previous);
-        gameComponents.add(previousCard);
-        previousCard.verticallyCentering(0, GameView.GAME_HEIGHT);
+        previousCardButton = new GameButton("<", 24f, 40, 0, 40, 40, this::showPreviousCard);
+        previousCardButton.verticallyCentering(0, GameView.GAME_HEIGHT);
+        gameComponents.add(previousCardButton);
 
-        // Next Card
-        nextCard = new GameButton(">", 24f, 880, 0, 40, 40, this::next);
-        gameComponents.add(nextCard);
-        nextCard.verticallyCentering(0, GameView.GAME_HEIGHT);
+        nextCardButton = new GameButton(">", 24f, 880, 0, 40, 40, this::showNextCard);
+        nextCardButton.verticallyCentering(0, GameView.GAME_HEIGHT);
+        gameComponents.add(nextCardButton);
 
-        // Card Info
         cardInfoText = new GameText("Placeholder", 0, 0, 24f, Color.white);
         gameComponents.add(cardInfoText);
 
-        // Back
         gameComponents.add(new GameButton("Back", 24f, 20, 20, 60, 40, () ->
                 GameManager.Instance().getGameStateManager().setCurrentState(previousState, 0)
         ));
@@ -54,21 +52,10 @@ public class InventoryState extends GameState {
 
     @Override
     public void enter(int id) {
-        if (id == ENTER_FROM_COMBAT)
-            previousState = GameStateManager.COMBAT_STATE;
-        else
-            previousState = GameStateManager.CARD_DROP_STATE;
-
+        previousState = (id == ENTER_FROM_COMBAT) ? GameStateManager.COMBAT_STATE : GameStateManager.CARD_DROP_STATE;
         inventory = CardInventory.Instance().getCardInventory();
         showedCardIndex = 0;
-        showedCard = inventory.get(showedCardIndex);
-
-        cardInfoText.setText(showedCard.toString());
-        cardInfoText.horizontallyCentering(180, 590);
-        cardInfoText.verticallyCentering(770, 110);
-
-        previousCard.setVisible(false);
-        nextCard.setVisible(true);
+        updateDisplayedCard();
     }
 
     @Override
@@ -77,11 +64,9 @@ public class InventoryState extends GameState {
 
     @Override
     public void render(Graphics g) {
-        // Draw Background
         g.setColor(Color.black);
         g.fillRect(0, 0, GameView.GAME_WIDTH, GameView.GAME_HEIGHT);
 
-        // Draw Card
         if (showedCard != null) {
             int width = 300;
             int height = 400;
@@ -90,36 +75,38 @@ public class InventoryState extends GameState {
             g.drawImage(AssetManager.Instance().getCard(showedCard.getName()), x, y, width, height, null);
         }
 
-        // Card info border
         g.setColor(Color.white);
         g.drawRect(185, 770, 590, 110);
 
-        // Draw components
         super.render(g);
     }
 
-    private void previous() {
-        showedCardIndex--;
-        if (showedCardIndex < 0) return;
-        showedCard = inventory.get(showedCardIndex);
-
-        if (showedCardIndex == 0) previousCard.setVisible(false);
-        nextCard.setVisible(true);
-
-        cardInfoText.setText(showedCard.toString());
-        cardInfoText.horizontallyCentering(180, 590);
-        cardInfoText.verticallyCentering(770, 110);
+    private void showPreviousCard() {
+        if (showedCardIndex > 0) {
+            showedCardIndex--;
+            updateDisplayedCard();
+        }
     }
 
-    private void next() {
-        showedCardIndex++;
-        if (showedCardIndex >= inventory.size()) return;
-        showedCard = inventory.get(showedCardIndex);
+    private void showNextCard() {
+        if (showedCardIndex < inventory.size() - 1) {
+            showedCardIndex++;
+            updateDisplayedCard();
+        }
+    }
 
-        if (showedCardIndex == inventory.size() - 1) nextCard.setVisible(false);
-        previousCard.setVisible(true);
-
-        cardInfoText.setText(showedCard.toString());
+    private void updateDisplayedCard() {
+        if (inventory.isEmpty()) {
+            showedCard = null;
+            cardInfoText.setText("Inventory is empty");
+            previousCardButton.setVisible(false);
+            nextCardButton.setVisible(false);
+        } else {
+            showedCard = inventory.get(showedCardIndex);
+            cardInfoText.setText(showedCard.toString());
+            previousCardButton.setVisible(showedCardIndex > 0);
+            nextCardButton.setVisible(showedCardIndex < inventory.size() - 1);
+        }
         cardInfoText.horizontallyCentering(180, 590);
         cardInfoText.verticallyCentering(770, 110);
     }

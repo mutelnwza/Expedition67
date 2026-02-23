@@ -4,19 +4,36 @@ import com.Expedition67.core.GameManager;
 import com.Expedition67.core.GameStateManager;
 import com.Expedition67.states.CardDropState;
 import com.Expedition67.states.ResultState;
-import com.Expedition67.unit.enemy.Enemy;
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.UnitType;
+import com.Expedition67.unit.enemy.Enemy;
 
 import java.util.List;
 
+/**
+ * Handles the logic for checking if combat has ended due to a win or loss.
+ */
 public class CombatCompletionHandler {
 
+    /**
+     * Checks if the combat is over by player defeat or all enemies being defeated.
+     *
+     * @return true if combat has ended, false otherwise.
+     */
     public boolean checkWinCondition() {
         Unit player = GameManager.Instance().getPlayer();
         List<Enemy> enemies = CombatManager.Instance().getEnemies();
-        UnitType enemyType = CombatManager.Instance().getEnemyType();
 
+        if (isPlayerDefeated(player)) {
+            return true;
+        }
+
+        removeDefeatedEnemies(enemies);
+
+        return areAllEnemiesDefeated(enemies);
+    }
+
+    private boolean isPlayerDefeated(Unit player) {
         if (player.getUnitStats().getHp() <= 0) {
             if (player.getFlashFrame() <= 0) {
                 CombatManager.Instance().endCombat();
@@ -24,22 +41,26 @@ public class CombatCompletionHandler {
             }
             return true;
         }
+        return false;
+    }
 
-        int i = 0;
-        while (i < enemies.size()) {
-            Enemy currentEnemy = enemies.get(i);
-            if (currentEnemy.getUnitStats().getHp() <= 0 && currentEnemy.getFlashFrame() <= 0) {
-                enemies.remove(i);
-                if (CombatManager.Instance().getTarget() == currentEnemy) {
+    private void removeDefeatedEnemies(List<Enemy> enemies) {
+        enemies.removeIf(enemy -> {
+            if (enemy.getUnitStats().getHp() <= 0 && enemy.getFlashFrame() <= 0) {
+                if (CombatManager.Instance().getTarget() == enemy) {
                     CombatManager.Instance().setTarget(null);
                 }
-            } else {
-                i++;
+                return true;
             }
-        }
+            return false;
+        });
+    }
 
+    private boolean areAllEnemiesDefeated(List<Enemy> enemies) {
         if (enemies.isEmpty()) {
+            UnitType enemyType = CombatManager.Instance().getEnemyType();
             CombatManager.Instance().endCombat();
+
             if (enemyType == UnitType.ENEMY) {
                 GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.CARD_DROP_STATE, CardDropState.NORMAL_DROP);
             } else if (enemyType == UnitType.MINIBOSS) {

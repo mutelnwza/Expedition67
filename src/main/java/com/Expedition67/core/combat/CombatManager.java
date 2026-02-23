@@ -6,8 +6,12 @@ import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.UnitType;
 import com.Expedition67.unit.enemy.Enemy;
 import com.Expedition67.unit.player.Deck;
+
 import java.util.List;
 
+/**
+ * The central manager for all combat-related logic.
+ */
 public class CombatManager {
 
     private static CombatManager instance;
@@ -16,20 +20,25 @@ public class CombatManager {
     private List<Enemy> enemies;
     private UnitType enemyType;
     private Deck deck;
-    private final TurnManager turnManager;
-    private final PlayerActionHandler playerActionHandler;
-    private final CombatCompletionHandler combatCompletionHandler;
-
     private Enemy target;
     private String actionString = "";
     private boolean isCombatActive;
 
+    private final TurnManager turnManager;
+    private final PlayerActionHandler playerActionHandler;
+    private final CombatCompletionHandler combatCompletionHandler;
+
     private CombatManager() {
-        turnManager = new TurnManager();
-        playerActionHandler = new PlayerActionHandler();
-        combatCompletionHandler = new CombatCompletionHandler();
+        this.turnManager = new TurnManager();
+        this.playerActionHandler = new PlayerActionHandler();
+        this.combatCompletionHandler = new CombatCompletionHandler();
     }
 
+    /**
+     * Gets the single instance of the CombatManager.
+     *
+     * @return The single instance of CombatManager.
+     */
     public static CombatManager Instance() {
         if (instance == null) {
             instance = new CombatManager();
@@ -37,50 +46,75 @@ public class CombatManager {
         return instance;
     }
 
+    /**
+     * Re-initializes the singleton instance for a new combat.
+     */
     public static void initNew() {
         instance = new CombatManager();
     }
 
+    /**
+     * Sets up and starts a new combat encounter.
+     *
+     * @param enemies The list of enemies for this fight.
+     */
     public void startCombat(List<Enemy> enemies) {
         this.player = GameManager.Instance().getPlayer();
         this.enemies = enemies;
         this.enemyType = enemies.getFirst().getType();
-        this.target = enemies.getFirst();
+        this.target = null;
 
-        if (deck == null) {
-            deck = new Deck();
+        if (this.deck == null) {
+            this.deck = new Deck();
         }
-        deck.instantiate();
-        deck.addToHand();
-        turnManager.reset();
-        isCombatActive = true;
+        this.deck.instantiate();
+        this.deck.addToHand();
 
-        turnManager.startPlayerTurn(player, enemies, deck);
+        this.turnManager.reset();
+        this.isCombatActive = true;
+        this.turnManager.startPlayerTurn(player, enemies);
     }
 
+    /**
+     * Ends the current combat and performs cleanup.
+     */
     public void endCombat() {
-        isCombatActive = false;
+        this.isCombatActive = false;
         player.getBrain().onTurnEnded();
         player.getBrain().getBuffManager().resetBuffs();
     }
 
+    /**
+     * The main update loop for combat.
+     */
+    public void update() {
+        if (!isCombatActive) return;
+
+        if (combatCompletionHandler.checkWinCondition()) {
+            return;
+        }
+
+        turnManager.updateEnemyTurns(player, enemies, deck);
+    }
+
+    /**
+     * Executes the end of the player's turn.
+     */
     public void executeTurn() {
         if (!isCombatActive || player == null || enemies == null) {
             return;
         }
-        turnManager.endPlayerTurn(player,deck);
+        turnManager.endPlayerTurn(player, deck);
     }
 
+    /**
+     * Handles the player using a card.
+     *
+     * @param card   The card being used.
+     * @param target The target of the card.
+     */
     public void onPlayerUseCard(Card card, Unit target) {
         playerActionHandler.handlePlayerAction(card, target);
-    }
-
-    public void update() {
-        if (!isCombatActive) return;
-        if (combatCompletionHandler.checkWinCondition()) {
-            return;
-        }
-        turnManager.updateEnemyTurns(player, enemies, deck);
     }
 
     public Enemy getTarget() {
@@ -104,15 +138,15 @@ public class CombatManager {
     }
 
     public void addActionString(String action) {
-        actionString += action;
+        this.actionString += action;
     }
 
     public void clearActionString() {
-        actionString = "";
+        this.actionString = "";
     }
 
-    public void clearEnemies() {
-        enemies.clear();
+    public void setActionString(String actionString) {
+        this.actionString = actionString;
     }
 
     public List<Enemy> getEnemies() {
@@ -121,9 +155,5 @@ public class CombatManager {
 
     public UnitType getEnemyType() {
         return enemyType;
-    }
-
-    public void setActionString(String actionString) {
-        this.actionString = actionString;
     }
 }

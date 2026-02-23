@@ -7,12 +7,21 @@ import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.core.util.GameRandom;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.UnitBrain;
+
 import java.util.ArrayList;
 
+/**
+ * The AI for the "Son and Dad" enemy.
+ */
 public class SonAndDadBrain extends EnemyBrain {
 
     boolean isDad = false;
     ArrayList<Card> stolenCards = new ArrayList<>();
+
+    @Override
+    public UnitBrain copy() {
+        return new SonAndDadBrain();
+    }
 
     @Override
     public void calculateNextMove() {
@@ -29,8 +38,10 @@ public class SonAndDadBrain extends EnemyBrain {
         super.onTurnStarted();
         if (!isDad) {
             Card c = GameRandom.Instance().getRandomCardFromHand(null);
-            CombatManager.Instance().getDeck().removeFromHand(c);
-            stolenCards.add(c);
+            if (c != null) {
+                CombatManager.Instance().getDeck().removeFromHand(c);
+                stolenCards.add(c);
+            }
         }
     }
 
@@ -55,8 +66,6 @@ public class SonAndDadBrain extends EnemyBrain {
     }
 
     private void spawnDad(boolean isRage) {
-        //add animation later
-
         isDad = true;
         owner.getUnitStats().setMaxHp(220);
         heal(500);
@@ -84,17 +93,11 @@ public class SonAndDadBrain extends EnemyBrain {
         } else {
             int choice = (int) (Math.random() * (2)) + 1;
             if (choice == 1) {
-                nextAction = Warehouse.Instance().spawnAction(owner.getName(), "DADATTACK"); 
-            }else {
+                nextAction = Warehouse.Instance().spawnAction(owner.getName(), "DADATTACK");
+            } else {
                 nextAction = Warehouse.Instance().spawnAction(owner.getName(), "DADDEFENSE");
                 target = this.owner;
             }
         }
     }
-
-    @Override
-    public UnitBrain copy() {
-        return new SonAndDadBrain();
-    }
-
 }

@@ -7,12 +7,15 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An abstract base class for all game states, such as the main menu or combat.
+ */
 public abstract class GameState {
 
     protected List<GameComponent> gameComponents;
 
     /**
-     * Constructor: Initializes the list and loads initial UI components.
+     * Constructs a new GameState and initializes its component list.
      */
     public GameState() {
         this.gameComponents = new ArrayList<>();
@@ -20,24 +23,24 @@ public abstract class GameState {
     }
 
     /**
-     * Abstract method for child states to add their specific buttons and text.
+     * An abstract method for subclasses to load their specific UI components.
      */
     protected abstract void loadComponents();
 
     /**
-     * Called when the game switches to this state.
+     * Called when the game enters this state.
      *
-     * @param id An optional ID.
+     * @param id An optional parameter for state initialization.
      */
     public abstract void enter(int id);
 
     /**
-     * Called when the game leaves this state.
+     * Called when the game exits this state.
      */
     public abstract void exit();
 
     /**
-     * Updates all components in this state.
+     * Updates all UI components in this state.
      */
     public void update() {
         for (GameComponent gameComponent : gameComponents) {
@@ -46,7 +49,9 @@ public abstract class GameState {
     }
 
     /**
-     * Renders all components in this state.
+     * Renders all UI components in this state.
+     *
+     * @param g The Graphics object to draw with.
      */
     public void render(Graphics g) {
         for (GameComponent gameComponent : gameComponents) {
@@ -55,7 +60,9 @@ public abstract class GameState {
     }
 
     /**
-     * Passes mouse clicks to the components.
+     * Forwards mouse click events to the UI components.
+     *
+     * @param e The MouseEvent from the click.
      */
     public void mouseClicked(MouseEvent e) {
         for (GameComponent gameComponent : gameComponents) {
@@ -66,7 +73,9 @@ public abstract class GameState {
     }
 
     /**
-     * Passes mouse movement to the components (for hover effects).
+     * Forwards mouse movement events to the UI components.
+     *
+     * @param e The MouseEvent from the movement.
      */
     public void mouseMoved(MouseEvent e) {
         for (GameComponent gameComponent : gameComponents) {

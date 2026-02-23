@@ -6,9 +6,13 @@ import com.Expedition67.storage.CardInventory;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.player.PlayerBrain;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+/**
+ * The central hub of the game, managing all major components like game state, timer, and player data.
+ */
 public class GameManager {
 
     private static GameManager instance;
@@ -19,12 +23,17 @@ public class GameManager {
     private final SoundManager soundManager;
 
     private GameManager() {
-        gameStateManager = new GameStateManager();
-        gameTimer = new GameTimer();
-        gameData = new GameData();
-        soundManager = new SoundManager();
+        this.gameStateManager = new GameStateManager();
+        this.gameTimer = new GameTimer();
+        this.gameData = new GameData();
+        this.soundManager = new SoundManager();
     }
 
+    /**
+     * Gets the single instance of the GameManager.
+     *
+     * @return The single instance of GameManager.
+     */
     public static GameManager Instance() {
         if (instance == null) {
             instance = new GameManager();
@@ -32,42 +41,61 @@ public class GameManager {
         return instance;
     }
 
+    /**
+     * Initializes all necessary data for a new game.
+     */
     public void newGame() {
         gameTimer.reset();
         gameTimer.start();
         gameData.reset();
         soundManager.playBGM();
-
-        gameData.setPlayer(Warehouse.Instance().spawnPlayer(0, 460));
         CombatManager.initNew();
         CardInventory.Instance().emptyInventory();
+
+        gameData.setPlayer(Warehouse.Instance().spawnPlayer(0, 460));
 
         CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.SOUL_FLICKER), 1);
         CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.REMNANT_HIT), 3);
         CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.ECHOING_STRIKE), 1);
         CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.SPECTRAL_VEIL), 3);
         CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.SOVEREIGNS_OVERDRIVE), 1);
-        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.ETHEREAL_RESTORATION), 1); 
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.ETHEREAL_RESTORATION), 1);
     }
 
+    /**
+     * The main update method, called every frame to update game logic.
+     */
     public void update() {
         gameStateManager.update();
         gameTimer.update();
     }
 
+    /**
+     * The main render method, called every frame to draw the game.
+     *
+     * @param g The Graphics object to draw with.
+     */
     public void render(Graphics g) {
         gameStateManager.render(g);
     }
 
+    /**
+     * Forwards mouse click events to the current game state.
+     *
+     * @param e The MouseEvent from the click.
+     */
     public void mouseClicked(MouseEvent e) {
         gameStateManager.mouseClicked(e);
     }
 
+    /**
+     * Forwards mouse movement events to the current game state.
+     *
+     * @param e The MouseEvent from the movement.
+     */
     public void mouseMoved(MouseEvent e) {
         gameStateManager.mouseMoved(e);
     }
-
-    // --- Getters ---
 
     public GameStateManager getGameStateManager() {
         return gameStateManager;

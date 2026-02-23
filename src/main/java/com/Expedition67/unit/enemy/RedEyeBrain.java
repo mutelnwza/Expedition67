@@ -5,9 +5,17 @@ import com.Expedition67.core.combat.CombatManager;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.UnitBrain;
 
+/**
+ * The AI for the Red Eye enemy.
+ */
 public class RedEyeBrain extends EnemyBrain {
 
     private boolean rage = false;
+
+    @Override
+    public UnitBrain copy() {
+        return new RedEyeBrain();
+    }
 
     @Override
     public void calculateNextMove() {
@@ -18,13 +26,12 @@ public class RedEyeBrain extends EnemyBrain {
     @Override
     public void onTurnStarted() {
         super.onTurnStarted();
-        if (owner.getUnitStats().getHp() < owner.getUnitStats().getMaxHp() / 2) {
+        if (owner.getUnitStats().getHp() < owner.getUnitStats().getMaxHp() / 2 && !rage) {
             rage = true;
             addCrit(0.15f);
         }
         if (CombatManager.Instance().getTurnCount() % 3 == 0) {
-            addDef(15);
-            if (rage) addDef(10);
+            addDef(rage ? 25 : 15);
         }
     }
 
@@ -35,10 +42,4 @@ public class RedEyeBrain extends EnemyBrain {
             addDef(Math.max(5, owner.getUnitStats().getDef() * 1.05f));
         }
     }
-
-    @Override
-    public UnitBrain copy() {
-        return new RedEyeBrain();
-    }
-
 }
