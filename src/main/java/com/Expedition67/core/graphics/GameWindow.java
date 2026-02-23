@@ -1,7 +1,7 @@
 package com.Expedition67.core.graphics;
 
-import java.awt.Image;
-import java.net.URL;
+import com.Expedition67.storage.AssetManager;
+
 import javax.swing.*;
 
 /**
@@ -19,14 +19,8 @@ public class GameWindow {
 
         JFrame jFrame = new JFrame();
 
-        URL iconUrl = getClass().getResource("/logo.png"); 
-        if (iconUrl != null) {
-            ImageIcon icon = new ImageIcon(iconUrl);
-            Image img = icon.getImage();
-            jFrame.setIconImage(img);
-        }
-        
         jFrame.setTitle("Expedition 67");
+        jFrame.setIconImage(AssetManager.Instance().getIcon());
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.setResizable(false);
 

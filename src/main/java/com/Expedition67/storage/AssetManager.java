@@ -5,6 +5,7 @@ import com.Expedition67.unit.UnitName;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -21,6 +22,7 @@ public class AssetManager {
     private final HashMap<UnitName, BufferedImage[][]> spriteDatabase = new HashMap<>();
     private final HashMap<CardName, BufferedImage> cardDatabase = new HashMap<>();
     private final HashMap<SoundName, Clip> soundDatabase = new HashMap<>();
+    private Image icon;
     private final Font gameFont;
 
     public enum SoundName {
@@ -33,6 +35,7 @@ public class AssetManager {
         loadAllSprites();
         loadAllCards();
         loadAllSounds();
+        loadIcon();
         gameFont = loadFont();
     }
 
@@ -79,6 +82,14 @@ public class AssetManager {
         soundDatabase.put(SoundName.BGM, loadSound("/sound/BGM.wav"));
         soundDatabase.put(SoundName.SELECT, loadSound("/sound/Select.wav"));
         soundDatabase.put(SoundName.TAKE_DAMAGE, loadSound("/sound/Take_Damage.wav"));
+    }
+
+    private void loadIcon() {
+        URL iconUrl = getClass().getResource("/logo.png");
+        if (iconUrl != null) {
+            ImageIcon imageIcon = new ImageIcon(iconUrl);
+            icon = imageIcon.getImage();
+        }
     }
 
     private BufferedImage loadImage(String path) {
@@ -151,6 +162,10 @@ public class AssetManager {
 
     public Clip getSound(SoundName key) {
         return soundDatabase.get(key);
+    }
+
+    public Image getIcon() {
+        return icon;
     }
 
     public Font getGameFont() {
