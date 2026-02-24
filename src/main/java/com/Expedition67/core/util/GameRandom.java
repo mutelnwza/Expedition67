@@ -68,21 +68,27 @@ public class GameRandom {
     /**
      * Gets a random card from the warehouse.
      *
-     * @param tier The desired tier of the card (NORMAL, RARE). If null, any tier is considered.
-     * @return A copy of a random card.
+     * @param isTreasure     True if this method called from treasure room. Otherwise, false.
+     * @param rareDropChance The chance to get rare card. Don't use if isTreasure.
      */
-    public Card getRandomCard(Card.CardTier tier) {
+    public Card getRandomCard(boolean isTreasure, int rareDropChance) {
         List<Card> allCards = Warehouse.Instance().getCards();
         List<Card> cards;
 
-        if (tier == null) {
+        if (isTreasure) {
             cards = allCards.stream()
                     .filter(c -> c.getName() != CardName.VOID)
                     .toList();
         } else {
-            cards = allCards.stream()
-                    .filter(c -> c.getName() != CardName.VOID && c.getTier() == tier)
-                    .toList();
+            if (random.nextInt(100) < rareDropChance) {
+                cards = allCards.stream()
+                        .filter(c -> c.getName() != CardName.VOID && c.getTier() == Card.CardTier.RARE)
+                        .toList();
+            } else {
+                cards = allCards.stream()
+                        .filter(c -> c.getName() != CardName.VOID && c.getTier() == Card.CardTier.NORMAL)
+                        .toList();
+            }
         }
 
         Card randomCard = getRandomElement(cards);

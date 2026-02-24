@@ -61,13 +61,20 @@ public class CombatCompletionHandler {
             UnitType enemyType = CombatManager.Instance().getEnemyType();
             CombatManager.Instance().endCombat();
 
+            int cardDropType = 0;
             if (enemyType == UnitType.ENEMY) {
-                GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.CARD_DROP_STATE, CardDropState.NORMAL_DROP);
+                int enemyAmount = CombatManager.Instance().getEnemyAmount();
+                cardDropType = switch (enemyAmount) {
+                    case 1 -> CardDropState.ONE_ENEMY_DROP;
+                    case 2 -> CardDropState.TWO_ENEMY_DROP;
+                    default -> CardDropState.THREE_ENEMY_DROP;
+                };
             } else if (enemyType == UnitType.MINIBOSS) {
-                GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.CARD_DROP_STATE, CardDropState.MINIBOSS_DROP);
+                cardDropType = CardDropState.MINIBOSS_DROP;
             } else {
                 GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.RESULT_STATE, ResultState.WIN);
             }
+            GameManager.Instance().getGameStateManager().setCurrentState(GameStateManager.CARD_DROP_STATE, cardDropType);
             return true;
         }
         return false;

@@ -57,6 +57,10 @@ public class PlayerActionHandler {
      * @return true if the action is valid, false otherwise.
      */
     private boolean isActionValid(Card card, Unit target, PlayerBrain pb) {
+        if (!CombatManager.Instance().isPlayerTurn()) {
+            CombatManager.Instance().setActionString("Not your turn!");
+            return false;
+        }
         if (card == null) {
             CombatManager.Instance().setActionString("No card selected!");
             return false;

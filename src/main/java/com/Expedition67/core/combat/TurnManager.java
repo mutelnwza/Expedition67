@@ -128,13 +128,12 @@ public class TurnManager {
         }
     }
 
-    /**
-     * Gets the total number of turns passed in the current combat.
-     *
-     * @return The current turn count.
-     */
     public int getTurnCount() {
         return turnCount;
+    }
+
+    public boolean isPlayerTurn() {
+        return isPlayerTurn;
     }
 
     /**

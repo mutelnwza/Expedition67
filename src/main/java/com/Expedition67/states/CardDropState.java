@@ -17,9 +17,11 @@ import java.awt.*;
  */
 public class CardDropState extends GameState {
 
-    public static final int NORMAL_DROP = 0;
-    public static final int MINIBOSS_DROP = 1;
-    public static final int TREASURE_ROOM = 2;
+    public static final int ONE_ENEMY_DROP = 0;
+    public static final int TWO_ENEMY_DROP = 1;
+    public static final int THREE_ENEMY_DROP = 3;
+    public static final int MINIBOSS_DROP = 4;
+    public static final int TREASURE_ROOM = 5;
 
     private Card cardDrop;
     private GameText roomTimeText, messageText, cardInfoText, nextActionText;
@@ -63,10 +65,16 @@ public class CardDropState extends GameState {
         if (id == TREASURE_ROOM) {
             GameManager.Instance().getGameData().incrementRoom();
             messageText.setText("Lucky! You found the Treasure Room. You got...");
-            cardDrop = GameRandom.Instance().getRandomCard(null);
+            cardDrop = GameRandom.Instance().getRandomCard(true, 0);
         } else {
             messageText.setText("Monster drop you...");
-            cardDrop = (id == NORMAL_DROP) ? GameRandom.Instance().getRandomCard(Card.CardTier.NORMAL) : GameRandom.Instance().getRandomCard(Card.CardTier.RARE);
+            cardDrop = switch (id) {
+                case ONE_ENEMY_DROP -> GameRandom.Instance().getRandomCard(false, 0);
+                case TWO_ENEMY_DROP -> GameRandom.Instance().getRandomCard(false, 10);
+                case THREE_ENEMY_DROP -> GameRandom.Instance().getRandomCard(false, 30);
+                case MINIBOSS_DROP -> GameRandom.Instance().getRandomCard(false, 100);
+                default -> null;
+            };
         }
 
         messageText.horizontallyCentering(0, GameView.GAME_WIDTH);

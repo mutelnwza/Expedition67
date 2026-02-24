@@ -19,6 +19,7 @@ public class CombatManager {
     private Unit player;
     private List<Enemy> enemies;
     private UnitType enemyType;
+    private int enemyAmount;
     private Deck deck;
     private Enemy target;
     private String actionString = "";
@@ -62,6 +63,7 @@ public class CombatManager {
         this.player = GameManager.Instance().getPlayer();
         this.enemies = enemies;
         this.enemyType = enemies.getFirst().getType();
+        this.enemyAmount = enemies.size();
         this.target = null;
 
         if (this.deck == null) {
@@ -155,5 +157,13 @@ public class CombatManager {
 
     public UnitType getEnemyType() {
         return enemyType;
+    }
+
+    public boolean isPlayerTurn() {
+        return turnManager.isPlayerTurn();
+    }
+
+    public int getEnemyAmount() {
+        return enemyAmount;
     }
 }

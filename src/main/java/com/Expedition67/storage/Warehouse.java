@@ -198,7 +198,7 @@ public class Warehouse {
     }
 
     private void loadBigBadBoss() {
-        boss = new EnemyData(new Enemy(UnitName.BIG_BAD_BOSS, new UnitStats(400, 0, 0), new BigBadBossBrain(), UnitType.BOSS, 0, 0, 150, 150));
+        boss = new EnemyData(new Enemy(UnitName.BIG_BAD_BOSS, new UnitStats(670, 0, 0), new BigBadBossBrain(), UnitType.BOSS, 0, 0, 150, 150));
         boss.getUnit().getAnimator().addAnimation("idle", 0, 20, 2);
         boss.addActions("ATTACK1", new VoidAttackAbility(15, CardAbility.CardType.ATK));
         boss.addActions("ATTACK2", new MultiAttackAbility(4, CardAbility.CardType.ATK, 6));
