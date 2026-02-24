@@ -5,7 +5,7 @@ package com.Expedition67.unit;
  */
 public class UnitStats {
 
-    protected float maxHp, hp, str, def, crit;
+    protected float maxHp, baseMaxHp, hp, str, def, crit;
 
     /**
      * Constructs a new UnitStats object.
@@ -16,6 +16,7 @@ public class UnitStats {
      */
     public UnitStats(float maxHp, float str, float def) {
         this.maxHp = maxHp;
+        this.baseMaxHp = maxHp;
         this.hp = maxHp;
         this.str = str;
         this.def = def;

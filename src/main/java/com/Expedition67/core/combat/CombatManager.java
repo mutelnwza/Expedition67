@@ -6,7 +6,6 @@ import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.UnitType;
 import com.Expedition67.unit.enemy.Enemy;
 import com.Expedition67.unit.player.Deck;
-
 import java.util.List;
 
 /**
@@ -84,6 +83,7 @@ public class CombatManager {
         this.isCombatActive = false;
         player.getBrain().onTurnEnded();
         player.getBrain().getBuffManager().resetBuffs();
+        player.getUnitStats().setMaxHp(player.getUnitStats().getMaxHp());
     }
 
     /**

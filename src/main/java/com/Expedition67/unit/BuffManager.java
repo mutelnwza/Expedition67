@@ -3,7 +3,6 @@ package com.Expedition67.unit;
 import com.Expedition67.card.CardAbility;
 import com.Expedition67.card.RemovableAbility;
 import com.Expedition67.core.ITickable;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -49,14 +48,13 @@ public class BuffManager {
      */
     public void resetBuffs() {
         for (BuffTracker bt : new ArrayList<>(currentBuffs)) {
-            if (bt.turnLeft > 0) {
-                removeBuff(bt.ability);
-            }
+            removeBuff(bt.ability);
         }
     }
 
     /**
-     * Called at the end of a turn to update buff durations and apply tick effects.
+     * Called at the end of a turn to update buff durations and apply tick
+     * effects.
      */
     public void onTurnEnded() {
         Iterator<BuffTracker> iterator = currentBuffs.iterator();
@@ -92,6 +90,7 @@ public class BuffManager {
      * A private inner class to track the duration of a buff.
      */
     private static class BuffTracker {
+
         int turnLeft;
         final RemovableAbility ability;
 
