@@ -6,7 +6,6 @@ import com.Expedition67.storage.CardInventory;
 import com.Expedition67.storage.Warehouse;
 import com.Expedition67.unit.Unit;
 import com.Expedition67.unit.player.PlayerBrain;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -58,6 +57,7 @@ public class GameManager {
         CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.SPECTRAL_VEIL), 3);
         CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.SOVEREIGNS_OVERDRIVE), 1);
         CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.ETHEREAL_RESTORATION), 1);
+        CardInventory.Instance().addCard(Warehouse.Instance().spawnCard(CardName.CELESTIAL_SINGULARITY), 1);
     }
 
     /**

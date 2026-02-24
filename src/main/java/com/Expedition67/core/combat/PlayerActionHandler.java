@@ -8,7 +8,6 @@ import com.Expedition67.unit.enemy.Enemy;
 import com.Expedition67.unit.enemy.EnemyBrain;
 import com.Expedition67.unit.player.Deck;
 import com.Expedition67.unit.player.PlayerBrain;
-
 import java.util.List;
 
 /**
@@ -33,6 +32,7 @@ public class PlayerActionHandler {
         }
 
         CombatManager.Instance().setActionString(player.getName().toString());
+        pb.onUseCard(card);
         deck.updateFreeCard(false);
 
         if (card.getAbility().getCardType() == CardAbility.CardType.ATK) {
@@ -44,7 +44,7 @@ public class PlayerActionHandler {
         for (Enemy e : enemies) {
             ((EnemyBrain) e.getBrain()).onPlayerUseCard(card);
         }
-        pb.onUseCard(card);
+        
         deck.useCard(card);
     }
 

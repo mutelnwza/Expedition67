@@ -5,7 +5,6 @@ import com.Expedition67.card.CardAbility;
 import com.Expedition67.core.graphics.GameView;
 import com.Expedition67.storage.CardInventory;
 import com.Expedition67.ui.HandUIHandler;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +44,7 @@ public class Deck {
             Card newCard = c.copy();
             drawPile.add(newCard);
             allCards.add(newCard);
+            newCard.resetAP();
         }
 
         shuffle();
