@@ -1,2 +1,2 @@
-# Expeition67
-OOP Final project in CS KMITL
+# Expedition67
+BIG BAD BOSS
